@@ -1,0 +1,15 @@
+::-webkit-scrollbar {}
+
+::-webkit-scrollbar-thumb {
+    &:hover {}
+
+    &:active {}
+}
+
+//Added this support for the scrollbar since the webkit pseudo::element doesn't work on Mozilla Firefox
+@supports (scrollbar-color: blue red) {
+    :root {
+        scrollbar-width: thin;
+        scrollbar-color: blue red; //BGC for the scrollbar track - BGC for the scrollbar thumb
+    }
+}

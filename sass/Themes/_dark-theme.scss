@@ -1,0 +1,23 @@
+@media (prefers-color-scheme: dark) {
+    //SASS variables
+    $body-bg-color: #1a1a1a;
+
+    $input-bg-color: #181818;
+    $input-text-color: white;
+
+    $recipe-image-container-bg-color: #384141;
+    $recipe-ingredients-bg-color: #181818;
+    $recipe-text-color: white;
+
+    //CSS Variables
+    :root {
+        --body-bg-color:#{$body-bg-color};
+
+        --input-bg-color:#{$input-bg-color};
+        --input-text-color:#{$input-text-color};
+
+        --recipe-image-container-bg-color:#{$recipe-image-container-bg-color};
+        --recipe-ingredients-bg-color:#{$recipe-ingredients-bg-color};
+        --recipe-text-color:#{$recipe-text-color};
+    }
+}

@@ -1,0 +1,10 @@
+@use "../Utils/" as *;
+
+//Class to toggle the display of element in the DOM
+.hide {
+    display: none !important;
+}
+
+.show {
+    display: block !important;
+}

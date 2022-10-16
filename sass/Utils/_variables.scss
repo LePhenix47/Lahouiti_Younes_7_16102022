@@ -1,0 +1,36 @@
+//SASS color variables
+$body-bg-color: #E5E5E5;
+
+$input-bg-color: #E7E7E7;
+$input-text-color: black;
+
+$options-ingredients-bg-color: #3282F7;
+$options-devices-bg-color: #68D9A4;
+$options-utensils-bg-color: #ED6454;
+$options-input-text-color: white;
+
+$recipe-image-container-bg-color: #c7bebe;
+$recipe-ingredients-bg-color: #e7e7e7;
+$recipe-text-color: black;
+
+//CSS variables
+:root {
+    //CSS Color values
+    --body-bg-color:#{$body-bg-color};
+
+    --input-bg-color:#{$input-bg-color};
+    --input-text-color:#{$input-text-color};
+
+    --options-ingredients-bg-color:#{$options-ingredients-bg-color};
+    --options-devices-bg-color:#{$options-devices-bg-color};
+    --options-utensils-bg-color:#{$options-utensils-bg-color};
+    --options-input-text-color:#{$options-input-text-color};
+
+    --recipe-image-container-bg-color:#{$recipe-image-container-bg-color};
+    --recipe-ingredients-bg-color:#{$recipe-ingredients-bg-color};
+    --recipe-text-color:#{$recipe-text-color};
+
+    //CSS Pixel values
+    --default-border-radius-value: 5px;
+
+}

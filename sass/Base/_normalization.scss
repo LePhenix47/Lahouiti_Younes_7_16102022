@@ -1,0 +1,37 @@
+//Makes all the the mixins, maps and variables globally available
+//Given the fact that @import is deprecated → must use @use and @forward instead
+@use "../Utils/" as *;
+
+//Removes ANY animation if the user has the reduced motion option enabled in their device
+@media (prefers-reduced-motion) {
+    * {
+        animation-duration: 1ms !important;
+    }
+}
+
+*,
+::before,
+::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    min-height: 100vh;
+    // background-color: var(--body-bg-color);
+
+}
+
+button {
+    border: none;
+}
+
+input {
+    border: none
+}
