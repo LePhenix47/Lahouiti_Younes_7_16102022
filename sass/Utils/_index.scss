@@ -4,7 +4,10 @@
 @forward "../Utils/mixins";
 
 
-//⚠ WARNING ⚠: The index.scss in this directory (Utils) isn't the same index.scss form the Pages directory
-//This file is here to "vacuum" all the maps, variables and mixins to make them globally available
+/*
+//⚠ WARNING ⚠: 
+The index.scss partial from this directory (Utils) isn't the same index.scss partial from the Pages directory
+This file is here to "vacuum" all the maps, variables and mixins to make them globally available
 
-//The index.scss file from the Pages directory contains the style for the index.html page 
+The index.scss file from the Pages directory contains the style for the index.html page 
+*/
