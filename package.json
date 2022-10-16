@@ -1,0 +1,13 @@
+{
+  "name": "p7_les_petits_plats",
+  "version": "1.0.0",
+  "description": "This file contains the code to execute compile the SASS file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass": "sass --watch ./sass/main.scss:./css/style.css --style compressed"
+  },
+  "keywords": [],
+  "author": "Younes LAHOUITI",
+  "license": "ISC"
+}
