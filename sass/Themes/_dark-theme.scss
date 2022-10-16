@@ -1,6 +1,6 @@
 @media (prefers-color-scheme: dark) {
     //SASS variables
-    $body-bg-color: #1a1a1a;
+    $body-bg-color: black;
 
     $input-bg-color: #181818;
     $input-text-color: white;
@@ -19,5 +19,9 @@
         --recipe-image-container-bg-color:#{$recipe-image-container-bg-color};
         --recipe-ingredients-bg-color:#{$recipe-ingredients-bg-color};
         --recipe-text-color:#{$recipe-text-color};
+    }
+
+    .search-glass-svg>* {
+        fill: var(--input-text-color);
     }
 }

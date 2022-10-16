@@ -1,9 +1,11 @@
+//Utils other than variabls, maps and mixins
+@forward "./Utils/js-classes";
+
 //Base
 @forward "./Base/normalization";
 @forward "./Base/typography";
 
 //Components
-@forward "./Components/buttons";
 @forward "./Components/scrollbar";
 
 //Layout

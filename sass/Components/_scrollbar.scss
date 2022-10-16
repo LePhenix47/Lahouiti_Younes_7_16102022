@@ -1,3 +1,5 @@
+@use "../Utils/" as *;
+
 ::-webkit-scrollbar {}
 
 ::-webkit-scrollbar-thumb {
@@ -10,6 +12,6 @@
 @supports (scrollbar-color: blue red) {
     :root {
         scrollbar-width: thin;
-        scrollbar-color: blue red; //BGC for the scrollbar track - BGC for the scrollbar thumb
+        scrollbar-color: blue red; // BGC for the scrollbar thumb - BGC for the scrollbar track
     }
 }

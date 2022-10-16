@@ -1,4 +1,3 @@
-//Makes all the the mixins, maps and variables globally available
 //Given the fact that @import is deprecated → must use @use and @forward instead
 @use "../Utils/" as *;
 
@@ -24,13 +23,33 @@ html {
 
 body {
     min-height: 100vh;
+    overflow-x: hidden;
     background-color: var(--body-bg-color);
+    transition: background-color 350ms ease-out,
+        color 350ms ease-out;
 }
 
 button {
     border: none;
+    background-color: transparent;
 }
 
+
 input {
-    border: none
+    border: none;
+
+    &:focus {
+        border: none;
+        outline: none;
+    }
+}
+
+a {
+    text-decoration: none;
+}
+
+label {
+    &:hover {
+        cursor: pointer;
+    }
 }

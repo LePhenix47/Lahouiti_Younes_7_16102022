@@ -1,5 +1,6 @@
 //SASS color variables
-$body-bg-color: #E5E5E5;
+$body-bg-color: white;
+$logo-text-color: #D04F4F;
 
 $input-bg-color: #E7E7E7;
 $input-text-color: black;
@@ -17,6 +18,7 @@ $recipe-text-color: black;
 :root {
     //CSS Color values
     --body-bg-color:#{$body-bg-color};
+    --logo-text-color:#{$logo-text-color};
 
     --input-bg-color:#{$input-bg-color};
     --input-text-color:#{$input-text-color};
