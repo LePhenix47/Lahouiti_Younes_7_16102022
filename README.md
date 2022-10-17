@@ -7,4 +7,11 @@ Il faudra développer un algorithmes de tri MAIS en créant 2 versions en utilis
 
 2 branches seront disponibles (bientôt)
 
+Inspirations sur les algorythmes:
+-Youtube
+
+-Cyril: https://github.com/Allandrow/CyrilTiger_6_07052021/blob/master/dist/js/components/mediaList.js#L100
+
+-P6 fait précédemment: https://github.com/LePhenix47/Lahouiti_Younes_6_28092022
+
 GitHub Pages: https://lephenix47.github.io/Lahouiti_Younes_7_16102022/
