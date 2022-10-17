@@ -2,9 +2,10 @@
 
 .main-index {
     @include center-flex-column;
+    margin-bottom: 50px;
 
     &__content-container {
-        width: 85%;
+        width: 90%;
     }
 
     &__input-container {
@@ -91,6 +92,20 @@
         gap: 15px;
     }
 
+    &__recipes-container {
+        margin-top: 25px;
+        @include grid(2, 3, 30px);
+
+        @include tablet-only {
+            @include grid(1, 2, 30px);
+        }
+
+        @include mobile-only {
+
+            @include grid(1, 1, 30px);
+        }
+    }
+
 }
 
 
@@ -102,13 +117,13 @@
     transition: width 350ms ease-out;
 
 
-    &:hover {
-        width: 550px;
+    // &:hover {
+    //     width: 550px;
 
-        @include mobile-only {
-            width: 100%;
-        }
-    }
+    //     @include mobile-only {
+    //         width: 100%;
+    //     }
+    // }
 
     //Relative to the label, line: 131
     position: relative;
@@ -181,4 +196,70 @@
     }
 
 
+}
+
+
+.recipe-card {
+    width: 100%;
+    height: 380px;
+
+    &__image-container {
+        border-radius: var(--default-border-radius-value) var(--default-border-radius-value) 0 0;
+        width: 100%;
+        height: 52%;
+        background-color: var(--recipe-image-container-bg-color);
+    }
+
+    &__text-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        border-radius: 0 0 var(--default-border-radius-value) var(--default-border-radius-value);
+        height: 48%;
+        padding: 10px 20px 10px 20px;
+        background-color: var(--recipe-ingredients-bg-color);
+        color: var(--recipe-text-color);
+    }
+
+    &__title-prep-time {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__recipe-name {
+        font-weight: 400;
+        font-size: 18px;
+    }
+
+    &__recipe-prep-time {
+        font-weight: 700;
+        font-size: 18px;
+        text-align: right;
+        @include center-flex(7px);
+    }
+
+    &__ingredients-instructions {
+        display: flex;
+
+    }
+
+    &__ingredients-list {
+        width: 100%;
+
+
+    }
+
+    &__ingredient-item {
+        font-size: 12px;
+        width: fit-content;
+
+        &-name {
+            font-weight: 700;
+        }
+    }
+
+    &__instructions {
+        font-size: 12px;
+        width: fit-content;
+    }
 }
