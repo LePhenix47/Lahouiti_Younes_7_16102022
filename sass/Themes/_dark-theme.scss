@@ -9,6 +9,11 @@
     $recipe-ingredients-bg-color: #181818;
     $recipe-text-color: white;
 
+    $scrollbar-track-bg-color: black;
+    $scrollbar-thumb-bg-color: #ababab;
+    $scrollbar-thumb-bg-color--hover: #8a8a8a;
+    $scrollbar-thumb-bg-color--active: #4f4f4f;
+
     //CSS Variables
     :root {
         --body-bg-color:#{$body-bg-color};
@@ -19,8 +24,16 @@
         --recipe-image-container-bg-color:#{$recipe-image-container-bg-color};
         --recipe-ingredients-bg-color:#{$recipe-ingredients-bg-color};
         --recipe-text-color:#{$recipe-text-color};
+
+        --scrollbar-track-bg-color:#{$scrollbar-track-bg-color};
+
+        --scrollbar-thumb-bg-color:#{$scrollbar-thumb-bg-color};
+        --scrollbar-thumb-bg-color--hover:#{$scrollbar-thumb-bg-color--hover};
+        --scrollbar-thumb-bg-color--active:#{$scrollbar-thumb-bg-color--active};
     }
 
+
+    //Class changes
     .search-glass-svg>* {
         fill: var(--input-text-color);
     }

@@ -4,6 +4,7 @@
 //Removes ANY animation if the user has the reduced motion option enabled in their device
 @media (prefers-reduced-motion) {
     * {
+        -webkit-animation-duration: 1ms !important;
         animation-duration: 1ms !important;
     }
 }

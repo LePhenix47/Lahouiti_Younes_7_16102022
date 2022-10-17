@@ -1,17 +1,30 @@
 @use "../Utils/" as *;
 
-::-webkit-scrollbar {}
+::-webkit-scrollbar {
+    background-color: var(--scrollbar-track-bg-color);
+    border-radius: 100vmax;
+    margin-block: 5px;
+    width: 10px;
+}
 
 ::-webkit-scrollbar-thumb {
-    &:hover {}
+    background-color: var(--scrollbar-thumb-bg-color);
+    border: 3px solid var(--body-bg-color);
+    border-radius: 100vmax;
 
-    &:active {}
+    &:hover {
+        background-color: var(--scrollbar-thumb-bg-color--hover);
+    }
+
+    &:active {
+        background-color: var(--scrollbar-thumb-bg-color--active);
+    }
 }
 
 //Added this support for the scrollbar since the webkit pseudo::element doesn't work on Mozilla Firefox
-@supports (scrollbar-color: blue red) {
+@supports (scrollbar-color: black white) {
     :root {
         scrollbar-width: thin;
-        scrollbar-color: blue red; // BGC for the scrollbar thumb - BGC for the scrollbar track
+        scrollbar-color: var(--scrollbar-thumb-bg-color) var(--scrollbar-track-bg-color); // BGC for the scrollbar thumb - BGC for the scrollbar track
     }
 }

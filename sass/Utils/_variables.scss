@@ -14,7 +14,12 @@ $recipe-image-container-bg-color: #c7bebe;
 $recipe-ingredients-bg-color: #e7e7e7;
 $recipe-text-color: black;
 
+$scrollbar-track-bg-color: white;
+$scrollbar-thumb-bg-color: #545454;
+$scrollbar-thumb-bg-color--hover: #757575;
+$scrollbar-thumb-bg-color--active: #b0b0b0;
 //CSS variables
+
 :root {
     //CSS Color values
     --body-bg-color:#{$body-bg-color};
@@ -31,6 +36,13 @@ $recipe-text-color: black;
     --recipe-image-container-bg-color:#{$recipe-image-container-bg-color};
     --recipe-ingredients-bg-color:#{$recipe-ingredients-bg-color};
     --recipe-text-color:#{$recipe-text-color};
+
+
+    --scrollbar-track-bg-color:#{$scrollbar-track-bg-color};
+
+    --scrollbar-thumb-bg-color:#{$scrollbar-thumb-bg-color};
+    --scrollbar-thumb-bg-color--hover:#{$scrollbar-thumb-bg-color--hover};
+    --scrollbar-thumb-bg-color--active:#{$scrollbar-thumb-bg-color--active};
 
     //CSS Pixel values
     --default-border-radius-value: 5px;

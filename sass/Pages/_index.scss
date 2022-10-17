@@ -48,6 +48,8 @@
 
 
     &__tag {
+        width: -webkit-fit-content;
+        width: -moz-fit-content;
         width: fit-content;
         @include center-flex(15px);
         border-radius: var(--default-border-radius-value);
@@ -71,6 +73,8 @@
 
         &-close-button {
             @include center-flex;
+            height: -webkit-fit-content;
+            height: -moz-fit-content;
             height: fit-content;
             aspect-ratio: 1/1;
             height: 20px;
@@ -251,6 +255,8 @@
 
     &__ingredient-item {
         font-size: 12px;
+        width: -webkit-fit-content;
+        width: -moz-fit-content;
         width: fit-content;
 
         &-name {
@@ -260,6 +266,8 @@
 
     &__instructions {
         font-size: 12px;
+        width: -webkit-fit-content;
+        width: -moz-fit-content;
         width: fit-content;
     }
 }
