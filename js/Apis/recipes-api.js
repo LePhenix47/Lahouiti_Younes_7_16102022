@@ -30,7 +30,7 @@ class RecipesApi extends Api {
     super(url);
   }
 
-  getPhotos() {
+  getRecipes() {
     return this.get();
   }
 }

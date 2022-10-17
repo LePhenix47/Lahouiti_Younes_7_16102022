@@ -1,9 +1,15 @@
 class IndexApp {
   constructor() {
-    this.usersDataApi = new PhotographersApi(getApiDataForGitHub());
+    this.recipeUrlApi = getApiDataForGitHub();
+    this.recipeDataApi = new RecipesApi(this.recipeUrlApi);
   }
 
-  static init(container) {}
+  async main() {
+    const recipesDataPromise = await this.recipeDataApi.getRecipes();
+    return recipesDataPromise;
+  }
+
+  static addRecipeCards(container) {}
 }
 
 //DOM Elements
@@ -19,11 +25,24 @@ const dropdownMenuOptionsListContainer = document.querySelector(
   ".dropdown-menu__options-list"
 );
 
+//Launching the app
+const launchApp = new IndexApp().main();
+console.group("lauchApp");
+console.log(launchApp);
+console.groupEnd("lauchApp");
+
+let arrayOfRecipes = [];
+
+launchApp.then((recipes) => {
+  arrayOfRecipes = recipes;
+  console.log(arrayOfRecipes);
+});
+
 //In order to make the GitHub Pages page work we must use a relative path to the data directory
 function getApiDataForGitHub() {
   const urlAPI = window.location.origin.includes("http://127.0.0.1:5500")
-    ? "http://127.0.0.1:5500/P6/workstation/data/photographers.json"
-    : "./data/photographers.json";
+    ? "http://127.0.0.1:5500/P7/workstation/data/recipes.json"
+    : "./data/recipes.json";
 
   return urlAPI;
 }
