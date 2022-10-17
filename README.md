@@ -5,10 +5,12 @@ Il faudra développer un algorithmes de tri MAIS en créant 2 versions en utilis
 1. les boucles natives (while(), for()...)
 2. les méthodes de l'objet array en JS(forEach(), filter(), map(), reduce()...)
 
-2 branches seront disponibles (bientôt)
+2 branches seront bientôt disponibles pour chacune des versions
+
+La version avec les meilleures performances sera fusionné à la branche principale
 
 Inspirations sur les algorythmes:
--Youtube
+-Youtube: https://www.youtube.com/results?search_query=
 
 -Cyril: https://github.com/Allandrow/CyrilTiger_6_07052021/blob/master/dist/js/components/mediaList.js#L100
 
