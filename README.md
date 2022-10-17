@@ -3,13 +3,14 @@ Ce dépôt contient le code du P7 de la formation de Développeur JS React d'Ope
 Il faudra développer un algorithmes de tri MAIS en créant 2 versions en utilisant:
 
 1. les boucles natives (while(), for()...)
-2. les méthodes de l'objet array en JS(forEach(), filter(), map(), reduce()...)
+2. les méthodes du prototype d'objet Array.prototype en JS(forEach(), filter(), map(), reduce()...)
 
 2 branches seront bientôt disponibles pour chacune des versions
 
 La version avec les meilleures performances sera fusionné à la branche principale
 
-Inspirations sur les algorithmes:
+**Inspirations sur les algorithmes:**
+
 -Youtube: https://www.youtube.com/results?search_query=
 
 -Cyril: https://github.com/Allandrow/CyrilTiger_6_07052021/blob/master/dist/js/components/mediaList.js#L100
