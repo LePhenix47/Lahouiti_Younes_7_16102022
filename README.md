@@ -9,7 +9,7 @@ Il faudra développer un algorithmes de tri MAIS en créant 2 versions en utilis
 
 La version avec les meilleures performances sera fusionné à la branche principale
 
-Inspirations sur les algorythmes:
+Inspirations sur les algorithmes:
 -Youtube: https://www.youtube.com/results?search_query=
 
 -Cyril: https://github.com/Allandrow/CyrilTiger_6_07052021/blob/master/dist/js/components/mediaList.js#L100
