@@ -9,7 +9,11 @@ class IndexApp {
     return recipesDataPromise;
   }
 
-  static addRecipeCards(container) {}
+  static addRecipeCards(container, recipeArray) {
+    container.innerHTML = new RecipeCardTemplate(
+      recipeArray
+    ).createRecipeCards();
+  }
 }
 
 //DOM Elements
@@ -27,15 +31,13 @@ const dropdownMenuOptionsListContainer = document.querySelector(
 
 //Launching the app
 const launchApp = new IndexApp().main();
-console.group("lauchApp");
-console.log(launchApp);
-console.groupEnd("lauchApp");
 
 let arrayOfRecipes = [];
 
 launchApp.then((recipes) => {
   arrayOfRecipes = recipes;
-  console.log(arrayOfRecipes);
+
+  IndexApp.addRecipeCards(recipeCardsContainer, arrayOfRecipes);
 });
 
 //In order to make the GitHub Pages page work we must use a relative path to the data directory
