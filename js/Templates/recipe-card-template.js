@@ -38,8 +38,12 @@ class RecipeCardTemplate {
 
         secondPartOfTemplate += `
          <li class="recipe-card__ingredient-item">
-                                        <span class="recipe-card__ingredient-item-name">${ingredient}:</span>
-                                        ${quantity} ${!!unit ? unit : ""}
+                                        <span class="recipe-card__ingredient-item-name">${ingredient} ${
+          !!quantity ? ":" : ""
+        }</span>
+                                        ${!!quantity ? quantity : ""} ${
+          !!unit ? unit : ""
+        }
                                     </li>`;
       }
       thirdPartOfTemplate = `  </ul>
