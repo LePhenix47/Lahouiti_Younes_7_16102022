@@ -10,11 +10,12 @@ class RecipeCardTemplate {
 
     let totalTemplates = "";
     for (let recipeElement of this.recipeArray) {
-      const { id, name, servings, appliance, description, time } =
+      const { id, name, servings, appliance, ustensils, description, time } =
         recipeElement;
 
       firstPartOfTemplate = `
-         <div class="recipe-card">
+         <div class="recipe-card" data-id="${id}" data-name="${name}" data-servings="${servings}" data-devices="${appliance}" data-utensils="${ustensils}"
+                        >
                         <div class="recipe-card__image-container"></div>
                         <div class="recipe-card__text-container">
                             <div class="recipe-card__title-prep-time">
