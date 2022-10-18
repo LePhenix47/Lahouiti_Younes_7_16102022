@@ -43,13 +43,50 @@ let arrayOfUtensils = [];
 launchApp.then((recipes) => {
   arrayOfRecipes = recipes;
 
-  console.log(
-    arrayOfRecipes,
-    arrayOfIngredients,
-    arrayOfDevices,
-    arrayOfUtensils
-  );
+  /*
+  Ok so here's how we get the array of appliances/devices
 
+  The array of devices will be an array containing all the properties of the Set() object
+  We'll create a new set in order to avoid duplicates, 
+  we add inside this method an empty array that we'll concatenate
+  to the array of recipes that will be mapped to contain ONLY the array of appliances/devices
+  */
+  arrayOfIngredients = [
+    ...new Set(
+      [].concat(...arrayOfRecipes.map((recipe) => recipe.ingredients))
+    ),
+  ];
+  arrayOfIngredients = [
+    ...new Set(
+      [].concat(
+        ...arrayOfIngredients.map((recipe) => recipe.ingredient.toLowerCase())
+      )
+    ),
+  ];
+  console.groupCollapsed("Array of ingredients");
+  console.table(arrayOfIngredients);
+  console.groupEnd("Array of ingredients");
+  arrayOfDevices = [
+    ...new Set(
+      [].concat(
+        ...arrayOfRecipes.map((recipe) => recipe.appliance.toLowerCase())
+      )
+    ),
+  ];
+  console.groupCollapsed("Array of devices");
+  console.table(arrayOfDevices);
+  console.groupEnd("Array of devices");
+  arrayOfUtensils = [
+    ...new Set([].concat(...arrayOfRecipes.map((recipe) => recipe.ustensils))),
+  ];
+  arrayOfUtensils = [
+    ...new Set(
+      [].concat(...arrayOfUtensils.map((ustensil) => ustensil.toLowerCase()))
+    ),
+  ];
+  console.groupCollapsed("Array of utensils");
+  console.table(arrayOfUtensils);
+  console.groupEnd("Array of utensils");
   IndexApp.addRecipeCards(recipeCardsContainer, arrayOfRecipes);
 });
 
