@@ -98,60 +98,17 @@ launchApp.then((recipes) => {
   console.groupEnd("Array of utensils");
   IndexApp.addRecipeCards(recipeCardsContainer, arrayOfRecipes);
 
-  addFeatures();
+  addEventListerners();
 });
 
 const inputsArray = document.getElementsByClassName(
   "dropdown-menu__sort-input"
 );
 
-function addFeatures() {
+function addEventListerners() {
   for (input of inputsArray) {
-    input.addEventListener("focus", openMenuOptions);
-    input.addEventListener("change", closeMenuOptions);
-  }
-}
-
-function openMenuOptions(event) {
-  console.log("Focused on ", event.currentTarget);
-  let userHasNotInputted =
-    event.currentTarget.value === event.currentTarget.getAttribute("name");
-  if (userHasNotInputted) {
-    event.currentTarget.value = "";
-  }
-  const container = event.currentTarget.closest(".dropdown-menu");
-  container.classList.add("input-container-active");
-
-  const label = container.querySelector(".dropdown-menu__sort-label");
-  label.classList.add("label-active");
-
-  const dropdownMenuList = container.querySelector(".dropdown-menu__options");
-  dropdownMenuList.classList.remove("hide");
-  dropdownMenuList.classList.remove("dropdown-options-inactive");
-  dropdownMenuList.classList.add("dropdown-options-active");
-  console.log({ dropdownMenuList });
-
-  console.log(container.getAttribute("data-search-type"));
-}
-
-function closeMenuOptions(event) {
-  console.log("Changed input on ", event.currentTarget);
-  let inputIsEmpty = event.currentTarget.value === "";
-  console.log({ inputIsEmpty });
-
-  const container = event.currentTarget.closest(".dropdown-menu");
-
-  const label = container.querySelector(".dropdown-menu__sort-label");
-  label.classList.remove("label-active");
-
-  const dropdownMenuList = container.querySelector(".dropdown-menu__options");
-
-  dropdownMenuList.classList.remove("dropdown-options-active");
-  dropdownMenuList.classList.add("dropdown-options-inactive");
-  dropdownMenuList.classList.add("hide");
-
-  container.classList.remove("input-container-active");
-  if (inputIsEmpty) {
-    event.currentTarget.value = event.currentTarget.getAttribute("name");
+    input.addEventListener("focus", openMenuOptions); //To open the dropdown menu
+    input.addEventListener("input", createTag); //To display all the list items
+    input.addEventListener("change", closeMenuOptions); //To close the dropdown menu
   }
 }

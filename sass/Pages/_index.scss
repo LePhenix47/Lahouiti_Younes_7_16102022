@@ -189,28 +189,43 @@
 
     &__options {
         @include grid(auto-fill, 3, 15px);
+
+        @include tablet-only {
+            @include grid(auto-fill, 2, 15px);
+        }
+
+        @include mobile-only {
+            @include grid(auto-fill, 1, 15px);
+        }
+
         color: var(--options-input-text-color);
         position: absolute;
         top: 70px;
         left: 0;
         width: 100%;
         height: 0px; //250px
-        transition:
-            height 450ms ease-out;
+        transition: height 450ms ease-out;
         margin-top: -5px;
         border-radius: 0 0 var(--default-border-radius-value) var(--default-border-radius-value);
         z-index: 1;
+        overflow-y: auto;
 
         &--ingredients {
             background-color: var(--options-ingredients-bg-color);
+
         }
 
         &--devices {
             background-color: var(--options-devices-bg-color);
+
+
+
         }
 
         &--utensils {
             background-color: var(--options-utensils-bg-color);
+
+
         }
 
         @include mobile-only {
@@ -225,8 +240,47 @@
     // }
 
     &__option-item {
-        font-size: 18px;
-        padding-left: 20px;
+        font-size: 14px;
+        padding: 10px 20px;
+        margin: 5px;
+        border-radius: var(--default-border-radius-value);
+
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        &--ingredients {
+            background-color: var(--options-ingredients-bg-color);
+
+            &:hover {
+                cursor: pointer;
+                background-color: var(--options-ingredients-bg-color--hover);
+            }
+
+        }
+
+        &--devices {
+            background-color: var(--options-devices-bg-color);
+
+            &:hover {
+                cursor: pointer;
+                background-color: var(--options-devices-bg-color--hover);
+            }
+
+
+        }
+
+        &--utensils {
+            background-color: var(--options-utensils-bg-color);
+
+            &:hover {
+                cursor: pointer;
+                background-color: var(--options-utensils-bg-color--hover);
+            }
+
+        }
+
+
     }
 
 

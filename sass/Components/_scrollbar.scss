@@ -21,10 +21,91 @@
     }
 }
 
+.dropdown-menu__options {
+    &--ingredients {
+
+        //Adding a scrollbar with a different color
+        &::-webkit-scrollbar {
+            background-color: transparent;
+            border-radius: 100vmax;
+            margin-block: 5px;
+            width: 10px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--options-input-text-color);
+            border: 3px solid var(--options-ingredients-bg-color);
+        }
+
+        //Support for Firefox
+        @supports (scrollbar-color: black white) {
+
+            scrollbar-width: thin;
+            scrollbar-color: var(--options-input-text-color) transparent; // BGC for the scrollbar thumb - BGC for the scrollbar track
+
+
+        }
+    }
+
+    &--devices {
+
+        //Adding a scrollbar with a different color
+        &::-webkit-scrollbar {
+            background-color: transparent;
+
+            border-radius: 100vmax;
+            margin-block: 5px;
+            width: 10px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--options-input-text-color);
+            border: 3px solid var(--options-devices-bg-color);
+        }
+
+        //Support for Firefox
+        @supports (scrollbar-color: black white) {
+            scrollbar-width: thin;
+            scrollbar-color: var(--options-input-text-color) transparent; // BGC for the scrollbar thumb - BGC for the scrollbar track
+        }
+
+    }
+
+    &--utensils {
+
+        //Adding a scrollbar with a different color
+        &::-webkit-scrollbar {
+            background-color: transparent;
+
+            border-radius: 100vmax;
+            margin-block: 5px;
+            width: 10px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--options-input-text-color);
+            border: 3px solid var(--options-utensils-bg-color);
+        }
+
+        //Support for Firefox
+        @supports (scrollbar-color: black white) {
+            scrollbar-width: thin;
+            scrollbar-color: var(--options-input-text-color) transparent; // BGC for the scrollbar thumb - BGC for the scrollbar track
+        }
+    }
+}
+
+.recipe-card__ingredients-list {
+    @supports (scrollbar-color: black white) {
+        scrollbar-width: thin;
+    }
+}
+
 //Added this support for the scrollbar since the webkit pseudo::element doesn't work on Mozilla Firefox
 @supports (scrollbar-color: black white) {
     :root {
         scrollbar-width: thin;
         scrollbar-color: var(--scrollbar-thumb-bg-color) var(--scrollbar-track-bg-color); // BGC for the scrollbar thumb - BGC for the scrollbar track
     }
+
 }
