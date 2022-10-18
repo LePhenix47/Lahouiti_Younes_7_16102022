@@ -36,10 +36,19 @@ let arrayOfRecipes = [];
 
 let arrayOfIngredients = [];
 
+let arrayOfDevices = [];
+
+let arrayOfUtensils = [];
+
 launchApp.then((recipes) => {
   arrayOfRecipes = recipes;
 
-  console.log(arrayOfIngredients);
+  console.log(
+    arrayOfRecipes,
+    arrayOfIngredients,
+    arrayOfDevices,
+    arrayOfUtensils
+  );
 
   IndexApp.addRecipeCards(recipeCardsContainer, arrayOfRecipes);
 });

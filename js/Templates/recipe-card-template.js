@@ -48,7 +48,7 @@ class RecipeCardTemplate {
                                     </li>`;
       }
       thirdPartOfTemplate = `  </ul>
-                                <p class="recipe-card__instructions">${description}</p>
+                                <p class="recipe-card__instructions" title="${description}">${description}</p>
                             </div>
                         </div>
                     </div>
