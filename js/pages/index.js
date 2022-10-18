@@ -1,3 +1,12 @@
+//In order to make the GitHub Pages page work we must use a relative path to the data directory
+function getApiDataForGitHub() {
+  const urlAPI = window.location.origin.includes("http://127.0.0.1:5500")
+    ? "http://127.0.0.1:5500/P7/workstation/data/recipes.json"
+    : "./data/recipes.json";
+
+  return urlAPI;
+}
+
 class IndexApp {
   constructor() {
     this.recipeUrlApi = getApiDataForGitHub();
@@ -88,13 +97,50 @@ launchApp.then((recipes) => {
   console.table(arrayOfUtensils);
   console.groupEnd("Array of utensils");
   IndexApp.addRecipeCards(recipeCardsContainer, arrayOfRecipes);
+
+  addFeatures();
 });
 
-//In order to make the GitHub Pages page work we must use a relative path to the data directory
-function getApiDataForGitHub() {
-  const urlAPI = window.location.origin.includes("http://127.0.0.1:5500")
-    ? "http://127.0.0.1:5500/P7/workstation/data/recipes.json"
-    : "./data/recipes.json";
+const inputsArray = document.getElementsByClassName(
+  "dropdown-menu__sort-input"
+);
 
-  return urlAPI;
+function addFeatures() {
+  for (input of inputsArray) {
+    input.addEventListener("focus", openOptions);
+    input.addEventListener("change", closeOptions);
+  }
+}
+
+function openOptions(event) {
+  console.log("Focused on ", event.currentTarget);
+  let userHasNotInputted =
+    event.currentTarget.value === event.currentTarget.getAttribute("name");
+  if (userHasNotInputted) {
+    event.currentTarget.value = "";
+  }
+  const container = event.currentTarget.closest(".dropdown-menu");
+  container.classList.add("input-container-active");
+
+  const dropdownMenuList = container.querySelector(".dropdown-menu__options");
+  dropdownMenuList.classList.remove("hide");
+  dropdownMenuList.classList.add("dropdown-options-active");
+  console.log({ dropdownMenuList });
+}
+
+function closeOptions(event) {
+  console.log("Changed input on ", event.currentTarget);
+  let inputIsEmpty = event.currentTarget.value === "";
+  console.log({ inputIsEmpty });
+  if (inputIsEmpty) {
+    event.currentTarget.value = event.currentTarget.getAttribute("name");
+  }
+  const container = event.currentTarget.closest(".dropdown-menu");
+  const dropdownMenuList = container.querySelector(".dropdown-menu__options");
+
+  dropdownMenuList.classList.remove("hide");
+  dropdownMenuList.classList.remove("dropdown-options-active");
+  dropdownMenuList.classList.add("dropdown-options-inactive");
+
+  container.classList.remove("input-container-active");
 }

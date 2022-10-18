@@ -131,18 +131,12 @@
     transition: width 350ms ease-out;
 
 
-    // &:hover {
-    //     width: 550px;
-
-    //     @include mobile-only {
-    //         width: 100%;
-    //     }
-    // }
-
     //Relative to the label, line: 131
     position: relative;
 
-    @include center-flex-column;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 
     &--ingredients {
         background-color: var(--options-ingredients-bg-color);
@@ -168,6 +162,27 @@
         color: var(--options-input-text-color);
         font-size: 16px;
         padding: 0 15px;
+        width: 90%;
+
+        &::-webkit-input-placeholder {
+            color: var(--sort-input-placeholder-color);
+        }
+
+        &::-moz-placeholder {
+            color: var(--sort-input-placeholder-color);
+        }
+
+        &:-ms-input-placeholder {
+            color: var(--sort-input-placeholder-color);
+        }
+
+        &::-ms-input-placeholder {
+            color: var(--sort-input-placeholder-color);
+        }
+
+        &::placeholder {
+            color: var(--sort-input-placeholder-color);
+        }
     }
 
     &__options {
@@ -176,7 +191,7 @@
         top: 70px;
         left: 0;
         width: 550px;
-        height: 250px;
+        height: 0px; //250px
         margin-top: -5px;
         border-radius: 0 0 var(--default-border-radius-value) var(--default-border-radius-value);
         z-index: 1;

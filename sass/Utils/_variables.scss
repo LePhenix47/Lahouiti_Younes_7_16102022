@@ -18,8 +18,10 @@ $scrollbar-track-bg-color: white;
 $scrollbar-thumb-bg-color: #545454;
 $scrollbar-thumb-bg-color--hover: #757575;
 $scrollbar-thumb-bg-color--active: #b0b0b0;
-//CSS variables
 
+$sort-input-placeholder-color: #ffffff80;
+
+//CSS variables
 :root {
     //CSS Color values
     --body-bg-color:#{$body-bg-color};
@@ -43,6 +45,8 @@ $scrollbar-thumb-bg-color--active: #b0b0b0;
     --scrollbar-thumb-bg-color:#{$scrollbar-thumb-bg-color};
     --scrollbar-thumb-bg-color--hover:#{$scrollbar-thumb-bg-color--hover};
     --scrollbar-thumb-bg-color--active:#{$scrollbar-thumb-bg-color--active};
+
+    --sort-input-placeholder-color:#{$sort-input-placeholder-color};
 
     //CSS Pixel values
     --default-border-radius-value: 5px;

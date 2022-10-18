@@ -8,3 +8,37 @@
 .show {
     display: block !important;
 }
+
+.input-container-active {
+    width: 550px !important;
+
+    @include mobile-only {
+        width: 100% !important;
+    }
+}
+
+//
+.dropdown-options-active {
+    animation-name: open-dropdown-menu;
+    animation-duration: 450ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+.dropdown-options-inactive {
+    animation-name: open-dropdown-menu;
+    animation-duration: 450ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+    animation-direction: reverse;
+}
+
+@keyframes open-dropdown-menu {
+    from {
+        height: 0;
+    }
+
+    to {
+        height: 250px;
+    }
+}
