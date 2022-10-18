@@ -155,6 +155,8 @@
         position: absolute;
         top: 25px;
         right: 15px;
+        //Transition for the JS class .label-active
+        transition: rotate 350ms ease-out;
     }
 
     &__sort-input {
@@ -186,12 +188,15 @@
     }
 
     &__options {
-        @include grid(0, 3, 15px);
+        @include grid(auto-fill, 3, 15px);
+        color: var(--options-input-text-color);
         position: absolute;
         top: 70px;
         left: 0;
-        width: 550px;
+        width: 100%;
         height: 0px; //250px
+        transition:
+            height 450ms ease-out;
         margin-top: -5px;
         border-radius: 0 0 var(--default-border-radius-value) var(--default-border-radius-value);
         z-index: 1;
@@ -213,11 +218,11 @@
         }
     }
 
-    &__options-list {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
+    // &__options-list {
+    //     display: flex;
+    //     flex-direction: column;
+    //     gap: 15px;
+    // }
 
     &__option-item {
         font-size: 18px;

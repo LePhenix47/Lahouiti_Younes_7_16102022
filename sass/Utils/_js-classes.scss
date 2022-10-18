@@ -18,27 +18,18 @@
 }
 
 //
+.label-active {
+    rotate: 180deg;
+}
+
+//
 .dropdown-options-active {
-    animation-name: open-dropdown-menu;
-    animation-duration: 450ms;
-    animation-timing-function: ease-out;
-    animation-fill-mode: forwards;
+    height: 450px !important;
+
 }
 
 .dropdown-options-inactive {
-    animation-name: open-dropdown-menu;
-    animation-duration: 450ms;
-    animation-timing-function: ease-out;
-    animation-fill-mode: forwards;
-    animation-direction: reverse;
-}
-
-@keyframes open-dropdown-menu {
-    from {
-        height: 0;
-    }
-
-    to {
-        height: 250px;
-    }
+    height: 0 !important;
+    transition: width 450ms ease-out;
+    width: 0 !important;
 }

@@ -64,16 +64,18 @@
         <div class="main-index__content-container">
 
             <section class="main-index__input-container" role="region" aria-label="Section de recherche de recette">
-                <input type="text" class="main-index__input" id="search" placeholder="Rechercher une recette"
-                    autocomplete="off" />
-                <label for="search" class="main-index__label">
-                    <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        class="main-index__glass-icon-svg search-glass-svg">
-                        <path
-                            d="M23.4167 20.6667H21.9683L21.455 20.1717C23.2517 18.0817 24.3333 15.3683 24.3333 12.4167C24.3333 5.835 18.9983 0.5 12.4167 0.5C5.835 0.5 0.5 5.835 0.5 12.4167C0.5 18.9983 5.835 24.3333 12.4167 24.3333C15.3683 24.3333 18.0817 23.2517 20.1717 21.455L20.6667 21.9683V23.4167L29.8333 32.565L32.565 29.8333L23.4167 20.6667ZM12.4167 20.6667C7.85167 20.6667 4.16667 16.9817 4.16667 12.4167C4.16667 7.85167 7.85167 4.16667 12.4167 4.16667C16.9817 4.16667 20.6667 7.85167 20.6667 12.4167C20.6667 16.9817 16.9817 20.6667 12.4167 20.6667Z"
-                            fill="black" />
-                    </svg>
-                </label>
+                <form action="#" class="main-index__form">
+                    <input type="text" class="main-index__input" id="search" placeholder="Rechercher une recette"
+                        autocomplete="off" />
+                    <label for="search" class="main-index__label">
+                        <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="main-index__glass-icon-svg search-glass-svg">
+                            <path
+                                d="M23.4167 20.6667H21.9683L21.455 20.1717C23.2517 18.0817 24.3333 15.3683 24.3333 12.4167C24.3333 5.835 18.9983 0.5 12.4167 0.5C5.835 0.5 0.5 5.835 0.5 12.4167C0.5 18.9983 5.835 24.3333 12.4167 24.3333C15.3683 24.3333 18.0817 23.2517 20.1717 21.455L20.6667 21.9683V23.4167L29.8333 32.565L32.565 29.8333L23.4167 20.6667ZM12.4167 20.6667C7.85167 20.6667 4.16667 16.9817 4.16667 12.4167C4.16667 7.85167 7.85167 4.16667 12.4167 4.16667C16.9817 4.16667 20.6667 7.85167 20.6667 12.4167C20.6667 16.9817 16.9817 20.6667 12.4167 20.6667Z"
+                                fill="black" />
+                        </svg>
+                    </label>
+                </form>
             </section>
 
             <section class="main-index__tags-container" role="region" aria-label="Section de tags ajoutés">
@@ -137,9 +139,10 @@
             </section>
 
             <section class="main-index__sort-inputs-container">
-                <div class="dropdown-menu dropdown-menu--ingredients">
+                <div class="dropdown-menu dropdown-menu--ingredients" data-search-type="ingredients">
                     <input type="text" class="dropdown-menu__sort-input dropdown-menu__sort-input--ingredients"
-                        placeholder="Rechercher un ingrédient" value="Ingrédients" name="Ingrédients">
+                        placeholder="Rechercher un ingrédient" value="Ingrédients" name="Ingrédients"
+                        id="sort-by-ingredients">
                     <label for="sort-by-ingredients" class="dropdown-menu__sort-label">
 
                         <svg width="16" height="11" viewBox="0 0 16 11" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -149,33 +152,51 @@
                                 fill="white" />
                         </svg>
                     </label>
-                    <div class="dropdown-menu__options dropdown-menu__options--ingredients hide">
-                        <div class="dropdown-menu__options-list">
-                            <!--               Insert option items here               -->
-                            <template>
-                                <p class="dropdown-menu__option-item">${}</p>
-                            </template>
-                        </div>
+                    <ul class="dropdown-menu__options dropdown-menu__options--ingredients hide">
+                        <template>
+                            <li class="dropdown-menu__option-item">${}</li>
+                            <li class="dropdown-menu__option-item">${}</li>
+                            <li class="dropdown-menu__option-item">${}</li>
+                        </template>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
 
-                        <div class="dropdown-menu__options-list">
-                            <!--               Insert option items here               -->
-                            <template>
-                                <p class="dropdown-menu__option-item">${}</p>
-                            </template>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
+                        <li class="dropdown-menu__option-item">${}</li>
 
-                        </div>
-                        <div class="dropdown-menu__options-list">
-                            <!--               Insert option items here               -->
-                            <template>
-                                <p class="dropdown-menu__option-item">${}</p>
-                            </template>
-                        </div>
-                    </div>
+
+                    </ul>
                 </div>
 
-                <div class="dropdown-menu dropdown-menu--devices">
+                <div class="dropdown-menu dropdown-menu--devices" data-search-type="devices">
                     <input type="text" class="dropdown-menu__sort-input dropdown-menu__sort-input--devices"
-                        placeholder="Rechercher un appareil" value="Appareils" name="Appareils">
+                        placeholder="Rechercher un appareil" value="Appareils" name="Appareils" id="sort-by-devices">
                     <label for="sort-by-devices" class="dropdown-menu__sort-label">
                         <svg width="16" height="11" viewBox="0 0 16 11" fill="none" xmlns="http://www.w3.org/2000/svg"
                             class="main-index__sort-label-icon-svg">
@@ -185,34 +206,18 @@
                         </svg>
 
                     </label>
-                    <div class="dropdown-menu__options dropdown-menu__options--devices hide">
-                        <div class="dropdown-menu__options-list">
-                            <template>
-                                <p class="dropdown-menu__option-item">${}</p>
-                            </template>
-                            <!--               Insert option items here               -->
-
-                        </div>
-                        <div class="dropdown-menu__options-list">
-                            <template>
-                                <p class="dropdown-menu__option-item">${}</p>
-                            </template>
-                            <!--               Insert option items here               -->
-
-                        </div>
-                        <div class="dropdown-menu__options-list">
-                            <template>
-                                <p class="dropdown-menu__option-item">${}</p>
-                            </template>
-                            <!--               Insert option items here               -->
-
-                        </div>
-                    </div>
+                    <ul class="dropdown-menu__options dropdown-menu__options--devices hide">
+                        <template>
+                            <li class="dropdown-menu__option-item">${}</li>
+                            <li class="dropdown-menu__option-item">${}</li>
+                            <li class="dropdown-menu__option-item">${}</li>
+                        </template>
+                    </ul>
                 </div>
 
-                <div class="dropdown-menu dropdown-menu--utensils">
+                <div class="dropdown-menu dropdown-menu--utensils" data-search-type="utensils">
                     <input type="text" class="dropdown-menu__sort-input dropdown-menu__sort-input--utensils"
-                        placeholder="Rechercher un ustensil" value="Ustensils" name="Ustensils">
+                        placeholder="Rechercher un ustensil" value="Ustensils" name="Ustensils" id="sort-by-utensils">
                     <label for="sort-by-utensils" class="dropdown-menu__sort-label">
                         <svg width="16" height="11" viewBox="0 0 16 11" fill="none" xmlns="http://www.w3.org/2000/svg"
                             class="main-index__sort-label-icon-svg">
@@ -222,29 +227,13 @@
                         </svg>
 
                     </label>
-                    <div class="dropdown-menu__options dropdown-menu__options--utensils hide">
-                        <div class="dropdown-menu__options-list">
-                            <template>
-                                <p class="dropdown-menu__option-item">${}</p>
-                            </template>
-                            <!--               Insert option items here               -->
-
-                        </div>
-                        <div class="dropdown-menu__options-list">
-                            <template>
-                                <p class="dropdown-menu__option-item">${}</p>
-                            </template>
-                            <!--               Insert option items here               -->
-
-                        </div>
-                        <div class="dropdown-menu__options-list">
-                            <template>
-                                <p class="dropdown-menu__option-item">${}</p>
-                            </template>
-                            <!--               Insert option items here               -->
-
-                        </div>
-                    </div>
+                    <ul class="dropdown-menu__options dropdown-menu__options--utensils hide">
+                        <template>
+                            <li class="dropdown-menu__option-item">${}</li>
+                            <li class="dropdown-menu__option-item">${}</li>
+                            <li class="dropdown-menu__option-item">${}</li>
+                        </template>
+                    </ul>
                 </div>
             </section>
 
