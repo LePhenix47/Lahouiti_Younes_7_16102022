@@ -7,8 +7,6 @@ function createTag(event) {
   const arrayOfItemsSearchedByUser = [];
 
   for (listItem of listItemsArray) {
-    listItem.addEventListener("click", createTemplateTag);
-
     let itemIsNotResearchedByUser = !listItem.innerText
       .toLowerCase()
       .includes(event.currentTarget.value.toLowerCase());
@@ -19,6 +17,8 @@ function createTag(event) {
     } else {
       listItem.classList.remove("hide");
       arrayOfItemsSearchedByUser.push(listItem.innerText);
+
+      listItem.addEventListener("click", createTemplateTag);
     }
   }
 
@@ -34,15 +34,25 @@ function createTag(event) {
 }
 
 function createTemplateTag(event) {
-  console.log("click! event = ");
+  console.groupCollapsed("Array of selected options by user");
+  console.table(selectedOptionsArray);
+  console.groupEnd("Array of selected options by user");
 
   const tagText = event.currentTarget.innerText;
+
+  for (selectedOption of selectedOptionsArray) {
+    if (selectedOption === tagText) {
+      return;
+    }
+  }
 
   const searchType = event.currentTarget
     .closest(".dropdown-menu")
     .getAttribute("data-search-type");
 
+  selectedOptionsArray.push(tagText);
   console.log("Text of tag:", tagText, "\nType of search =", searchType);
 
   IndexApp.createTagsForQuery(tagsContainer, tagText, searchType);
+  const tagsAddedByUserNodeList = tagsContainer.querySelectorAll(".");
 }

@@ -51,13 +51,15 @@ const dropdownMenuOptionsListContainer = document.querySelector(
 //Launching the app
 const launchApp = new IndexApp().main();
 
-let arrayOfRecipes = [];
+const selectedOptionsArray = []; //This array will contain all the name of the tags that the user chose
 
-let arrayOfIngredients = [];
+let arrayOfRecipes = []; //Array containing all the list of  the different recipes fetched from the JSON file
 
-let arrayOfDevices = [];
+let arrayOfIngredients = []; //Array containing all the list of
 
-let arrayOfUtensils = [];
+let arrayOfDevices = []; //Array containing all the list of
+
+let arrayOfUtensils = []; //Array containing all the list of
 
 launchApp.then((recipes) => {
   arrayOfRecipes = recipes;
