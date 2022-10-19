@@ -30,6 +30,8 @@ $scrollbar-thumb-bg-color--active: #b0b0b0;
 
 $sort-input-placeholder-color: #ffffff80;
 
+$tag-close-button-icon-color--hover: red;
+
 //CSS variables
 :root {
     //CSS Color values
@@ -66,6 +68,8 @@ $sort-input-placeholder-color: #ffffff80;
     --scrollbar-thumb-bg-color--active: #{$scrollbar-thumb-bg-color--active};
 
     --sort-input-placeholder-color: #{$sort-input-placeholder-color};
+
+    --tag-close-button-icon-color--hover: #{$tag-close-button-icon-color--hover};
 
     //CSS Pixel values
     --default-border-radius-value: 5px;

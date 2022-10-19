@@ -81,6 +81,10 @@
 
             &:hover {
                 cursor: pointer;
+
+                & path {
+                    fill: var(--tag-close-button-icon-color--hover)
+                }
             }
         }
 

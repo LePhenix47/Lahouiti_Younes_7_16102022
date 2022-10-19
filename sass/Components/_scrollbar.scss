@@ -1,27 +1,30 @@
 @use "../Utils/" as *;
 
-html::-webkit-scrollbar,
-.recipe-card__ingredients-list::-webkit-scrollbar {
-    background-color: var(--scrollbar-track-bg-color);
-    border-radius: 100vmax;
-    margin-block: 5px;
-    width: 10px;
-}
-
-html::-webkit-scrollbar-thumb,
-.recipe-card__ingredients-list::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar-thumb-bg-color);
-    border: 3px solid var(--body-bg-color);
-    border-radius: 100vmax;
-
-    &:hover {
-        background-color: var(--scrollbar-thumb-bg-color--hover);
+html,
+.recipe-card__ingredients-list {
+    &::-webkit-scrollbar {
+        background-color: var(--scrollbar-track-bg-color);
+        border-radius: 100vmax;
+        margin-block: 5px;
+        width: 10px;
     }
 
-    &:active {
-        background-color: var(--scrollbar-thumb-bg-color--active);
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--scrollbar-thumb-bg-color);
+        border: 3px solid var(--body-bg-color);
+        border-radius: 100vmax;
+
+        &:hover {
+            background-color: var(--scrollbar-thumb-bg-color--hover);
+        }
+
+        &:active {
+            background-color: var(--scrollbar-thumb-bg-color--active);
+        }
     }
+
 }
+
 
 //Added this support for the scrollbar since the webkit pseudo::element doesn't work on Mozilla Firefox
 @supports (scrollbar-color: black white) {
@@ -33,77 +36,23 @@ html::-webkit-scrollbar-thumb,
 }
 
 .dropdown-menu__options {
-    &--ingredients {
-
-        //Adding a scrollbar with a different color
-        &::-webkit-scrollbar {
-            background-color: transparent;
-            border-radius: 100vmax;
-            margin-block: 5px;
-            width: 10px;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background-color: var(--options-input-text-color);
-            border: 3px solid var(--options-ingredients-bg-color);
-        }
-
-        //Support for Firefox
-        @supports (scrollbar-color: black white) {
-
-            scrollbar-width: thin;
-            scrollbar-color: var(--options-input-text-color) transparent; // BGC for the scrollbar thumb - BGC for the scrollbar track
-
-
-        }
+    &::-webkit-scrollbar {
+        background-color: transparent;
+        margin-block: 5px;
+        width: 6px;
     }
 
-    &--devices {
-
-        //Adding a scrollbar with a different color
-        &::-webkit-scrollbar {
-            background-color: transparent;
-
-            border-radius: 100vmax;
-            margin-block: 5px;
-            width: 10px;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background-color: var(--options-input-text-color);
-            border: 3px solid var(--options-devices-bg-color);
-        }
-
-        //Support for Firefox
-        @supports (scrollbar-color: black white) {
-            scrollbar-width: thin;
-            scrollbar-color: var(--options-input-text-color) transparent; // BGC for the scrollbar thumb - BGC for the scrollbar track
-        }
-
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--options-input-text-color);
+        border-radius: 100vmax;
     }
 
-    &--utensils {
+    @supports (scrollbar-color: black white) {
 
-        //Adding a scrollbar with a different color
-        &::-webkit-scrollbar {
-            background-color: transparent;
-
-            border-radius: 100vmax;
-            margin-block: 5px;
-            width: 10px;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background-color: var(--options-input-text-color);
-            border: 3px solid var(--options-utensils-bg-color);
-        }
-
-        //Support for Firefox
-        @supports (scrollbar-color: black white) {
-            scrollbar-width: thin;
-            scrollbar-color: var(--options-input-text-color) transparent; // BGC for the scrollbar thumb - BGC for the scrollbar track
-        }
+        scrollbar-width: thin;
+        scrollbar-color: var(--options-input-text-color) transparent; // BGC for the scrollbar thumb - BGC for the scrollbar track
     }
+
 }
 
 .recipe-card__ingredients-list {
