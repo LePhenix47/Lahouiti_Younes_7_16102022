@@ -24,7 +24,8 @@
 
 //
 .dropdown-options-active {
-    height: 450px !important;
+    height: auto !important;
+    max-height: 450px;
 
 }
 
