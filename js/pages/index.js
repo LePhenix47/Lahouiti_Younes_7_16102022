@@ -23,6 +23,18 @@ class IndexApp {
       recipeArray
     ).createRecipeCards();
   }
+
+  static createTagsForQuery(container, tagText, tagSearchType) {
+    console.log(
+      "STATIC METHOD Text of tag:",
+      tagText,
+      "\nType of search =",
+      tagSearchType
+    );
+    const tagTemplate = new TagTemplate(tagText, tagSearchType).createTag();
+    console.log({ tagTemplate });
+    container.innerHTML += tagTemplate;
+  }
 }
 
 //DOM Elements
@@ -30,9 +42,7 @@ const recipeCardsContainer = document.querySelector(
   ".main-index__recipes-container"
 );
 
-const searchTagsContainer = document.querySelector(
-  ".main-index__tags-container"
-);
+const tagsContainer = document.querySelector(".main-index__tags-container");
 
 const dropdownMenuOptionsListContainer = document.querySelector(
   ".dropdown-menu__options-list"
@@ -107,8 +117,7 @@ const inputsArray = document.getElementsByClassName(
 
 function addEventListerners() {
   for (input of inputsArray) {
-    input.addEventListener("focus", openMenuOptions); //To open the dropdown menu
+    input.addEventListener("click", openMenuOptions); //To open the dropdown menu
     input.addEventListener("input", createTag); //To display all the list items
-    input.addEventListener("change", closeMenuOptions); //To close the dropdown menu
   }
 }

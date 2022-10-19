@@ -1,13 +1,19 @@
 class TagTemplate {
-  constructor(data) {
-    this.data = data;
+  constructor(tagText, tagType) {
+    this.tagText = tagText;
+    this.tagType = tagType;
   }
 
   createTag() {
-    const { tagType, text } = this.data;
+    console.log(
+      "TAG TEMPLATE \nText of tag:",
+      this.tagText,
+      "\nType of search =",
+      this.tagType
+    );
     let template = `
-              <div class="main-index__tag main-index__tag--${tagType}-bg">
-                  <p class="main-index__tag-text">${text}</p>
+              <div class="main-index__tag main-index__tag--${this.tagType}-bg">
+                  <p class="main-index__tag-text">${this.tagText}</p>
                   <button class="main-index__tag-close-button">
                       <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                           xmlns="http://www.w3.org/2000/svg" class="main-index__tag-close-button-icon-svg">
