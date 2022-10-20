@@ -1,5 +1,6 @@
 let dropdownIsOpened = false;
 
+//Function to open the dropdown menu whenever we click on each button
 function openMenuOptions(event) {
   if (dropdownIsOpened) {
     closeMenuOptions(event);
@@ -31,6 +32,7 @@ function openMenuOptions(event) {
   }
 }
 
+//Adds the items for each individual dropdown menu
 function addListitemsForDropdown(container, dropdownMenuList, event) {
   const valueOfSearchTypeOnContainer =
     container.getAttribute("data-search-type");
@@ -68,6 +70,7 @@ function addListitemsForDropdown(container, dropdownMenuList, event) {
   }
 }
 
+//Functions that closes the dropdown menu
 function closeMenuOptions(event) {
   console.log("Changed input on ", event.currentTarget);
   const container = event.currentTarget.closest(".dropdown-menu");

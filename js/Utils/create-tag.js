@@ -1,3 +1,6 @@
+//Function to
+
+function updateRecipeDataArrays() {}
 function createTag(event) {
   const listItemsNodeList = document.querySelectorAll(
     ".dropdown-menu__options>*"
@@ -6,7 +9,7 @@ function createTag(event) {
 
   const arrayOfItemsSearchedByUser = [];
 
-  for (listItem of listItemsArray) {
+  for (let i = 0; i < listItemsArray.length; i++) {
     /*
         Given the fact that we want to have a research without being accent sensitive
 
@@ -15,6 +18,7 @@ function createTag(event) {
 
         https://ricardometring.com/javascript-replace-special-characters
         */
+    const listItem = listItemsArray[i];
     let itemIsNotResearchedByUser = !listItem.innerText
       .toLowerCase()
       .normalize("NFD") // returns the unicode NORMALIZATION FORM of the string using a canonical DECOMPOSITION (NFD).
@@ -23,7 +27,7 @@ function createTag(event) {
 
     if (itemIsNotResearchedByUser) {
       listItem.classList.add("hide");
-      arrayOfItemsSearchedByUser?.pop(listItem.innerText);
+      arrayOfItemsSearchedByUser?.splice(i, 1);
     } else {
       listItem.classList.remove("hide");
       arrayOfItemsSearchedByUser.push(listItem.innerText);
@@ -40,6 +44,7 @@ function createTag(event) {
       "No tag matched with the query:",
       event.currentTarget.value.toLowerCase()
     );
+    console.table(arrayOfItemsSearchedByUser);
   }
 }
 
@@ -69,8 +74,7 @@ function createTemplateTag(event) {
   IndexApp.createTagsForQuery(tagTypeContainer, tagText, searchType);
 }
 
-//
-
+//Function to remove a tag
 function removeTag(event) {
   console.log(event.currentTarget);
   const tagElement = event.currentTarget.parentElement;
