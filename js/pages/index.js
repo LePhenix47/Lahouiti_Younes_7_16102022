@@ -33,7 +33,7 @@ class IndexApp {
     );
     const tagTemplate = new TagTemplate(tagText, tagSearchType).createTag();
     console.log({ tagTemplate });
-    container.innerHTML += tagTemplate;
+    container.appendChild(tagTemplate);
   }
 }
 

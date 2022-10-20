@@ -7,8 +7,18 @@ function createTag(event) {
   const arrayOfItemsSearchedByUser = [];
 
   for (listItem of listItemsArray) {
+    /*
+        Given the fact that we want to have a research without being accent sensitive
+
+
+        Here's the article explaining the code below:
+
+        https://ricardometring.com/javascript-replace-special-characters
+        */
     let itemIsNotResearchedByUser = !listItem.innerText
       .toLowerCase()
+      .normalize("NFD") // returns the unicode NORMALIZATION FORM of the string using a canonical DECOMPOSITION (NFD).
+      .replace(/[\u0300-\u036f]/g, "")
       .includes(event.currentTarget.value.toLowerCase());
 
     if (itemIsNotResearchedByUser) {
@@ -49,10 +59,35 @@ function createTemplateTag(event) {
   const searchType = event.currentTarget
     .closest(".dropdown-menu")
     .getAttribute("data-search-type");
+  const tagTypeContainer = tagsContainer.querySelector(
+    `.main-index__tags-for-${searchType}`
+  );
 
   selectedOptionsArray.push(tagText);
   console.log("Text of tag:", tagText, "\nType of search =", searchType);
 
-  IndexApp.createTagsForQuery(tagsContainer, tagText, searchType);
-  const tagsAddedByUserNodeList = tagsContainer.querySelectorAll(".");
+  IndexApp.createTagsForQuery(tagTypeContainer, tagText, searchType);
+}
+
+//
+
+function removeTag(event) {
+  console.log(event.currentTarget);
+  const tagElement = event.currentTarget.parentElement;
+
+  const containerOfTag = tagElement.parentElement;
+
+  const textTag = tagElement.querySelector(".main-index__tag-text");
+
+  console.log(textTag.textContent);
+
+  for (let i = 0; i < selectedOptionsArray.length; i++) {
+    const selectedOption = selectedOptionsArray[i];
+    if (selectedOption === textTag.textContent) {
+      console.log("Found", selectedOption, textTag);
+      selectedOptionsArray.splice(i, 1);
+      console.table(selectedOptionsArray);
+      containerOfTag.removeChild(tagElement);
+    }
+  }
 }
