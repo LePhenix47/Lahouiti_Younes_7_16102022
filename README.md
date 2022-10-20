@@ -6,6 +6,8 @@ Cette branche contient l'algorithme de recherche utilisant les fonctionnalités 
 
 1. les boucles natives (while(), for()...)
 
+Elle utilise les variables dans l'URL comme sur YouTube
+
 **Inspirations sur les algorithmes:**
 
 -Youtube: https://www.youtube.com/results?search_query=
