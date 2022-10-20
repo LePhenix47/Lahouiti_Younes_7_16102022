@@ -72,6 +72,7 @@ function createTemplateTag(event) {
   console.log("Text of tag:", tagText, "\nType of search =", searchType);
 
   IndexApp.createTagsForQuery(tagTypeContainer, tagText, searchType);
+  updateUrl(queryParameters, keywordsParameters);
 }
 
 //Function to remove a tag
