@@ -117,9 +117,13 @@ const inputsArray = document.getElementsByClassName(
   "dropdown-menu__sort-input"
 );
 
+const searchRecipeInput = document.querySelector(".main-index__input");
+
 function addEventListerners() {
   for (input of inputsArray) {
     input.addEventListener("click", openMenuOptions); //To open the dropdown menu
     input.addEventListener("input", createTag); //To display all the list items
   }
+
+  searchRecipeInput.addEventListener("input", searchRecipes);
 }
