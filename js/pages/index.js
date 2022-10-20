@@ -61,6 +61,10 @@ let arrayOfDevices = []; //Array containing all the list of
 
 let arrayOfUtensils = []; //Array containing all the list of
 
+let queryParameters = "";
+
+let keywordsParameters = "";
+
 launchApp.then((recipes) => {
   arrayOfRecipes = recipes;
 
@@ -119,6 +123,8 @@ const inputsArray = document.getElementsByClassName(
 
 const searchRecipeInput = document.querySelector(".main-index__input");
 
+const form = document.querySelector(".main-index__form");
+
 function addEventListerners() {
   for (input of inputsArray) {
     input.addEventListener("click", openMenuOptions); //To open the dropdown menu
@@ -126,4 +132,8 @@ function addEventListerners() {
   }
 
   searchRecipeInput.addEventListener("input", searchRecipes);
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+  });
 }
