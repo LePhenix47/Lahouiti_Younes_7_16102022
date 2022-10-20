@@ -1,8 +1,9 @@
 Ce dépôt contient le code du P7 de la formation de Développeur JS React d'Openclassrooms
 
-Il faudra développer un algorithmes de tri MAIS en créant 2 versions en utilisant:
+> Algorithme de recherche version 2
 
-1. les boucles natives (while(), for()...)
+Cette branche contient l'algorithme de recherche utilisant les fonctionnalités de prototype de JS
+
 2. les méthodes du prototype d'objet Array.prototype en JS(forEach(), filter(), map(), reduce()...)
 
 2 branches seront bientôt disponibles pour chacune des versions
