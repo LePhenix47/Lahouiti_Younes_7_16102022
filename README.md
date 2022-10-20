@@ -6,9 +6,7 @@ Cette branche contient l'algorithme de recherche utilisant les fonctionnalités 
 
 2. les méthodes du prototype d'objet Array.prototype en JS(forEach(), filter(), map(), reduce()...)
 
-2 branches seront bientôt disponibles pour chacune des versions
-
-La version avec les meilleures performances sera fusionné à la branche principale
+Elle récupère les variables dans un objet global
 
 **Inspirations sur les algorithmes:**
 
