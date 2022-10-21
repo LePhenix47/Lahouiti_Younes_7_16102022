@@ -5,14 +5,24 @@ function searchRecipes(event) {
   console.log(queryIsOverTwoCharsLong);
 
   addQueryParametersToUrl(valueOfInput);
+
   addKeywordParametersToUrl();
 
   updateUrl(queryParameters, keywordsParameters);
+
+  resetCards();
 
   if (queryIsOverTwoCharsLong) {
     updateRecipeCardsUI();
   } else {
     return;
+  }
+}
+
+function resetCards() {
+  const cardsArray = getCardsInContainer();
+  for (card of cardsArray) {
+    card.classList.remove("hide");
   }
 }
 
@@ -31,22 +41,59 @@ function replaceCharacter(
 Function to search the recipe
 */
 
+const recipeNotFoundParagraph = document.querySelector(
+  ".recipe-card__not-found-message"
+);
+
 function updateRecipeCardsUI() {
-  const cardsElementsObject = getCardsInContainer();
-  console.log(getCardsInContainer());
   //↓
-  console.group("Cards array attributes");
+  console.groupCollapsed("Cards array attributes");
 
   const parameterValuesObject = getQueryAndKeywordParameters();
   console.log(parameterValuesObject);
 
-  for (card of cardsElementsObject.cardsArray) {
-    let cardInfos = getInfosFromCard(card);
-    let recipeIsSearchedByUser = parameterValuesObject.queryInputted.includes(
-      cardInfos.cardRecipeDescription
+  let cardInfos = getAllCardInfos();
+  const cardsArray = getCardsInContainer();
+
+  const remainingCards = [];
+
+  for (let i = 0; i < cardsArray.length; i++) {
+    const card = cardsArray[i];
+
+    /*
+    
+    Here is where we'll add/remove the cards 
+    */
+    const titleOfRecipe = transformText(
+      cardInfos[i].cardRecipeTitle,
+      "lowercase",
+      true
+    );
+    let recipeIsSearchedByUser =
+      titleOfRecipe.includes(parameterValuesObject.queryInputted) ||
+      titleOfRecipe.includes(parameterValuesObject.keywordsAddedWithTags);
+
+    console.log(
+      "Is the recipe in",
+      transformText(cardInfos[i].cardRecipeTitle, "lowercase", true),
+      "searched by the user? \nUser inputted",
+      parameterValuesObject.queryInputted,
+      "ANSWER:",
+      recipeIsSearchedByUser
     );
 
-    console.log(cardInfos);
+    if (recipeIsSearchedByUser) {
+      card.classList.remove("hide");
+      remainingCards.push(card);
+    } else {
+      card.classList.add("hide");
+      remainingCards?.splice(i, 1);
+    }
+    if (!remainingCards.length) {
+      recipeNotFoundParagraph.textContent = `Oops, nous n'avons pas trouvé une recette pour "${parameterValuesObject.queryInputted}" ¯\\_(ツ)_/¯`;
+    } else {
+      recipeNotFoundParagraph.textContent = "";
+    }
   }
   console.groupEnd("Cards array attributes");
   //↑
@@ -60,9 +107,8 @@ function getCardsInContainer() {
 
   const cardsNodeList = cardsContainer.querySelectorAll(".recipe-card"); //⚠Node list
   const cardsArray = Array.from(cardsNodeList);
-  const objectToBeReturned = { cardsContainer, cardsArray };
 
-  return objectToBeReturned;
+  return cardsArray;
 }
 
 function getInfosFromCard(card) {
@@ -90,4 +136,14 @@ function getInfosFromCard(card) {
     cardRecipeUtensils,
     cardRecipeDevices,
   };
+}
+
+function getAllCardInfos() {
+  let cardInfos = [];
+  const cardsArray = getCardsInContainer();
+
+  for (card of cardsArray) {
+    cardInfos = [...cardInfos, getInfosFromCard(card)];
+  }
+  return cardInfos;
 }

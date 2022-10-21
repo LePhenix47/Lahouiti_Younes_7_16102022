@@ -41,7 +41,7 @@ Functions to set values to the parameters in the URL
 */
 //For the query=
 function addQueryParametersToUrl(valueInputtedByUser) {
-  queryParameters = replaceCharacter(valueInputtedByUser, " ", "_");
+  queryParameters = replaceCharacter(valueInputtedByUser, " ", "+");
 }
 
 function addKeywordParametersToUrl() {
