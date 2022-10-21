@@ -70,33 +70,9 @@ let keywordsParameters = "";
 launchApp.then((recipes) => {
   arrayOfRecipes = recipes;
 
-  /*
-  Ok so here's how we get the array of appliances/devices
-
-  The array of devices will be an array containing all the properties of the Set() object
-  We'll create a new set in order to avoid duplicates, 
-  we add inside this method an empty array that we'll concatenate
-  to the array of recipes that will be mapped to contain ONLY the array of appliances/devices
-  */
-  // arrayOfIngredients = [
-  //   ...new Set(
-  //     [].concat(...arrayOfRecipes.map((recipe) => recipe.ingredients))
-  //   ),
-  // ];
-  // arrayOfIngredients = [
-  //   ...new Set(
-  //     [].concat(
-  //       ...arrayOfIngredients.map((recipe) => recipe.ingredient.toLowerCase())
-  //     )
-  //   ),
-  // ];
-  console.table(
-    "TEST:",
-    [].concat(...arrayOfRecipes.map((recipe) => recipe.appliance))
-  );
-
-  arrayOfIngredients = createUniqueArrays(arrayOfRecipes, "ingredients", true);
+  arrayOfIngredients = createUniqueArrays(arrayOfRecipes, "ingredients", true); //Contains the array of arrays
   arrayOfIngredients = createUniqueArrays(
+    //Contains the unique values of the arrays inside this array
     arrayOfIngredients,
     "ingredient",
     false
@@ -106,27 +82,11 @@ launchApp.then((recipes) => {
   console.table(arrayOfIngredients);
   console.groupEnd("Array of ingredients");
 
-  // arrayOfDevices = [
-  //   ...new Set(
-  //     [].concat(
-  //       ...arrayOfRecipes.map((recipe) => recipe.appliance.toLowerCase())
-  //     )
-  //   ),
-  // ];
-
   arrayOfDevices = createUniqueArrays(arrayOfRecipes, "appliance", false);
 
   console.groupCollapsed("Array of devices");
   console.table(arrayOfDevices);
   console.groupEnd("Array of devices");
-  // arrayOfUtensils = [
-  //   ...new Set([].concat(...arrayOfRecipes.map((recipe) => recipe.ustensils))),
-  // ];
-  // arrayOfUtensils = [
-  //   ...new Set(
-  //     [].concat(...arrayOfUtensils.map((ustensil) => ustensil.toLowerCase()))
-  //   ),
-  // ];
 
   arrayOfUtensils = createUniqueArrays(arrayOfRecipes, "ustensils", false);
 
@@ -135,7 +95,7 @@ launchApp.then((recipes) => {
   console.groupEnd("Array of utensils");
   IndexApp.addRecipeCards(recipeCardsContainer, arrayOfRecipes);
 
-  addEventListerners();
+  addEventListeners();
 });
 
 const inputsArray = document.getElementsByClassName(
@@ -146,7 +106,8 @@ const searchRecipeInput = document.querySelector(".main-index__input");
 
 const form = document.querySelector(".main-index__form");
 
-function addEventListerners() {
+//Adds all the event listeners inside the page
+function addEventListeners() {
   for (input of inputsArray) {
     input.addEventListener("click", openMenuOptions); //To open the dropdown menu
     input.addEventListener("input", createTag); //To display all the list items
@@ -159,8 +120,10 @@ function addEventListerners() {
   });
 }
 
-//This function will get initialise array
+//This function will create arrays with unique values
 function createUniqueArrays(array, objectProperty, arrayContainsObjects) {
+  // we add inside the concat method an empty array that we'll concatenate
+  // to the array of recipes that will be mapped to contain ONLY the array of appliances/devices
   array = [].concat(
     ...array.map((recipe) => {
       let valueOfProperty = recipe[objectProperty];
@@ -169,11 +132,15 @@ function createUniqueArrays(array, objectProperty, arrayContainsObjects) {
   );
 
   if (!arrayContainsObjects) {
+    //If the array contains DOES NOT contain objects → Set its values to lowercase
     setArrayValuesToLowerCase(array);
   }
+
+  // We'll create a set in order to avoid duplicates,
   return [...new Set(array)];
 }
 
+//This functions sets all values inside an array to lowercase
 function setArrayValuesToLowerCase(array) {
   for (let i = 0; i < array.length; i++) {
     array[i] = array[i].toLowerCase();
