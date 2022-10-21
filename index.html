@@ -219,8 +219,8 @@
 
                 <!-- Template for a singular recipe card -->
                 <template>
-                    <div class="recipe-card" data-id="" data-name="" data-servings="" data-devices=""
-                        data-description="">
+                    <div class="recipe-card" data-id="${id}" data-name="${name}" data-servings="${servings}"
+                        data-utensils='${ustensils}' data-devices="${appliance}" title="${description}">
                         <div class="recipe-card__image-container"></div>
                         <div class="recipe-card__text-container">
                             <div class="recipe-card__title-prep-time">
@@ -251,7 +251,8 @@
                 <!--  -->
                 <template>
                     <!-- Example -->
-                    <div class="recipe-card">
+                    <div class="recipe-card" data-id="${id}" data-name="${name}" data-servings="${servings}"
+                        data-utensils='${ustensils}' data-devices="${appliance}" title="${description}">
                         <div class="recipe-card__image-container"></div>
                         <div class="recipe-card__text-container">
                             <div class="recipe-card__title-prep-time">
@@ -295,6 +296,9 @@
 
                 <!--  -->
 
+            </section>
+            <section class="recipe-card__not-found">
+                <p class="recipe-card__not-found-message"></p>
             </section>
 
         </div>
