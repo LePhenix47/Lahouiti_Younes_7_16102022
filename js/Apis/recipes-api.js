@@ -4,7 +4,6 @@ class Api {
   }
 
   async get() {
-    let data = undefined;
     try {
       let response = await fetch(this.url);
 
@@ -13,15 +12,14 @@ class Api {
           response
         )}`;
       }
-      data = await response.json();
+      return await response.json();
     } catch (apiError) {
       console.log(
         "%c" + apiError,
         "padding: 10px; font-size: 24px; background: crimson"
       );
-      data = apiError;
+      return await apiError;
     }
-    return data;
   }
 }
 
@@ -30,7 +28,7 @@ class RecipesApi extends Api {
     super(url);
   }
 
-  getRecipes() {
-    return this.get();
+  async getRecipes() {
+    return await this.get();
   }
 }

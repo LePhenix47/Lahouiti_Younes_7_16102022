@@ -1,6 +1,44 @@
-//Function to
+/*
+        Given the fact that we want to have a research without it being accent sensitive
+        we'll normalize the text inside each item list
+
+        Here's the article explaining the code below:
+
+        https://ricardometring.com/javascript-replace-special-characters
+        */
+function normalizeString(string) {
+  return string
+    .normalize("NFD") // returns the unicode NORMALIZATION FORM of the string using a canonical DECOMPOSITION (NFD).
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function transformText(string, textCase, normalize) {
+  switch (textCase) {
+    case "lowercase": {
+      string = string.toLowerCase();
+      break;
+    }
+
+    case "uppercase:": {
+      string = string.toUpperCase();
+      break;
+    }
+
+    default: {
+      throw "Text transformation has failed";
+    }
+  }
+
+  if (normalize) {
+    return normalizeString(string);
+  } else {
+    return string;
+  }
+}
 
 function updateRecipeDataArrays() {}
+
+//Function to
 function createTag(event) {
   const listItemsNodeList = document.querySelectorAll(
     ".dropdown-menu__options>*"
@@ -9,21 +47,16 @@ function createTag(event) {
 
   const arrayOfItemsSearchedByUser = [];
 
+  const valueOfInput = event.currentTarget.value;
+
   for (let i = 0; i < listItemsArray.length; i++) {
-    /*
-        Given the fact that we want to have a research without being accent sensitive
-
-
-        Here's the article explaining the code below:
-
-        https://ricardometring.com/javascript-replace-special-characters
-        */
     const listItem = listItemsArray[i];
-    let itemIsNotResearchedByUser = !listItem.innerText
-      .toLowerCase()
-      .normalize("NFD") // returns the unicode NORMALIZATION FORM of the string using a canonical DECOMPOSITION (NFD).
-      .replace(/[\u0300-\u036f]/g, "")
-      .includes(event.currentTarget.value.toLowerCase());
+
+    let itemIsNotResearchedByUser = !transformText(
+      listItem.innerText,
+      "lowercase",
+      true
+    ).includes(transformText(valueOfInput, "lowercase", true));
 
     if (itemIsNotResearchedByUser) {
       listItem.classList.add("hide");
@@ -39,10 +72,11 @@ function createTag(event) {
   console.groupCollapsed("Array of items searched by the user");
   console.log(arrayOfItemsSearchedByUser);
   console.groupEnd("Array of items searched by the user");
+
   if (!arrayOfItemsSearchedByUser.length) {
     console.log(
       "No tag matched with the query:",
-      event.currentTarget.value.toLowerCase()
+      transformText(valueOfInput, "lowercase", false)
     );
     console.table(arrayOfItemsSearchedByUser);
   }
@@ -93,6 +127,7 @@ function removeTag(event) {
       selectedOptionsArray.splice(i, 1);
       console.table(selectedOptionsArray);
       containerOfTag.removeChild(tagElement);
+      updateUrl(queryParameters, keywordsParameters);
     }
   }
 }

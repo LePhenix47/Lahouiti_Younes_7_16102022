@@ -51,6 +51,8 @@ const dropdownMenuOptionsListContainer = document.querySelector(
 //Launching the app
 const launchApp = new IndexApp().main();
 
+console.log(launchApp);
+
 const selectedOptionsArray = []; //This array will contain all the name of the tags that the user chose
 
 let arrayOfRecipes = []; //Array containing all the list of  the different recipes fetched from the JSON file
@@ -76,18 +78,23 @@ launchApp.then((recipes) => {
   we add inside this method an empty array that we'll concatenate
   to the array of recipes that will be mapped to contain ONLY the array of appliances/devices
   */
-  arrayOfIngredients = [
-    ...new Set(
-      [].concat(...arrayOfRecipes.map((recipe) => recipe.ingredients))
-    ),
-  ];
-  arrayOfIngredients = [
-    ...new Set(
-      [].concat(
-        ...arrayOfIngredients.map((recipe) => recipe.ingredient.toLowerCase())
-      )
-    ),
-  ];
+  // arrayOfIngredients = [
+  //   ...new Set(
+  //     [].concat(...arrayOfRecipes.map((recipe) => recipe.ingredients))
+  //   ),
+  // ];
+  // arrayOfIngredients = [
+  //   ...new Set(
+  //     [].concat(
+  //       ...arrayOfIngredients.map((recipe) => recipe.ingredient.toLowerCase())
+  //     )
+  //   ),
+  // ];
+
+  arrayOfIngredients = createUniqueArrays(arrayOfRecipes, "ingredients");
+  arrayOfIngredients = createUniqueArrays(arrayOfIngredients, "ingredient");
+  arrayOfIngredients = setArrayValueToLowerCase(arrayOfIngredients);
+  console.log(createUniqueArrays(arrayOfRecipes, "ingredients"));
   console.groupCollapsed("Array of ingredients");
   console.table(arrayOfIngredients);
   console.groupEnd("Array of ingredients");
@@ -136,4 +143,25 @@ function addEventListerners() {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
   });
+}
+
+//This function will get initialise array
+function createUniqueArrays(array, objectProperty) {
+  return [
+    ...new Set(
+      [].concat(
+        ...array.map((recipe) => {
+          let valueOfProperty = recipe[objectProperty];
+          return valueOfProperty;
+        })
+      )
+    ),
+  ];
+}
+
+function setArrayValueToLowerCase(array) {
+  for (let i = 0; i < array.length; i++) {
+    array[i] = array[i].toLowerCase();
+  }
+  return array;
 }

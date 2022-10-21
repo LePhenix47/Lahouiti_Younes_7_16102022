@@ -1,7 +1,7 @@
 function searchRecipes(event) {
   event?.preventDefault();
   const valueOfInput = event.currentTarget.value;
-  const queryIsOverTwoCharsLong = valueOfInput.length >= 3;
+  const queryIsOverTwoCharsLong = verifyCharacterLength(valueOfInput, 3);
   console.log(queryIsOverTwoCharsLong);
 
   const tagsAddedInSearchNodeList =
@@ -20,7 +20,7 @@ function searchRecipes(event) {
 
   console.log(tagsAddedInSearchArray);
 
-  queryParameters = valueOfInput.split(" ").join("_");
+  queryParameters = replaceCharacter(valueOfInput, " ", "_");
 
   keywordsParameters = "";
 
@@ -28,9 +28,9 @@ function searchRecipes(event) {
     const tagText = tagsTextArray[i];
     if (i === tagsTextArray.length - 1) {
       //If it's the last item on the list → we don't add a '+' sign
-      keywordsParameters += `${tagText.split(" ").join("_")}`;
+      keywordsParameters += `${replaceCharacter(tagText, " ", "_")}`;
     } else {
-      keywordsParameters += `${tagText.split(" ").join("_")}+`;
+      keywordsParameters += `${replaceCharacter(tagText, " ", "_")}+`;
     }
   }
   updateUrl(queryParameters, keywordsParameters);
@@ -40,4 +40,16 @@ function searchRecipes(event) {
   } else {
     return;
   }
+}
+
+function verifyCharacterLength(string, number) {
+  return string.length >= number;
+}
+
+function replaceCharacter(
+  string,
+  characterToBeRemoved,
+  characterToBeReplacedBy
+) {
+  return string.split(characterToBeRemoved).join(characterToBeReplacedBy);
 }
