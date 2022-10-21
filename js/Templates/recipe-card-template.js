@@ -14,7 +14,13 @@ class RecipeCardTemplate {
         recipeElement;
 
       firstPartOfTemplate = `
-         <div class="recipe-card" data-id="${id}" data-name="${name}" data-servings="${servings}" data-devices="${appliance}" data-utensils="${ustensils}"
+         <div class="recipe-card" 
+         data-id="${id}" 
+         data-name="${name}" 
+         data-servings="${servings}"
+         data-utensils='${ustensils}'
+         data-devices="${appliance}" 
+         title="${description}"
                         >
                         <div class="recipe-card__image-container"></div>
                         <div class="recipe-card__text-container">
@@ -48,7 +54,7 @@ class RecipeCardTemplate {
                                     </li>`;
       }
       thirdPartOfTemplate = `  </ul>
-                                <p class="recipe-card__instructions" title="${description}">${description}</p>
+                                <p class="recipe-card__instructions">${description}</p>
                             </div>
                         </div>
                     </div>

@@ -4,39 +4,13 @@ function searchRecipes(event) {
   const queryIsOverTwoCharsLong = verifyCharacterLength(valueOfInput, 3);
   console.log(queryIsOverTwoCharsLong);
 
-  const tagsAddedInSearchNodeList =
-    document.querySelectorAll(".main-index__tag"); //⚠ Node list
+  addQueryParametersToUrl(valueOfInput);
+  addKeywordParametersToUrl();
 
-  const tagsAddedInSearchArray = Array.from(tagsAddedInSearchNodeList);
-  const tagsTextArray = [];
-
-  for (tagAdded of tagsAddedInSearchArray) {
-    const tagText = tagAdded.querySelector(".main-index__tag-text");
-    console.log(tagText);
-    tagsTextArray.push(tagText.innerText);
-  }
-
-  console.table(tagsTextArray);
-
-  console.log(tagsAddedInSearchArray);
-
-  queryParameters = replaceCharacter(valueOfInput, " ", "_");
-
-  keywordsParameters = "";
-
-  for (let i = 0; i < tagsTextArray.length; i++) {
-    const tagText = tagsTextArray[i];
-    if (i === tagsTextArray.length - 1) {
-      //If it's the last item on the list → we don't add a '+' sign
-      keywordsParameters += `${replaceCharacter(tagText, " ", "_")}`;
-    } else {
-      keywordsParameters += `${replaceCharacter(tagText, " ", "_")}+`;
-    }
-  }
   updateUrl(queryParameters, keywordsParameters);
-  console.log({ keywordsParameters });
 
   if (queryIsOverTwoCharsLong) {
+    updateRecipeCardsUI();
   } else {
     return;
   }
@@ -52,4 +26,68 @@ function replaceCharacter(
   characterToBeReplacedBy
 ) {
   return string.split(characterToBeRemoved).join(characterToBeReplacedBy);
+}
+/*
+Function to search the recipe
+*/
+
+function updateRecipeCardsUI() {
+  const cardsElementsObject = getCardsInContainer();
+  console.log(getCardsInContainer());
+  //↓
+  console.group("Cards array attributes");
+
+  const parameterValuesObject = getQueryAndKeywordParameters();
+  console.log(parameterValuesObject);
+
+  for (card of cardsElementsObject.cardsArray) {
+    let cardInfos = getInfosFromCard(card);
+    let recipeIsSearchedByUser = parameterValuesObject.queryInputted.includes(
+      cardInfos.cardRecipeDescription
+    );
+
+    console.log(cardInfos);
+  }
+  console.groupEnd("Cards array attributes");
+  //↑
+}
+
+//Function that return an object with the container of the cards and the array of cards
+function getCardsInContainer() {
+  const cardsContainer = document.querySelector(
+    ".main-index__recipes-container"
+  );
+
+  const cardsNodeList = cardsContainer.querySelectorAll(".recipe-card"); //⚠Node list
+  const cardsArray = Array.from(cardsNodeList);
+  const objectToBeReturned = { cardsContainer, cardsArray };
+
+  return objectToBeReturned;
+}
+
+function getInfosFromCard(card) {
+  const cardRecipeTitle = card.getAttribute("data-name");
+  const cardRecipeDescription = card.getAttribute("title");
+  const cardRecipeIngredientsElementsNodeList = card.querySelectorAll(
+    ".recipe-card__ingredient-item-name"
+  ); //⚠ Node list
+  const cardRecipeIngredientsElementsArray = Array.from(
+    //Contains an array with <span> HTML elements
+    cardRecipeIngredientsElementsNodeList
+  );
+  //We retrieve the text inside the <span> elements
+  let cardRecipeIngredientsArray = [];
+  for (ingredient of cardRecipeIngredientsElementsArray) {
+    cardRecipeIngredientsArray.push(ingredient.innerText);
+  }
+  const cardRecipeUtensils = card.getAttribute("data-utensils");
+  const cardRecipeDevices = card.getAttribute("data-devices");
+
+  return {
+    cardRecipeTitle,
+    cardRecipeDescription,
+    cardRecipeIngredientsArray,
+    cardRecipeUtensils,
+    cardRecipeDevices,
+  };
 }

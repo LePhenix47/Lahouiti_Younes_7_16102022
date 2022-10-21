@@ -63,6 +63,10 @@ let arrayOfDevices = []; //Array containing all the list of
 
 let arrayOfUtensils = []; //Array containing all the list of
 
+let arrayOfItemsSearchedByUser = [];
+
+let tagsTextArray = [];
+
 let queryParameters = "";
 
 let keywordsParameters = "";
