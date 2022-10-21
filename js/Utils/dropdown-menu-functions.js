@@ -72,8 +72,6 @@ function addListitemsForDropdown(container, dropdownMenuList, event) {
 
 //Functions that closes the dropdown menu
 function closeMenuOptions(event) {
-  const valueOfInput = event.currentTarget.value;
-
   const buttonInputName = event.currentTarget.getAttribute("name");
   console.log("Changed input on ", event.currentTarget);
 
@@ -88,5 +86,5 @@ function closeMenuOptions(event) {
   dropdownMenuList.classList.add("hide");
 
   container.classList.remove("input-container-active");
-  valueOfInput = buttonInputName;
+  event.currentTarget.value = buttonInputName;
 }

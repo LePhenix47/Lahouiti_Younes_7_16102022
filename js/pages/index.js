@@ -90,32 +90,46 @@ launchApp.then((recipes) => {
   //     )
   //   ),
   // ];
+  console.table(
+    "TEST:",
+    [].concat(...arrayOfRecipes.map((recipe) => recipe.appliance))
+  );
 
-  arrayOfIngredients = createUniqueArrays(arrayOfRecipes, "ingredients");
-  arrayOfIngredients = createUniqueArrays(arrayOfIngredients, "ingredient");
-  arrayOfIngredients = setArrayValueToLowerCase(arrayOfIngredients);
-  console.log(createUniqueArrays(arrayOfRecipes, "ingredients"));
+  arrayOfIngredients = createUniqueArrays(arrayOfRecipes, "ingredients", true);
+  arrayOfIngredients = createUniqueArrays(
+    arrayOfIngredients,
+    "ingredient",
+    false
+  );
+
   console.groupCollapsed("Array of ingredients");
   console.table(arrayOfIngredients);
   console.groupEnd("Array of ingredients");
-  arrayOfDevices = [
-    ...new Set(
-      [].concat(
-        ...arrayOfRecipes.map((recipe) => recipe.appliance.toLowerCase())
-      )
-    ),
-  ];
+
+  // arrayOfDevices = [
+  //   ...new Set(
+  //     [].concat(
+  //       ...arrayOfRecipes.map((recipe) => recipe.appliance.toLowerCase())
+  //     )
+  //   ),
+  // ];
+
+  arrayOfDevices = createUniqueArrays(arrayOfRecipes, "appliance", false);
+
   console.groupCollapsed("Array of devices");
   console.table(arrayOfDevices);
   console.groupEnd("Array of devices");
-  arrayOfUtensils = [
-    ...new Set([].concat(...arrayOfRecipes.map((recipe) => recipe.ustensils))),
-  ];
-  arrayOfUtensils = [
-    ...new Set(
-      [].concat(...arrayOfUtensils.map((ustensil) => ustensil.toLowerCase()))
-    ),
-  ];
+  // arrayOfUtensils = [
+  //   ...new Set([].concat(...arrayOfRecipes.map((recipe) => recipe.ustensils))),
+  // ];
+  // arrayOfUtensils = [
+  //   ...new Set(
+  //     [].concat(...arrayOfUtensils.map((ustensil) => ustensil.toLowerCase()))
+  //   ),
+  // ];
+
+  arrayOfUtensils = createUniqueArrays(arrayOfRecipes, "ustensils", false);
+
   console.groupCollapsed("Array of utensils");
   console.table(arrayOfUtensils);
   console.groupEnd("Array of utensils");
@@ -146,20 +160,21 @@ function addEventListerners() {
 }
 
 //This function will get initialise array
-function createUniqueArrays(array, objectProperty) {
-  return [
-    ...new Set(
-      [].concat(
-        ...array.map((recipe) => {
-          let valueOfProperty = recipe[objectProperty];
-          return valueOfProperty;
-        })
-      )
-    ),
-  ];
+function createUniqueArrays(array, objectProperty, arrayContainsObjects) {
+  array = [].concat(
+    ...array.map((recipe) => {
+      let valueOfProperty = recipe[objectProperty];
+      return valueOfProperty;
+    })
+  );
+
+  if (!arrayContainsObjects) {
+    setArrayValuesToLowerCase(array);
+  }
+  return [...new Set(array)];
 }
 
-function setArrayValueToLowerCase(array) {
+function setArrayValuesToLowerCase(array) {
   for (let i = 0; i < array.length; i++) {
     array[i] = array[i].toLowerCase();
   }
