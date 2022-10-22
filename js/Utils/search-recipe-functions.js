@@ -69,9 +69,41 @@ function updateRecipeCardsUI() {
       "lowercase",
       true
     );
-    let recipeIsSearchedByUser =
-      titleOfRecipe.includes(parameterValuesObject.queryInputted) ||
-      titleOfRecipe.includes(parameterValuesObject.keywordsAddedWithTags);
+    const descriptionOfRecipe = transformText(
+      cardInfos[i].cardRecipeDescription,
+      "lowercase",
+      true
+    );
+
+    const ingredientsOfRecipeArray = cardInfos[i].cardRecipeIngredientsArray;
+
+    let containsTitle = checkIfRecipeStringContainsQuery(
+      titleOfRecipe,
+      parameterValuesObject.queryInputted,
+      parameterValuesObject.keywordsAddedWithTags
+    );
+    let containsDescription = checkIfRecipeStringContainsQuery(
+      descriptionOfRecipe,
+      parameterValuesObject.queryInputted,
+      parameterValuesObject.keywordsAddedWithTags
+    );
+    let containsIngredients = checkIfRecipeArrayContainsQuery(
+      ingredientsOfRecipeArray,
+      parameterValuesObject.queryInputted,
+      parameterValuesObject.keywordsAddedWithTags
+    );
+
+    let recipeIsSearchedByUser = false;
+
+    if (!parameterValuesObject.keywordsAddedWithTags) {
+      //Main search by its title, description or ingredients
+      recipeIsSearchedByUser =
+        containsDescription || containsTitle || containsIngredients;
+    } else {
+      //Main search by its title, description or ingredients AND by its tags ⚠ Must be an INTERSECTION between the two
+    }
+
+    console.table(ingredientsOfRecipeArray);
 
     console.log(
       "Is the recipe in",
@@ -112,8 +144,13 @@ function getCardsInContainer() {
 }
 
 function getInfosFromCard(card) {
+  //We get the infos of the card through its HTML attributes
   const cardRecipeTitle = card.getAttribute("data-name");
+  const cardRecipeUtensils = card.getAttribute("data-utensils");
+  const cardRecipeDevices = card.getAttribute("data-devices");
+
   const cardRecipeDescription = card.getAttribute("title");
+
   const cardRecipeIngredientsElementsNodeList = card.querySelectorAll(
     ".recipe-card__ingredient-item-name"
   ); //⚠ Node list
@@ -124,10 +161,15 @@ function getInfosFromCard(card) {
   //We retrieve the text inside the <span> elements
   let cardRecipeIngredientsArray = [];
   for (ingredient of cardRecipeIngredientsElementsArray) {
-    cardRecipeIngredientsArray.push(ingredient.innerText);
+    //We transform all the text inside to make the string match easier later on
+    cardRecipeIngredientsArray.push(
+      transformText(
+        replaceCharacter(ingredient.innerText, ":", ""),
+        "lowercase",
+        true
+      )
+    );
   }
-  const cardRecipeUtensils = card.getAttribute("data-utensils");
-  const cardRecipeDevices = card.getAttribute("data-devices");
 
   return {
     cardRecipeTitle,
@@ -146,4 +188,57 @@ function getAllCardInfos() {
     cardInfos = [...cardInfos, getInfosFromCard(card)];
   }
   return cardInfos;
+}
+
+function checkIfRecipeStringContainsQuery(
+  stringOfRecipe,
+  queryByUser,
+  keywordsAdded
+) {
+  console.log({ keywordsAdded });
+  switch (keywordsAdded) {
+    case undefined: {
+      console.log("Keywords are UNDEFINED:", keywordsAdded);
+      return stringOfRecipe.includes(queryByUser);
+    }
+    default: {
+      console.log("Keywords ARE defined:", keywordsAdded);
+      return (
+        stringOfRecipe.includes(queryByUser) &&
+        stringOfRecipe.includes(keywordsAdded)
+      );
+    }
+  }
+}
+
+function checkIfRecipeArrayContainsQuery(
+  ingredientsArray,
+  queryByUser,
+  keywordsAdded
+) {
+  switch (keywordsAdded) {
+    case undefined: {
+      console.log("Keywords are UNDEFINED:", keywordsAdded);
+
+      for (ingredient of ingredientsArray) {
+        if (ingredient.includes(queryByUser)) {
+          return true;
+        }
+      }
+      return false;
+    }
+    default: {
+      console.log("Keywords are defined:", keywordsAdded);
+
+      for (ingredient of ingredientsArray) {
+        if (
+          ingredient.includes(queryByUser) &&
+          ingredient.includes(keywordsAdded)
+        ) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }
 }
