@@ -36,18 +36,22 @@ function transformText(string, textCase, normalize) {
   }
 }
 
-function updateRecipeDataArrays() {}
-
-//Function to
-function createTag(event) {
-  const listItemsNodeList = document.querySelectorAll(
-    ".dropdown-menu__options>*"
-  ); //⚠Node list
+//Function that removes the list items not corresponding to the search made by the user
+function updateListItems(valueInputted, container) {
+  let listItemsNodeList = undefined;
+  /*
+  This function is used in 2 different parts:
+  1. Inside a callback function that updates a singular dropdown menu
+  2. Inside a callback function that updates all 3 dropdown menus
+  */
+  if (container !== undefined) {
+    listItemsNodeList = container.querySelectorAll(".dropdown-menu__options>*"); //⚠Node list
+  } else {
+    listItemsNodeList = document.querySelectorAll(".dropdown-menu__options>*"); //⚠Node list
+  }
   const listItemsArray = Array.from(listItemsNodeList);
 
   arrayOfItemsSearchedByUser = [];
-
-  const valueOfInput = event.currentTarget.value;
 
   for (let i = 0; i < listItemsArray.length; i++) {
     const listItem = listItemsArray[i];
@@ -58,7 +62,7 @@ function createTag(event) {
       listItem.innerText,
       "lowercase",
       true
-    ).includes(transformText(valueOfInput, "lowercase", true));
+    ).includes(transformText(valueInputted, "lowercase", true));
 
     if (itemIsNotResearchedByUser) {
       listItem.classList.add("hide");
@@ -70,6 +74,12 @@ function createTag(event) {
       listItem.addEventListener("click", createTemplateTag);
     }
   }
+}
+
+//Callback function
+function createTag(event) {
+  const valueOfInput = event.currentTarget.value;
+  updateListItems(valueOfInput);
 
   // console.log("Value inputted: ", valueOfInput);
   // console.groupCollapsed("Array of items searched by the user");
@@ -82,6 +92,7 @@ function createTag(event) {
   }
 }
 
+//Callback function that creates a tag
 function createTemplateTag(event) {
   // console.groupCollapsed("Array of selected options by user");
   // console.table(selectedOptionsArray);

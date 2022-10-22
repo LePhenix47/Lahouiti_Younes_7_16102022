@@ -1,3 +1,4 @@
+//Callback function caled every single time the user inputs something in the search bar
 function searchRecipes(event) {
   event?.preventDefault();
   const valueOfInput = event.currentTarget.value;
@@ -12,6 +13,8 @@ function searchRecipes(event) {
 
   resetCards();
 
+  updateAllDropdownMenus(valueOfInput);
+
   if (queryIsOverTwoCharsLong) {
     updateRecipeCardsUI();
   } else {
@@ -19,6 +22,18 @@ function searchRecipes(event) {
   }
 }
 
+function updateAllDropdownMenus(valueInputted) {
+  const dropdownMenuOptionsNodeList = document.querySelectorAll(
+    ".dropdown-menu__options"
+  ); //⚠ Node list
+  const dropdownMenuOptionsArray = Array.from(dropdownMenuOptionsNodeList);
+
+  for (dropdownMenu of dropdownMenuOptionsArray) {
+    updateListItems(valueInputted, dropdownMenu);
+  }
+}
+
+//Function that restores all the hidden recipe cards
 function resetCards() {
   const cardsArray = getCardsInContainer();
   for (card of cardsArray) {
@@ -45,6 +60,7 @@ const recipeNotFoundParagraph = document.querySelector(
   ".recipe-card__not-found-message"
 );
 
+//Function that updates the cards appearing according to the query of the user
 function updateRecipeCardsUI() {
   //↓
   console.groupCollapsed("Cards array attributes");
@@ -77,30 +93,40 @@ function updateRecipeCardsUI() {
 
     const ingredientsOfRecipeArray = cardInfos[i].cardRecipeIngredientsArray;
 
-    let containsTitle = checkIfRecipeStringContainsQuery(
-      titleOfRecipe,
-      parameterValuesObject.queryInputted,
-      parameterValuesObject.keywordsAddedWithTags
-    );
-    let containsDescription = checkIfRecipeStringContainsQuery(
-      descriptionOfRecipe,
-      parameterValuesObject.queryInputted,
-      parameterValuesObject.keywordsAddedWithTags
-    );
-    let containsIngredients = checkIfRecipeArrayContainsQuery(
-      ingredientsOfRecipeArray,
-      parameterValuesObject.queryInputted,
-      parameterValuesObject.keywordsAddedWithTags
-    );
+    //All the different
+    let containsTitle = false;
+    let containsDescription = false;
+    let containsIngredients = false;
+    let containsDevices = false;
+    let containsUtensils = false;
 
     let recipeIsSearchedByUser = false;
 
     if (!parameterValuesObject.keywordsAddedWithTags) {
       //Main search by its title, description or ingredients
+      containsTitle = checkIfRecipeStringContainsQuery(
+        titleOfRecipe,
+        parameterValuesObject.queryInputted
+      );
+      containsDescription = checkIfRecipeStringContainsQuery(
+        descriptionOfRecipe,
+        parameterValuesObject.queryInputted
+      );
+      containsIngredients = checkIfRecipeArrayContainsQuery(
+        ingredientsOfRecipeArray,
+        parameterValuesObject.queryInputted
+      );
       recipeIsSearchedByUser =
         containsDescription || containsTitle || containsIngredients;
     } else {
-      //Main search by its title, description or ingredients AND by its tags ⚠ Must be an INTERSECTION between the two
+      //Main search by its title, description or ingredients
+      //AND by its tags
+      //⚠ Must be an INTERSECTION between the two ⚠
+      //ex: "lim" search + tag "Lait de coco" → Only the "Limonade de coco" recipe card should appear
+      recipeIsSearchedByUser =
+        ((containsDescription || containsTitle || containsIngredients) &&
+          containsDevices) ||
+        containsUtensils;
     }
 
     console.table(ingredientsOfRecipeArray);
@@ -143,6 +169,8 @@ function getCardsInContainer() {
   return cardsArray;
 }
 
+//Function that returns an object with the: title, utensils, devices, description and
+//an array of ingredients with its values normalized and set to lowercase
 function getInfosFromCard(card) {
   //We get the infos of the card through its HTML attributes
   const cardRecipeTitle = card.getAttribute("data-name");
@@ -180,6 +208,7 @@ function getInfosFromCard(card) {
   };
 }
 
+//Function that returns an array of objects with all the infos about the card
 function getAllCardInfos() {
   let cardInfos = [];
   const cardsArray = getCardsInContainer();
@@ -189,7 +218,7 @@ function getAllCardInfos() {
   }
   return cardInfos;
 }
-
+//Function to check if the title or description of a recipe card contains the string inputted by the user
 function checkIfRecipeStringContainsQuery(
   stringOfRecipe,
   queryByUser,
@@ -210,7 +239,7 @@ function checkIfRecipeStringContainsQuery(
     }
   }
 }
-
+//Function to check if
 function checkIfRecipeArrayContainsQuery(
   ingredientsArray,
   queryByUser,
