@@ -1,4 +1,4 @@
-//Callback function caled every single time the user inputs something in the search bar
+//Callback function called every single time the user inputs something in the search bar
 function searchRecipes(event) {
   event?.preventDefault();
   const valueOfInput = event.currentTarget.value;
@@ -22,6 +22,7 @@ function searchRecipes(event) {
   }
 }
 
+//Function made to update the value of every single dropdown menu
 function updateAllDropdownMenus(valueInputted) {
   const dropdownMenuOptionsNodeList = document.querySelectorAll(
     ".dropdown-menu__options"
@@ -60,6 +61,11 @@ const recipeNotFoundParagraph = document.querySelector(
   ".recipe-card__not-found-message"
 );
 
+/*
+⚠ ⚠ ⚠
+NEEDS TO BE REFACTORED ↓
+⚠ ⚠ ⚠
+*/
 //Function that updates the cards appearing according to the query of the user
 function updateRecipeCardsUI() {
   //↓
@@ -154,8 +160,12 @@ function updateRecipeCardsUI() {
     }
   }
   console.groupEnd("Cards array attributes");
-  //↑
 }
+/*
+⚠ ⚠ ⚠
+NEEDS TO BE REFACTORED ↑
+⚠ ⚠ ⚠
+*/
 
 //Function that return an object with the container of the cards and the array of cards
 function getCardsInContainer() {

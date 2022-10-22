@@ -36,14 +36,14 @@ function transformText(string, textCase, normalize) {
   }
 }
 
+/*
+This function is used in 2 different parts:
+1. Inside the createTag() callback function that updates a singular dropdown menu
+2. Inside the updateAllDropdownMenus() function that updates all 3 dropdown menus
+*/
 //Function that removes the list items not corresponding to the search made by the user
 function updateListItems(valueInputted, container) {
   let listItemsNodeList = undefined;
-  /*
-  This function is used in 2 different parts:
-  1. Inside a callback function that updates a singular dropdown menu
-  2. Inside a callback function that updates all 3 dropdown menus
-  */
   if (container !== undefined) {
     listItemsNodeList = container.querySelectorAll(".dropdown-menu__options>*"); //⚠Node list
   } else {
@@ -65,14 +65,20 @@ function updateListItems(valueInputted, container) {
     ).includes(transformText(valueInputted, "lowercase", true));
 
     if (itemIsNotResearchedByUser) {
+      //We remove the item of the list inside the array of items searched by the user
       listItem.classList.add("hide");
       arrayOfItemsSearchedByUser?.splice(i, 1);
     } else {
+      //We add the item of the list inside the array of items searched by the user
       listItem.classList.remove("hide");
       arrayOfItemsSearchedByUser.push(listItem.innerText);
 
       listItem.addEventListener("click", createTemplateTag);
     }
+  }
+  if (!arrayOfItemsSearchedByUser.length) {
+    console.log("No tag matched with the query:", valueInputted);
+    // console.table(arrayOfItemsSearchedByUser);
   }
 }
 
@@ -80,24 +86,10 @@ function updateListItems(valueInputted, container) {
 function createTag(event) {
   const valueOfInput = event.currentTarget.value;
   updateListItems(valueOfInput);
-
-  // console.log("Value inputted: ", valueOfInput);
-  // console.groupCollapsed("Array of items searched by the user");
-  // console.log(arrayOfItemsSearchedByUser);
-  // console.groupEnd("Array of items searched by the user");
-
-  if (!arrayOfItemsSearchedByUser.length) {
-    // console.log("No tag matched with the query:", valueOfInput);
-    // console.table(arrayOfItemsSearchedByUser);
-  }
 }
 
 //Callback function that creates a tag
 function createTemplateTag(event) {
-  // console.groupCollapsed("Array of selected options by user");
-  // console.table(selectedOptionsArray);
-  // console.groupEnd("Array of selected options by user");
-
   const tagText = event.currentTarget.innerText;
 
   for (selectedOption of selectedOptionsArray) {
@@ -114,7 +106,6 @@ function createTemplateTag(event) {
   );
 
   selectedOptionsArray.push(tagText);
-  // console.log("Text of tag:", tagText, "\nType of search =", searchType);
 
   IndexApp.createTagsForQuery(tagTypeContainer, tagText, searchType);
   addKeywordParametersToUrl();
@@ -130,20 +121,15 @@ function removeTag(event) {
 
   const textTag = tagElement.querySelector(".main-index__tag-text");
 
-  // console.log(textTag.innerText);
-
   for (let i = 0; i < selectedOptionsArray.length; i++) {
     const selectedOption = selectedOptionsArray[i];
 
     let tagToDeleteHasBeenFound = selectedOption === textTag.innerText;
 
     if (tagToDeleteHasBeenFound) {
-      // console.log("Found", selectedOption, textTag);
       selectedOptionsArray.splice(i, 1);
-      // console.table(selectedOptionsArray);
       containerOfTag.removeChild(tagElement);
       addKeywordParametersToUrl();
-      // console.log(keywordsParameters.slice(i));
       updateUrl(queryParameters, keywordsParameters);
     }
   }

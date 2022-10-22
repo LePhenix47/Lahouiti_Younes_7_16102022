@@ -1,19 +1,24 @@
 let dropdownIsOpened = false;
 
-//Function to open the dropdown menu whenever we click on each button
+//Callback function that opens the dropdown menu whenever we click on each button
 function openMenuOptions(event) {
   if (dropdownIsOpened) {
     closeMenuOptions(event);
     dropdownIsOpened = false;
+    //We transform the input into a button
     event.currentTarget.setAttribute("type", "button");
   } else {
+    //We transform the button into an input
     event.currentTarget.setAttribute("type", "text");
+    //After transforming the button into an input, we want to remove the
+    //value of the button
     let userHasNotInputted =
       event.currentTarget.value === event.currentTarget.getAttribute("name");
 
     if (userHasNotInputted) {
       event.currentTarget.value = "";
     }
+    //
     const inputContainer = event.currentTarget.closest(".dropdown-menu");
     inputContainer.classList.add("input-container-active");
 
@@ -23,11 +28,26 @@ function openMenuOptions(event) {
     const dropdownMenuList = inputContainer.querySelector(
       ".dropdown-menu__options"
     );
+    console.log(dropdownMenuList.hasChildNodes());
+
+    const listItems = inputContainer.querySelectorAll(
+      ".dropdown-menu__options>*"
+    );
 
     dropdownMenuList.classList.remove("hide");
+
     dropdownMenuList.classList.remove("dropdown-options-inactive");
     dropdownMenuList.classList.add("dropdown-options-active");
-    addListitemsForDropdown(inputContainer, dropdownMenuList, event);
+
+    let dropdownMenuHasNoItemLists = !dropdownMenuList.innerHTML.trim().length;
+
+    if (dropdownMenuHasNoItemLists) {
+      console.log(dropdownMenuList, " has NO child");
+      addListitemsForDropdown(inputContainer, dropdownMenuList, event);
+    } else {
+      console.log(dropdownMenuList, " has children");
+    }
+
     dropdownIsOpened = true;
   }
 }
