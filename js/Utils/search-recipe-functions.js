@@ -61,6 +61,9 @@ const recipeNotFoundParagraph = document.querySelector(
   ".recipe-card__not-found-message"
 );
 
+const amountOfVisibleCardsParagraph = document.querySelector(
+  ".main-index__cards-found-paragraph"
+);
 /*
 ⚠ ⚠ ⚠
 NEEDS TO BE REFACTORED ↓
@@ -99,7 +102,7 @@ function updateRecipeCardsUI() {
 
     const ingredientsOfRecipeArray = cardInfos[i].cardRecipeIngredientsArray;
 
-    //All the different
+    //All the different local variables
     let containsTitle = false;
     let containsDescription = false;
     let containsIngredients = false;
@@ -125,26 +128,16 @@ function updateRecipeCardsUI() {
       recipeIsSearchedByUser =
         containsDescription || containsTitle || containsIngredients;
     } else {
-      //Main search by its title, description or ingredients
-      //AND by its tags
-      //⚠ Must be an INTERSECTION between the two ⚠
-      //ex: "lim" search + tag "Lait de coco" → Only the "Limonade de coco" recipe card should appear
+      /*       
+      Main search by its title, description or ingredients AND by its tags
+      ⚠ Must be an INTERSECTION between the two ⚠
+      ex: "lim" search + tag "Lait de coco" → Only the "Limonade de coco" recipe card should appear
+      */
       recipeIsSearchedByUser =
         ((containsDescription || containsTitle || containsIngredients) &&
           containsDevices) ||
         containsUtensils;
     }
-
-    console.table(ingredientsOfRecipeArray);
-
-    console.log(
-      "Is the recipe in",
-      transformText(cardInfos[i].cardRecipeTitle, "lowercase", true),
-      "searched by the user? \nUser inputted",
-      parameterValuesObject.queryInputted,
-      "ANSWER:",
-      recipeIsSearchedByUser
-    );
 
     if (recipeIsSearchedByUser) {
       card.classList.remove("hide");
@@ -153,13 +146,16 @@ function updateRecipeCardsUI() {
       card.classList.add("hide");
       remainingCards?.splice(i, 1);
     }
-    if (!remainingCards.length) {
-      recipeNotFoundParagraph.textContent = `Oops, nous n'avons pas trouvé une recette pour "${parameterValuesObject.queryInputted}" ¯\\_(ツ)_/¯`;
-    } else {
-      recipeNotFoundParagraph.textContent = "";
-    }
   }
   console.groupEnd("Cards array attributes");
+  amountOfVisibleCardsParagraph.textContent = `Résultats: ${remainingCards.length}`;
+  const test = getAllVisibleCards();
+  console.log({ test });
+  if (!remainingCards.length) {
+    recipeNotFoundParagraph.textContent = `Oops, nous n'avons pas trouvé une recette pour "${parameterValuesObject.queryInputted}" ¯\\_(ツ)_/¯`;
+  } else {
+    recipeNotFoundParagraph.textContent = "";
+  }
 }
 /*
 ⚠ ⚠ ⚠
@@ -177,6 +173,27 @@ function getCardsInContainer() {
   const cardsArray = Array.from(cardsNodeList);
 
   return cardsArray;
+}
+
+function getAllVisibleCards() {
+  const cardsNodeList = document.querySelectorAll(
+    ".main-index__recipes-container>*"
+  );
+
+  const cardsArray = Array.from(cardsNodeList);
+
+  const remainingCardsArray = [];
+  for (card of cardsArray) {
+    console.log(card.classList.value);
+    let cardIsHidden = card.classList.value.includes("hide");
+
+    if (cardIsHidden) {
+      continue;
+    }
+    remainingCardsArray.push(card);
+  }
+  console.log({ remainingCardsArray });
+  return remainingCardsArray;
 }
 
 //Function that returns an object with the: title, utensils, devices, description and
@@ -234,14 +251,14 @@ function checkIfRecipeStringContainsQuery(
   queryByUser,
   keywordsAdded
 ) {
-  console.log({ keywordsAdded });
+  // console.log({ keywordsAdded });
   switch (keywordsAdded) {
     case undefined: {
-      console.log("Keywords are UNDEFINED:", keywordsAdded);
+      // console.log("Keywords are UNDEFINED:", keywordsAdded);
       return stringOfRecipe.includes(queryByUser);
     }
     default: {
-      console.log("Keywords ARE defined:", keywordsAdded);
+      // console.log("Keywords ARE defined:", keywordsAdded);
       return (
         stringOfRecipe.includes(queryByUser) &&
         stringOfRecipe.includes(keywordsAdded)
@@ -257,7 +274,7 @@ function checkIfRecipeArrayContainsQuery(
 ) {
   switch (keywordsAdded) {
     case undefined: {
-      console.log("Keywords are UNDEFINED:", keywordsAdded);
+      // console.log("Keywords are UNDEFINED:", keywordsAdded);
 
       for (ingredient of ingredientsArray) {
         if (ingredient.includes(queryByUser)) {
@@ -267,7 +284,7 @@ function checkIfRecipeArrayContainsQuery(
       return false;
     }
     default: {
-      console.log("Keywords are defined:", keywordsAdded);
+      // console.log("Keywords are defined:", keywordsAdded);
 
       for (ingredient of ingredientsArray) {
         if (

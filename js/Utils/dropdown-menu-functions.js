@@ -28,11 +28,6 @@ function openMenuOptions(event) {
     const dropdownMenuList = inputContainer.querySelector(
       ".dropdown-menu__options"
     );
-    console.log(dropdownMenuList.hasChildNodes());
-
-    const listItems = inputContainer.querySelectorAll(
-      ".dropdown-menu__options>*"
-    );
 
     dropdownMenuList.classList.remove("hide");
 
@@ -42,10 +37,7 @@ function openMenuOptions(event) {
     let dropdownMenuHasNoItemLists = !dropdownMenuList.innerHTML.trim().length;
 
     if (dropdownMenuHasNoItemLists) {
-      console.log(dropdownMenuList, " has NO child");
       addListitemsForDropdown(inputContainer, dropdownMenuList, event);
-    } else {
-      console.log(dropdownMenuList, " has children");
     }
 
     dropdownIsOpened = true;
@@ -93,7 +85,6 @@ function addListitemsForDropdown(container, dropdownMenuList, event) {
 //Functions that closes the dropdown menu
 function closeMenuOptions(event) {
   const buttonInputName = event.currentTarget.getAttribute("name");
-  console.log("Changed input on ", event.currentTarget);
 
   const container = event.currentTarget.closest(".dropdown-menu");
 
