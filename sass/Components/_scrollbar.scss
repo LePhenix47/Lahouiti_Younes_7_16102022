@@ -33,8 +33,14 @@ html,
         scrollbar-width: thin;
         scrollbar-color: var(--scrollbar-thumb-bg-color) var(--scrollbar-track-bg-color); // BGC for the scrollbar thumb - BGC for the scrollbar track
     }
-
 }
+
+.recipe-card__ingredients-list {
+    @supports (scrollbar-color: black white) {
+        scrollbar-width: thin;
+    }
+}
+
 
 .dropdown-menu__options {
     &::-webkit-scrollbar {
@@ -54,10 +60,4 @@ html,
         scrollbar-color: var(--options-input-text-color) transparent; // BGC for the scrollbar thumb - BGC for the scrollbar track
     }
 
-}
-
-.recipe-card__ingredients-list {
-    @supports (scrollbar-color: black white) {
-        scrollbar-width: thin;
-    }
 }
