@@ -182,16 +182,13 @@ function getAllVisibleCards() {
 
   const remainingCardsArray = [];
 
-  console.groupCollapsed("Get all visible cards");
   for (card of cardsArray) {
     let cardIsHidden = card.classList.value.includes("hide");
-    console.log({ cardIsHidden }, card.classList.value);
     if (cardIsHidden) {
       continue;
     }
     remainingCardsArray.push(card);
   }
-  console.groupEnd("Get all visible cards");
   return remainingCardsArray;
 }
 
@@ -218,7 +215,7 @@ function getInfosFromCard(card) {
     //We transform all the text inside to make the string match easier later on
     cardRecipeIngredientsArray.push(
       transformText(
-        replaceCharacter(ingredient.innerText, ":", ""),
+        replaceCharacter(ingredient.innerText, " :", ""),
         "lowercase",
         true
       )
