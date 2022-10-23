@@ -60,116 +60,66 @@ function updateListItems(valueInputted, container) {
     listItemsNodeList = document.querySelectorAll(".dropdown-menu__options>*"); //⚠Node list
   }
   const listItemsArray = Array.from(listItemsNodeList);
-  console.log(listItemsNodeList.parentElement);
 
-  let cardInfos = getAllCardInfos();
-  console.log({ cardInfos });
-  const cardsArray = getCardsInContainer();
-  console.log({ cardsArray });
+  const cardsArray = getAllVisibleCards();
+  let cardInfos = getAllCardInfos(cardsArray);
+
+  console.log(cardsArray);
 
   arrayOfItemsSearchedByUser = [];
+
+  let arrayNewOfIngredients = [];
   /**/
   for (let i = 0; i < listItemsArray.length; i++) {
-    /*TEST ↓*/
-    if (container) {
-      console.log(container.classList[1]);
-      const card = cardsArray[i];
-      let titleOfRecipe;
-      let descriptionOfRecipe;
-      let ingredientsOfRecipeArray;
-      let devicesOfRecipe;
-      let utensilsOfRecipe;
-
-      let containsTitle = false;
-      let containsDescription = false;
-      let containsIngredients = false;
-      let containsDevices = false;
-      let containsUtensils = false;
-      if (i < 50) {
-        console.log({ card }, i, cardInfos[i]);
-
-        titleOfRecipe = transformText(
-          cardInfos[i]?.cardRecipeTitle,
-          "lowercase",
-          true
-        );
-
-        descriptionOfRecipe = transformText(
-          cardInfos[i]?.cardRecipeDescription,
-          "lowercase",
-          true
-        );
-
-        devicesOfRecipe = transformText(
-          cardInfos[i]?.cardRecipeDevices,
-          "lowercase",
-          true
-        );
-
-        utensilsOfRecipe = transformText(
-          cardInfos[i]?.cardRecipeUtensils,
-          "lowercase",
-          true
-        );
-
-        ingredientsOfRecipeArray = cardInfos[i].cardRecipeIngredientsArray;
-
-        containsTitle = checkIfRecipeStringContainsQuery(
-          titleOfRecipe,
-          valueInputted
-        );
-        containsDescription = checkIfRecipeStringContainsQuery(
-          descriptionOfRecipe,
-          valueInputted
-        );
-        containsIngredients = checkIfRecipeArrayContainsQuery(
-          ingredientsOfRecipeArray,
-          valueInputted
-        );
-
-        containsDevices = checkIfRecipeStringContainsQuery(
-          devicesOfRecipe,
-          valueInputted
-        );
-
-        containsUtensils = checkIfRecipeStringContainsQuery(
-          utensilsOfRecipe,
-          valueInputted
-        );
-        console.log({
-          containsTitle,
-          containsDescription,
-          containsIngredients,
-          containsDevices,
-          containsUtensils,
-        });
-      }
-      return;
-    }
-    /*TEST ↑*/
-
     const listItem = listItemsArray[i];
+
     //Boolean value
     //to know if the text inside the item
     //DOESN'T correspond to the value inputted by the user
+
     let itemIsNotResearchedByUser = !transformText(
       listItem.innerText,
       "lowercase",
       true
     ).includes(transformText(valueInputted, "lowercase", true));
 
-    if (itemIsNotResearchedByUser) {
-      //We remove the item of the list inside the array of items searched by the user
-      listItem.classList.add("hide");
-      arrayOfItemsSearchedByUser?.splice(i, 1);
-    } else {
-      //We add the item of the list inside the array of items searched by the user
-      listItem.classList.remove("hide");
-      arrayOfItemsSearchedByUser.push(listItem.innerText);
+    if (i < cardInfos.length) {
+      arrayNewOfIngredients = [
+        ...new Set(
+          arrayNewOfIngredients.concat(cardInfos[i].cardRecipeIngredientsArray)
+        ),
+      ];
 
-      listItem.addEventListener("click", createTemplateTag);
+      console.log(arrayNewOfIngredients);
     }
+
+    let itemIsNotIncludedInVisibleCards = !checkIfRecipeArrayContainsQuery(
+      arrayNewOfIngredients,
+      transformText(listItem.innerText.trim(), "lowercase", true)
+    );
+
+    console.log(transformText(listItem.innerText, "lowercase", true));
+    console.log({ itemIsNotIncludedInVisibleCards });
+
+    if (itemIsNotIncludedInVisibleCards) {
+      listItem.classList.add("hide");
+    } else {
+      if (itemIsNotResearchedByUser) {
+        //We remove the item of the list inside the array of items searched by the user
+        listItem.classList.add("hide");
+        arrayOfItemsSearchedByUser?.splice(i, 1);
+      } else {
+        //We add the item of the list inside the array of items searched by the user
+        listItem.classList.remove("hide");
+        arrayOfItemsSearchedByUser.push(listItem.innerText);
+
+        listItem.addEventListener("click", createTemplateTag);
+      }
+    }
+
+    continue;
   }
+
   if (!arrayOfItemsSearchedByUser.length) {
     console.log("No tag matched with the query:", valueInputted);
     // console.table(arrayOfItemsSearchedByUser);

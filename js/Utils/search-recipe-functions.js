@@ -3,7 +3,6 @@ function searchRecipes(event) {
   event?.preventDefault();
   const valueOfInput = event.currentTarget.value;
   const queryIsOverTwoCharsLong = verifyCharacterLength(valueOfInput, 3);
-  console.log(queryIsOverTwoCharsLong);
 
   addQueryParametersToUrl(valueOfInput);
 
@@ -13,10 +12,9 @@ function searchRecipes(event) {
 
   resetCards();
 
-  updateAllDropdownMenus(valueOfInput);
-
   if (queryIsOverTwoCharsLong) {
     updateRecipeCardsUI();
+    updateAllDropdownMenus(valueOfInput);
   } else {
     return;
   }
@@ -77,8 +75,8 @@ function updateRecipeCardsUI() {
   const parameterValuesObject = getQueryAndKeywordParameters();
   console.log(parameterValuesObject);
 
-  let cardInfos = getAllCardInfos();
   const cardsArray = getCardsInContainer();
+  let cardInfos = getAllCardInfos(cardsArray);
 
   const remainingCards = [];
 
@@ -148,9 +146,9 @@ function updateRecipeCardsUI() {
     }
   }
   console.groupEnd("Cards array attributes");
-  amountOfVisibleCardsParagraph.textContent = `Résultats: ${remainingCards.length}`;
-  const test = getAllVisibleCards();
-  console.log({ test });
+  amountOfVisibleCardsParagraph.classList.remove("hide");
+  amountOfVisibleCardsParagraph.textContent = `Recettes trouvées: ${remainingCards.length}`;
+
   if (!remainingCards.length) {
     recipeNotFoundParagraph.textContent = `Oops, nous n'avons pas trouvé une recette pour "${parameterValuesObject.queryInputted}" ¯\\_(ツ)_/¯`;
   } else {
@@ -183,16 +181,17 @@ function getAllVisibleCards() {
   const cardsArray = Array.from(cardsNodeList);
 
   const remainingCardsArray = [];
-  for (card of cardsArray) {
-    console.log(card.classList.value);
-    let cardIsHidden = card.classList.value.includes("hide");
 
+  console.groupCollapsed("Get all visible cards");
+  for (card of cardsArray) {
+    let cardIsHidden = card.classList.value.includes("hide");
+    console.log({ cardIsHidden }, card.classList.value);
     if (cardIsHidden) {
       continue;
     }
     remainingCardsArray.push(card);
   }
-  console.log({ remainingCardsArray });
+  console.groupEnd("Get all visible cards");
   return remainingCardsArray;
 }
 
@@ -236,11 +235,9 @@ function getInfosFromCard(card) {
 }
 
 //Function that returns an array of objects with all the infos about the card
-function getAllCardInfos() {
+function getAllCardInfos(arrayOfCards) {
   let cardInfos = [];
-  const cardsArray = getCardsInContainer();
-
-  for (card of cardsArray) {
+  for (card of arrayOfCards) {
     cardInfos = [...cardInfos, getInfosFromCard(card)];
   }
   return cardInfos;
@@ -251,14 +248,11 @@ function checkIfRecipeStringContainsQuery(
   queryByUser,
   keywordsAdded
 ) {
-  // console.log({ keywordsAdded });
   switch (keywordsAdded) {
     case undefined: {
-      // console.log("Keywords are UNDEFINED:", keywordsAdded);
       return stringOfRecipe.includes(queryByUser);
     }
     default: {
-      // console.log("Keywords ARE defined:", keywordsAdded);
       return (
         stringOfRecipe.includes(queryByUser) &&
         stringOfRecipe.includes(keywordsAdded)
@@ -274,8 +268,6 @@ function checkIfRecipeArrayContainsQuery(
 ) {
   switch (keywordsAdded) {
     case undefined: {
-      // console.log("Keywords are UNDEFINED:", keywordsAdded);
-
       for (ingredient of ingredientsArray) {
         if (ingredient.includes(queryByUser)) {
           return true;
@@ -284,8 +276,6 @@ function checkIfRecipeArrayContainsQuery(
       return false;
     }
     default: {
-      // console.log("Keywords are defined:", keywordsAdded);
-
       for (ingredient of ingredientsArray) {
         if (
           ingredient.includes(queryByUser) &&
