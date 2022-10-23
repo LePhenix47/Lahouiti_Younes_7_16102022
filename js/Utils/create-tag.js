@@ -40,35 +40,7 @@ function transformText(string, textCase, normalize) {
   }
 }
 
-/*
-This function is used in 2 different parts:
-1. Inside the createTag() callback function that updates a singular dropdown menu
-2. Inside the updateAllDropdownMenus() function that updates all 3 dropdown menus
-*/
-//Function that removes the list items not corresponding to the search made by the user
-
-/*
-⚠ ⚠ ⚠
-NEEDS TO BE REFACTORED ↓
-⚠ ⚠ ⚠
-*/
-function updateListItems(valueInputted, container) {
-  let arrayOfIems = [];
-
-  if (container) {
-    updateListiItemsWithContainer(container, valueInputted);
-  } else {
-    updateListiItemsWithoutContainer(valueInputted);
-  }
-
-  // console.table(arrayOfNewDevices);
-  // console.table(arrayOfNewUtensils);
-}
-/*
-⚠ ⚠ ⚠
-NEEDS TO BE REFACTORED ↑
-⚠ ⚠ ⚠
-*/
+function updateListItemsByMainSearch() {}
 
 function resetItemLists(arrayOfItemLists) {
   for (item of arrayOfItemLists) {
@@ -76,42 +48,32 @@ function resetItemLists(arrayOfItemLists) {
   }
 }
 
-function updateListiItemsWithContainer(container, valueInputted) {
+/*
+Callback function that removes the list items not corresponding to the search made by the user
+*/
+
+function createTag(event) {
+  const valueOfInput = event.currentTarget.value;
+  const container = event.currentTarget.parentElement;
+
   const listItemsNodeList = container.querySelectorAll(
     ".dropdown-menu__options>*"
-  ); //⚠Node list
+  );
 
   const listItemsArray = Array.from(listItemsNodeList);
-
-  console.log({ container });
-
-  if (container.classList.value.includes("ingredients")) {
-    console.log(
-      "Container for ingredients?",
-      container.classList.value.includes("ingredients")
-    );
-  } else if (container.classList.value.includes("devices")) {
-    console.log(
-      "Container for devices?",
-      container.classList.value.includes("devices")
-    );
-  } else if (container.classList.value.includes("utensils")) {
-    console.log(
-      "Container for utensils?",
-      container.classList.value.includes("utensils")
-    );
-  } else {
-  }
 
   resetItemLists(listItemsArray);
 
   const cardsArray = getAllVisibleCards();
   let cardInfos = getAllCardInfos(cardsArray);
 
-  console.log(cardsArray);
+  console.log({ cardsArray, cardInfos });
+
+  let arrayOfItemsToBeComparedBy = [];
 
   arrayOfItemsSearchedByUser = [];
 
+  let valueInputtedToLowerCase = transformText(valueOfInput, "lowercase", true);
   /**/
   if (!cardsArray.length) {
     console.log("No cards are visible");
@@ -120,30 +82,10 @@ function updateListiItemsWithContainer(container, valueInputted) {
   for (let i = 0; i < listItemsArray.length; i++) {
     const listItem = listItemsArray[i];
 
-    if (i < cardInfos.length) {
-      //To avoid any overflow while looping the array
-      arrayOfNewIngredients = [
-        ...new Set(
-          arrayOfNewIngredients.concat(cardInfos[i]?.cardRecipeIngredientsArray)
-        ),
-      ];
-      arrayOfNewDevices = [
-        ...new Set(arrayOfNewDevices.concat(cardInfos[i]?.cardRecipeDevices)),
-      ];
-
-      arrayOfNewUtensils = [
-        ...new Set(arrayOfNewUtensils.concat(cardInfos[i]?.cardRecipeUtensils)),
-      ];
-    }
-
-    /*
-    Boolean value
-    to know if the text inside the item
-    IS NOT present in the visible cards
-    */
-    let itemIsNotIncludedInVisibleCards = !checkIfRecipeArrayContainsQuery(
-      arrayOfNewIngredients,
-      transformText(listItem.innerText.trim(), "lowercase", true)
+    let itemTextToLowerCase = transformText(
+      listItem.innerText.trim(),
+      "lowercase",
+      true
     );
 
     /*
@@ -152,131 +94,19 @@ function updateListiItemsWithContainer(container, valueInputted) {
     DOESN'T correspond to the value inputted by the user
     */
 
-    let itemIsNotResearchedByUser = !transformText(
-      listItem.innerText,
-      "lowercase",
-      true
-    ).includes(transformText(valueInputted, "lowercase", true));
-
-    switch (itemIsNotIncludedInVisibleCards) {
-      case true: {
-        listItem.classList.add("hide");
-        break;
-      }
-      case false: {
-        if (itemIsNotResearchedByUser) {
-          //We remove the item of the list inside the array of items searched by the user
-          listItem.classList.add("hide");
-          listItem.removeEventListener("click", createTemplateTag);
-        } else {
-          //We add the item of the list inside the array of items searched by the user
-          listItem.classList.remove("hide");
-          listItem.addEventListener("click", createTemplateTag);
-        }
-        break;
-      }
-    }
-  }
-
-  console.table(arrayOfNewIngredients);
-  console.log({ arrayOfIems });
-}
-
-function updateListiItemsWithoutContainer(valueInputted) {
-  const listItemsNodeList = document.querySelectorAll(
-    ".dropdown-menu__options>*"
-  ); //⚠Node list
-
-  const listItemsArray = Array.from(listItemsNodeList);
-
-  resetItemLists(listItemsArray);
-
-  const cardsArray = getAllVisibleCards();
-  let cardInfos = getAllCardInfos(cardsArray);
-
-  let arrayOfIems = [];
-
-  console.log(cardsArray);
-
-  arrayOfItemsSearchedByUser = [];
-
-  let arrayOfNewIngredients = [];
-
-  let arrayOfNewDevices = [];
-
-  let arrayOfNewUtensils = [];
-  /**/
-  if (!cardsArray.length) {
-    return;
-  }
-  for (let i = 0; i < listItemsArray.length; i++) {
-    const listItem = listItemsArray[i];
-
-    if (i < cardInfos.length) {
-      //To avoid any overflow while looping the array
-      arrayOfNewIngredients = [
-        ...new Set(
-          arrayOfNewIngredients.concat(cardInfos[i]?.cardRecipeIngredientsArray)
-        ),
-      ];
-      arrayOfNewDevices = [
-        ...new Set(arrayOfNewDevices.concat(cardInfos[i]?.cardRecipeDevices)),
-      ];
-
-      arrayOfNewUtensils = [
-        ...new Set(arrayOfNewUtensils.concat(cardInfos[i]?.cardRecipeUtensils)),
-      ];
-    }
-
-    /*
-    Boolean value
-    to know if the text inside the item
-    IS NOT present in the visible cards
-    */
-    let itemIsNotIncludedInVisibleCards = !checkIfRecipeArrayContainsQuery(
-      arrayOfNewIngredients,
-      transformText(listItem.innerText.trim(), "lowercase", true)
+    let itemIsNotResearchedByUser = !itemTextToLowerCase.includes(
+      valueInputtedToLowerCase
     );
 
-    /*
-    Boolean value
-    to know if the text inside the item
-    DOESN'T correspond to the value inputted by the user
-    */
-
-    let itemIsNotResearchedByUser = !transformText(
-      listItem.innerText,
-      "lowercase",
-      true
-    ).includes(transformText(valueInputted, "lowercase", true));
-
-    switch (itemIsNotIncludedInVisibleCards) {
-      case true: {
-        listItem.classList.add("hide");
-        break;
-      }
-      case false: {
-        if (itemIsNotResearchedByUser) {
-          //We remove the item of the list inside the array of items searched by the user
-          listItem.classList.add("hide");
-          listItem.removeEventListener("click", createTemplateTag);
-        } else {
-          //We add the item of the list inside the array of items searched by the user
-          listItem.classList.remove("hide");
-          listItem.addEventListener("click", createTemplateTag);
-        }
-        break;
-      }
+    if (itemIsNotResearchedByUser) {
+      //We remove the item of the list inside the array of items searched by the user
+      listItem.classList.add("hide");
+    } else {
+      //We add the item of the list inside the array of items searched by the user
+      listItem.classList.remove("hide");
+      listItem.addEventListener("click", createTemplateTag);
     }
   }
-
-  console.table(arrayOfNewIngredients);
-  console.log({ arrayOfIems });
-}
-//Callback function called whenever the user inputs something
-function createTag(event) {
-  const valueOfInput = event.currentTarget.value;
-  updateListItems(valueOfInput);
 }
 
 //Callback function that creates a tag

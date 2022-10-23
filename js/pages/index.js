@@ -71,6 +71,8 @@ let queryParameters = "";
 
 let keywordsParameters = "";
 
+let infosFromVisibleCard = [];
+
 launchApp.then((recipes) => {
   arrayOfRecipes = recipes;
 

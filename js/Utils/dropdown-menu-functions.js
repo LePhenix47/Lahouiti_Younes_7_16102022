@@ -39,6 +39,9 @@ function openMenuOptions(event) {
     if (dropdownMenuHasNoItemLists) {
       addListitemsForDropdown(inputContainer, dropdownMenuList, event);
     }
+    const listItemsNodeList = document.querySelectorAll(
+      ".dropdown-menu__options>*"
+    );
 
     dropdownIsOpened = true;
   }

@@ -14,23 +14,12 @@ function searchRecipes(event) {
 
   if (queryIsOverTwoCharsLong) {
     updateRecipeCardsUI();
-    updateAllDropdownMenus(valueOfInput);
   } else {
     return;
   }
 }
 
 //Function made to update the value of every single dropdown menu
-function updateAllDropdownMenus(valueInputted) {
-  const dropdownMenuOptionsNodeList = document.querySelectorAll(
-    ".dropdown-menu__options"
-  ); //⚠ Node list
-  const dropdownMenuOptionsArray = Array.from(dropdownMenuOptionsNodeList);
-
-  for (dropdownMenu of dropdownMenuOptionsArray) {
-    updateListItems(valueInputted, dropdownMenu);
-  }
-}
 
 //Function that restores all the hidden recipe cards
 function resetCards() {
@@ -77,8 +66,6 @@ function updateRecipeCardsUI() {
 
   const cardsArray = getCardsInContainer();
   let cardInfos = getAllCardInfos(cardsArray);
-
-  const remainingCards = [];
 
   for (let i = 0; i < cardsArray.length; i++) {
     const card = cardsArray[i];
@@ -139,13 +126,16 @@ function updateRecipeCardsUI() {
 
     if (recipeIsSearchedByUser) {
       card.classList.remove("hide");
-      remainingCards.push(card);
     } else {
       card.classList.add("hide");
-      remainingCards?.splice(i, 1);
     }
   }
+
   console.groupEnd("Cards array attributes");
+
+  const remainingCards = getAllVisibleCards();
+  console.log({ remainingCards });
+
   amountOfVisibleCardsParagraph.classList.remove("hide");
   amountOfVisibleCardsParagraph.textContent = `Recettes trouvées: ${remainingCards.length}`;
 
@@ -154,6 +144,10 @@ function updateRecipeCardsUI() {
   } else {
     recipeNotFoundParagraph.textContent = "";
   }
+  infosFromVisibleCard = [];
+
+  infosFromVisibleCard = getAllCardInfos(remainingCards);
+  console.log({ infosFromVisibleCard });
 }
 /*
 ⚠ ⚠ ⚠
