@@ -34,14 +34,15 @@ function openMenuOptions(event) {
     dropdownMenuList.classList.remove("dropdown-options-inactive");
     dropdownMenuList.classList.add("dropdown-options-active");
 
+    const listItemsNodeList = document.querySelectorAll(
+      ".dropdown-menu__options>*"
+    );
+
     let dropdownMenuHasNoItemLists = !dropdownMenuList.innerHTML.trim().length;
 
     if (dropdownMenuHasNoItemLists) {
       addListitemsForDropdown(inputContainer, dropdownMenuList, event);
     }
-    const listItemsNodeList = document.querySelectorAll(
-      ".dropdown-menu__options>*"
-    );
 
     dropdownIsOpened = true;
   }

@@ -14,6 +14,7 @@ function searchRecipes(event) {
 
   if (queryIsOverTwoCharsLong) {
     updateRecipeCardsUI();
+    updateDropdownMenus();
   } else {
     return;
   }
@@ -217,11 +218,15 @@ function getInfosFromCard(card) {
   }
 
   return {
-    cardRecipeTitle,
-    cardRecipeDescription,
+    cardRecipeTitle: transformText(cardRecipeTitle, "lowercase", true),
+    cardRecipeDescription: transformText(
+      cardRecipeDescription,
+      "lowercase",
+      true
+    ),
     cardRecipeIngredientsArray,
-    cardRecipeUtensils,
-    cardRecipeDevices,
+    cardRecipeUtensils: transformText(cardRecipeUtensils, "lowercase", true),
+    cardRecipeDevices: transformText(cardRecipeDevices, "lowercase", true),
   };
 }
 

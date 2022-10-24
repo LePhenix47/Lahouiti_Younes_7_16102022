@@ -16,6 +16,7 @@ function normalizeString(string) {
 }
 
 //Function that can transform text to uppercase, lowercase and also normalize it
+//Returns a trimmed string
 function transformText(string, textCase, normalize) {
   switch (textCase) {
     case "lowercase": {
@@ -34,13 +35,11 @@ function transformText(string, textCase, normalize) {
   }
 
   if (normalize) {
-    return normalizeString(string);
+    return normalizeString(string.trim());
   } else {
-    return string;
+    return string.trim();
   }
 }
-
-function updateListItemsByMainSearch() {}
 
 function resetItemLists(arrayOfItemLists) {
   for (item of arrayOfItemLists) {
@@ -62,14 +61,12 @@ function createTag(event) {
 
   const listItemsArray = Array.from(listItemsNodeList);
 
-  resetItemLists(listItemsArray);
+  let visibleListItemArray = filterHiddenListItems(listItemsArray);
+  console.log({ visibleListItemArray });
+
+  resetItemLists(visibleListItemArray);
 
   const cardsArray = getAllVisibleCards();
-  let cardInfos = getAllCardInfos(cardsArray);
-
-  console.log({ cardsArray, cardInfos });
-
-  let arrayOfItemsToBeComparedBy = [];
 
   arrayOfItemsSearchedByUser = [];
 
@@ -79,11 +76,12 @@ function createTag(event) {
     console.log("No cards are visible");
     return;
   }
+
   for (let i = 0; i < listItemsArray.length; i++) {
     const listItem = listItemsArray[i];
 
     let itemTextToLowerCase = transformText(
-      listItem.innerText.trim(),
+      listItem.innerText,
       "lowercase",
       true
     );
@@ -107,6 +105,134 @@ function createTag(event) {
       listItem.addEventListener("click", createTemplateTag);
     }
   }
+}
+
+//
+function filterHiddenListItems(arrayOfListItems) {
+  let filteredArray = [];
+  for (item of arrayOfListItems) {
+    let listItemIsHidden = item.classList.value.includes("hide");
+    if (listItemIsHidden) {
+      continue;
+    }
+    filteredArray.push(item);
+  }
+
+  return filteredArray;
+}
+
+//Function that updates all 3 dropdown menus list items whenever the main input changes
+function updateDropdownMenus() {
+  const remainingCards = getAllVisibleCards();
+  const remainingCardsInfos = getAllCardInfos(remainingCards);
+
+  console.log({ remainingCards, remainingCardsInfos });
+
+  const dropdownMenusNodeList = document.querySelectorAll(".dropdown-menu"); //⚠ Node list
+
+  const dropdownMenusArray = Array.from(dropdownMenusNodeList);
+
+  for (dropdownMenu of dropdownMenusArray) {
+    let typeOfDropdownMenu = dropdownMenu.getAttribute("data-search-type");
+
+    switch (typeOfDropdownMenu) {
+      case "ingredients": {
+        console.log(
+          "%cIngredients",
+          "background: #3282F7; color: black; font-size:20px"
+        );
+
+        let arrayOfIngredients = getAllArrayOfIngredientsInVisibleCards();
+        updateAvailableListItems(
+          arrayOfIngredients,
+          dropdownMenu,
+          remainingCards
+        );
+        break;
+      }
+
+      case "devices": {
+        console.log(
+          "%cDevices",
+          "background: #68D9A4; color: black; font-size:20px"
+        );
+
+        let arrayOfDevices = getAllDevicesInVisibleCards();
+
+        updateAvailableListItems(arrayOfDevices, dropdownMenu, remainingCards);
+        break;
+      }
+
+      case "utensils": {
+        console.log(
+          "%cUtensils",
+          "background: #ED6454; color: black; font-size:20px"
+        );
+
+        let arrayOfUtensils = getAllUtensilsInVisibleCards();
+        updateAvailableListItems(arrayOfUtensils, dropdownMenu, remainingCards);
+        break;
+      }
+
+      default: {
+        console.log(
+          "%cError in the switch case at line: 149 of create-tag.js",
+          "background: crimson; font-size:20px"
+        );
+        break;
+      }
+    }
+  }
+}
+
+function updateAvailableListItems(remainingInfosArray, dropdownMenu) {
+  const unorderedList = dropdownMenu.querySelector(".dropdown-menu__options");
+
+  const listItemsNodeList = unorderedList.querySelectorAll(
+    ".dropdown-menu__options>*"
+  );
+
+  const listItemsArray = Array.from(listItemsNodeList);
+
+  resetItemLists(listItemsArray);
+
+  console.log({ listItemsArray });
+  console.groupCollapsed("List items array");
+
+  let showListItem = false;
+
+  for (listItem of listItemsArray) {
+    let listItemTextToLowerCase = transformText(
+      listItem.innerText,
+      "lowercase",
+      true
+    );
+
+    for (remainingInfo of remainingInfosArray) {
+      let listItemIsIncluded = remainingInfo.includes(listItemTextToLowerCase);
+      if (listItemIsIncluded) {
+        console.log(listItemTextToLowerCase);
+        console.log(
+          "%cshould be inside the list",
+          "background: limegreen; color:black; font-size:16px"
+        );
+        showListItem = true;
+        break;
+      }
+      showListItem = false;
+    }
+
+    if (showListItem) {
+      console.log(listItemTextToLowerCase, " → removing hide class");
+      listItem.classList.remove("hide");
+      listItem.addEventListener("click", createTemplateTag);
+    } else {
+      console.log(listItemTextToLowerCase, " → adding hide class");
+      listItem.classList.add("hide");
+    }
+  }
+  console.groupEnd("List items array");
+  console.log({ remainingInfosArray, dropdownMenu });
 }
 
 //Callback function that creates a tag
@@ -154,4 +280,60 @@ function removeTag(event) {
       updateUrl(queryParameters, keywordsParameters);
     }
   }
+}
+
+/*
+  cardRecipeIngredientsArray
+
+  cardRecipeDevices
+
+  cardRecipeUtensils
+*/
+function getAllArrayOfIngredientsInVisibleCards() {
+  let arrayOfArraysOfIngredients = [];
+
+  const remainingCards = getAllVisibleCards();
+  const remainingCardsInfos = getAllCardInfos(remainingCards);
+
+  for (cardInfo of remainingCardsInfos) {
+    arrayOfArraysOfIngredients = arrayOfArraysOfIngredients.concat(
+      cardInfo.cardRecipeIngredientsArray
+    );
+  }
+
+  arrayOfArraysOfIngredients = [...new Set(arrayOfArraysOfIngredients)];
+
+  console.table(arrayOfArraysOfIngredients);
+
+  return arrayOfArraysOfIngredients;
+}
+
+function getAllDevicesInVisibleCards() {
+  let arrayOfDevices = [];
+
+  const remainingCards = getAllVisibleCards();
+  const remainingCardsInfos = getAllCardInfos(remainingCards);
+
+  for (cardInfo of remainingCardsInfos) {
+    arrayOfDevices.push(cardInfo.cardRecipeDevices);
+  }
+
+  arrayOfDevices = [...new Set(arrayOfDevices)];
+
+  return arrayOfDevices;
+}
+
+function getAllUtensilsInVisibleCards() {
+  let arrayOfUtensils = [];
+
+  const remainingCards = getAllVisibleCards();
+  const remainingCardsInfos = getAllCardInfos(remainingCards);
+
+  for (cardInfo of remainingCardsInfos) {
+    arrayOfUtensils.push(cardInfo.cardRecipeUtensils);
+  }
+  arrayOfUtensils = [...new Set(arrayOfUtensils)];
+
+  console.log({ arrayOfUtensils });
+  return arrayOfUtensils;
 }
