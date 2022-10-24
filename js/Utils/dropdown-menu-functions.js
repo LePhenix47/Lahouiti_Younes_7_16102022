@@ -64,11 +64,6 @@ function initiateDropdownMenus() {
     const dropdownMenuList = dropdownMenu.querySelector(
       ".dropdown-menu__options"
     );
-    console.log(
-      { dropdownMenu },
-      dropdownMenu.getAttribute("data-search-type"),
-      dropdownMenuList
-    );
 
     addListitemsForDropdown(dropdownMenu, dropdownMenuList);
   }
@@ -81,31 +76,63 @@ function addListitemsForDropdown(container, dropdownMenuList) {
   switch (valueOfSearchTypeOnContainer) {
     case "ingredients": {
       console.log("%cSearch type = ingredients", "background: #3282F7");
-      dropdownMenuList.innerHTML = new DropdownItemTemplate(
+
+      addListItemsInHTML(
+        dropdownMenuList,
         arrayOfIngredients,
         valueOfSearchTypeOnContainer
-      ).createListItems();
+      );
+
       break;
     }
     case "devices": {
       console.log("%cSearch type = devices", "background: #68D9A4");
-      dropdownMenuList.innerHTML = new DropdownItemTemplate(
+
+      addListItemsInHTML(
+        dropdownMenuList,
         arrayOfDevices,
         valueOfSearchTypeOnContainer
-      ).createListItems();
+      );
+
       break;
     }
     case "utensils": {
       console.log("%cSearch type = utensils", "background: #ED6454");
-      dropdownMenuList.innerHTML = new DropdownItemTemplate(
+
+      addListItemsInHTML(
+        dropdownMenuList,
         arrayOfUtensils,
         valueOfSearchTypeOnContainer
-      ).createListItems();
+      );
+
       break;
     }
     default: {
       throw "Error, couldn't find either of the three search types";
     }
+  }
+}
+
+function addListItemsInHTML(
+  container,
+  arrayOfListItems,
+  searchTypeOfContainer
+) {
+  console.log({ container, arrayOfListItems, searchTypeOfContainer });
+  container.innerHTML = new DropdownItemTemplate(
+    arrayOfListItems,
+    searchTypeOfContainer
+  ).createListItems();
+
+  const dropdownMenuListItemsNodeList = container.querySelectorAll(
+    ".dropdown-menu__options>*"
+  ); //⚠ Node list
+
+  const dropdownMenuListItemsArray = Array.from(dropdownMenuListItemsNodeList);
+
+  console.log({ dropdownMenuListItemsArray });
+  for (listItem of dropdownMenuListItemsArray) {
+    listItem.addEventListener("click", createTemplateTag);
   }
 }
 

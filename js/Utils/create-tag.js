@@ -29,6 +29,13 @@ function transformText(string, textCase, normalize) {
       break;
     }
 
+    case "titlecase": {
+      string =
+        string.substring(0, 1).toUpperCase() +
+        string.substring(1).toLowerCase();
+      break;
+    }
+
     default: {
       throw "Text transformation has failed";
     }
