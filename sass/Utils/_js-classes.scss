@@ -9,6 +9,17 @@
     display: block !important;
 }
 
+//
+.hidden-by-main-search {
+    display: none !important;
+}
+
+.hidden-by-option-query {
+    display: none !important;
+}
+
+//
+
 .input-container-active {
     width: 625px !important;
     z-index: 1;

@@ -41,9 +41,16 @@ function transformText(string, textCase, normalize) {
   }
 }
 
-function resetItemLists(arrayOfItemLists) {
+//
+function resetQueryItemLists(arrayOfItemLists) {
   for (item of arrayOfItemLists) {
-    item.classList.remove("hide");
+    item.classList.remove("hidden-by-option-query");
+  }
+}
+
+function resetMainSearchItemLists(arrayOfItemLists) {
+  for (item of arrayOfItemLists) {
+    item.classList.remove("hidden-by-main-search");
   }
 }
 
@@ -64,7 +71,7 @@ function createTag(event) {
   let visibleListItemArray = filterHiddenListItems(listItemsArray);
   console.log({ visibleListItemArray });
 
-  resetItemLists(visibleListItemArray);
+  resetQueryItemLists(visibleListItemArray);
 
   const cardsArray = getAllVisibleCards();
 
@@ -86,6 +93,16 @@ function createTag(event) {
       true
     );
 
+    let itemIsHiddenByMainSearch = listItem.classList.value.includes(
+      "hidden-by-main-search"
+    );
+    console.log(
+      "Is the item",
+      itemTextToLowerCase,
+      "hidden by the main search?",
+      itemIsHiddenByMainSearch
+    );
+
     /*
     Boolean value
     to know if the text inside the item
@@ -98,10 +115,11 @@ function createTag(event) {
 
     if (itemIsNotResearchedByUser) {
       //We remove the item of the list inside the array of items searched by the user
-      listItem.classList.add("hide");
+      listItem.classList.add("hidden-by-option-query");
     } else {
       //We add the item of the list inside the array of items searched by the user
-      listItem.classList.remove("hide");
+      listItem.classList.remove("hidden-by-option-query");
+
       listItem.addEventListener("click", createTemplateTag);
     }
   }
@@ -111,7 +129,9 @@ function createTag(event) {
 function filterHiddenListItems(arrayOfListItems) {
   let filteredArray = [];
   for (item of arrayOfListItems) {
-    let listItemIsHidden = item.classList.value.includes("hide");
+    let listItemIsHidden = item.classList.value.includes(
+      "hidden-by-main-search"
+    );
     if (listItemIsHidden) {
       continue;
     }
@@ -194,7 +214,7 @@ function updateAvailableListItems(remainingInfosArray, dropdownMenu) {
 
   const listItemsArray = Array.from(listItemsNodeList);
 
-  resetItemLists(listItemsArray);
+  resetMainSearchItemLists(listItemsArray);
 
   console.log({ listItemsArray });
   console.groupCollapsed("List items array");
@@ -224,11 +244,14 @@ function updateAvailableListItems(remainingInfosArray, dropdownMenu) {
 
     if (showListItem) {
       console.log(listItemTextToLowerCase, " → removing hide class");
-      listItem.classList.remove("hide");
+      listItem.classList.remove("hidden-by-main-search");
       listItem.addEventListener("click", createTemplateTag);
     } else {
-      console.log(listItemTextToLowerCase, " → adding hide class");
-      listItem.classList.add("hide");
+      console.log(
+        listItemTextToLowerCase,
+        " → adding hidden-by-main-search class"
+      );
+      listItem.classList.add("hidden-by-main-search");
     }
   }
   console.groupEnd("List items array");
