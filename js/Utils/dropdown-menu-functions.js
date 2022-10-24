@@ -34,18 +34,32 @@ function openMenuOptions(event) {
     dropdownMenuList.classList.remove("dropdown-options-inactive");
     dropdownMenuList.classList.add("dropdown-options-active");
 
-    const listItemsNodeList = document.querySelectorAll(
-      ".dropdown-menu__options>*"
-    );
-
     let dropdownMenuHasNoItemLists = !dropdownMenuList.innerHTML.trim().length;
 
     if (dropdownMenuHasNoItemLists) {
       addListitemsForDropdown(inputContainer, dropdownMenuList, event);
     }
 
+    //
+    resetItemsInsideList(dropdownMenuList);
+
+    //
     dropdownIsOpened = true;
   }
+}
+
+//Function that resets all the hidden items list excluding the main search
+function resetItemsInsideList(container) {
+  const listItemsNodeList = container.querySelectorAll(
+    ".dropdown-menu__options>*"
+  );
+
+  const listItemsArray = Array.from(listItemsNodeList);
+
+  let visibleListItemArray = filterHiddenListItems(listItemsArray);
+  console.log({ visibleListItemArray });
+
+  resetQueryItemLists(visibleListItemArray);
 }
 
 //Adds the items for each individual dropdown menu

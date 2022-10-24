@@ -71,7 +71,7 @@ function createTag(event) {
   let visibleListItemArray = filterHiddenListItems(listItemsArray);
   console.log({ visibleListItemArray });
 
-  resetQueryItemLists(visibleListItemArray);
+  // resetQueryItemLists(visibleListItemArray);
 
   const cardsArray = getAllVisibleCards();
 
@@ -229,7 +229,10 @@ function updateAvailableListItems(remainingInfosArray, dropdownMenu) {
     );
 
     for (remainingInfo of remainingInfosArray) {
+      //The issue is here
       let listItemIsIncluded = remainingInfo.includes(listItemTextToLowerCase);
+      // let listItemIsIncluded = listItemTextToLowerCase.includes(remainingInfo);
+      //
       if (listItemIsIncluded) {
         console.log(listItemTextToLowerCase);
         console.log(
