@@ -84,8 +84,8 @@ function createTag(event) {
     return;
   }
 
-  for (let i = 0; i < listItemsArray.length; i++) {
-    const listItem = listItemsArray[i];
+  for (let i = 0; i < visibleListItemArray.length; i++) {
+    const listItem = visibleListItemArray[i];
 
     let itemTextToLowerCase = transformText(
       listItem.innerText,
