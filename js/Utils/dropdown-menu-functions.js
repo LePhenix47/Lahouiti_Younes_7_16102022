@@ -34,13 +34,6 @@ function openMenuOptions(event) {
     dropdownMenuList.classList.remove("dropdown-options-inactive");
     dropdownMenuList.classList.add("dropdown-options-active");
 
-    let dropdownMenuHasNoItemLists = !dropdownMenuList.innerHTML.trim().length;
-
-    if (dropdownMenuHasNoItemLists) {
-      addListitemsForDropdown(inputContainer, dropdownMenuList, event);
-    }
-
-    //
     resetItemsInsideList(dropdownMenuList);
 
     //
@@ -62,8 +55,27 @@ function resetItemsInsideList(container) {
   resetQueryItemLists(visibleListItemArray);
 }
 
+//
+function initiateDropdownMenus() {
+  const dropdownMenusNodeList = document.querySelectorAll(".dropdown-menu"); //⚠ Node list
+  const dropdownMenusArray = Array.from(dropdownMenusNodeList);
+
+  for (dropdownMenu of dropdownMenusArray) {
+    const dropdownMenuList = dropdownMenu.querySelector(
+      ".dropdown-menu__options"
+    );
+    console.log(
+      { dropdownMenu },
+      dropdownMenu.getAttribute("data-search-type"),
+      dropdownMenuList
+    );
+
+    addListitemsForDropdown(dropdownMenu, dropdownMenuList);
+  }
+}
+
 //Adds the items for each individual dropdown menu
-function addListitemsForDropdown(container, dropdownMenuList, event) {
+function addListitemsForDropdown(container, dropdownMenuList) {
   const valueOfSearchTypeOnContainer =
     container.getAttribute("data-search-type");
   switch (valueOfSearchTypeOnContainer) {
@@ -73,7 +85,6 @@ function addListitemsForDropdown(container, dropdownMenuList, event) {
         arrayOfIngredients,
         valueOfSearchTypeOnContainer
       ).createListItems();
-      createTag(event);
       break;
     }
     case "devices": {
@@ -82,7 +93,6 @@ function addListitemsForDropdown(container, dropdownMenuList, event) {
         arrayOfDevices,
         valueOfSearchTypeOnContainer
       ).createListItems();
-      createTag(event);
       break;
     }
     case "utensils": {
@@ -91,7 +101,6 @@ function addListitemsForDropdown(container, dropdownMenuList, event) {
         arrayOfUtensils,
         valueOfSearchTypeOnContainer
       ).createListItems();
-      createTag(event);
       break;
     }
     default: {

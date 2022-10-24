@@ -102,6 +102,8 @@ launchApp.then((recipes) => {
   IndexApp.addRecipeCards(recipeCardsContainer, arrayOfRecipes);
 
   addEventListeners();
+
+  initiateDropdownMenus();
 });
 
 const inputsArray = document.getElementsByClassName(

@@ -62,6 +62,8 @@ function createTag(event) {
   const valueOfInput = event.currentTarget.value;
   const container = event.currentTarget.parentElement;
 
+  console.log({ container });
+
   const listItemsNodeList = container.querySelectorAll(
     ".dropdown-menu__options>*"
   );
@@ -91,16 +93,6 @@ function createTag(event) {
       listItem.innerText,
       "lowercase",
       true
-    );
-
-    let itemIsHiddenByMainSearch = listItem.classList.value.includes(
-      "hidden-by-main-search"
-    );
-    console.log(
-      "Is the item",
-      itemTextToLowerCase,
-      "hidden by the main search?",
-      itemIsHiddenByMainSearch
     );
 
     /*

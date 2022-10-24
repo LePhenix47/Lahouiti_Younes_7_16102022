@@ -119,6 +119,24 @@ function updateRecipeCardsUI() {
       ⚠ Must be an INTERSECTION between the two ⚠
       ex: "lim" search + tag "Lait de coco" → Only the "Limonade de coco" recipe card should appear
       */
+      containsTitle = checkIfRecipeStringContainsQuery(
+        titleOfRecipe,
+        parameterValuesObject.queryInputted,
+        parameterValuesObject.keywordsAdded
+      );
+      containsDescription = checkIfRecipeStringContainsQuery(
+        descriptionOfRecipe,
+        parameterValuesObject.queryInputted,
+        parameterValuesObject.keywordsAdded
+      );
+      containsIngredients = checkIfRecipeArrayContainsQuery(
+        ingredientsOfRecipeArray,
+        parameterValuesObject.queryInputted,
+        parameterValuesObject.keywordsAdded
+      );
+      recipeIsSearchedByUser =
+        containsDescription || containsTitle || containsIngredients;
+
       recipeIsSearchedByUser =
         ((containsDescription || containsTitle || containsIngredients) &&
           containsDevices) ||
