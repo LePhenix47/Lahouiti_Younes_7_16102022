@@ -4,6 +4,9 @@ function searchRecipes(event) {
   const valueOfInput = event.currentTarget.value;
   const queryIsOverTwoCharsLong = verifyCharacterLength(valueOfInput, 3);
 
+  //To reset the dropdown menu
+  updateDropdownMenus();
+
   addQueryParametersToUrl(valueOfInput);
 
   addKeywordParametersToUrl();
@@ -12,8 +15,12 @@ function searchRecipes(event) {
 
   resetCards();
 
+  updateCounterOfVisibleCards();
+
   if (queryIsOverTwoCharsLong) {
     updateRecipeCardsUIWithMainSearch();
+
+    //To re-update the dropdown menu lists with the cards available
     updateDropdownMenus();
   } else {
     return;
@@ -52,6 +59,7 @@ const recipeNotFoundParagraph = document.querySelector(
 const amountOfVisibleCardsParagraph = document.querySelector(
   ".main-index__cards-found-paragraph"
 );
+
 /*
 ⚠ ⚠ ⚠
 NEEDS TO BE REFACTORED ↓
@@ -155,27 +163,32 @@ function updateRecipeCardsUIWithMainSearch() {
 
   console.groupEnd("Cards array attributes");
 
-  const remainingCards = getAllVisibleCards();
-  console.log({ remainingCards });
+  updateCounterOfVisibleCards();
 
-  amountOfVisibleCardsParagraph.classList.remove("hide");
-  amountOfVisibleCardsParagraph.textContent = `Recettes trouvées: ${remainingCards.length}`;
-
-  if (!remainingCards.length) {
-    recipeNotFoundParagraph.textContent = `Oops, nous n'avons pas trouvé une recette pour "${parameterValuesObject.queryInputted}" ¯\\_(ツ)_/¯`;
-  } else {
-    recipeNotFoundParagraph.textContent = "";
-  }
-  infosFromVisibleCard = [];
-
-  infosFromVisibleCard = getAllCardInfos(remainingCards);
-  console.log({ infosFromVisibleCard });
+  sendRecipeNotFoundMessage(queryInputted);
 }
 /*
 ⚠ ⚠ ⚠
 NEEDS TO BE REFACTORED ↑
 ⚠ ⚠ ⚠
 */
+
+function updateCounterOfVisibleCards() {
+  const remainingCards = getAllVisibleCards();
+
+  amountOfVisibleCardsParagraph.classList.remove("hide");
+  amountOfVisibleCardsParagraph.textContent = `Recettes trouvées: ${remainingCards.length}`;
+}
+
+function sendRecipeNotFoundMessage(valueInputtedByUser) {
+  const remainingCards = getAllVisibleCards();
+
+  if (!remainingCards.length) {
+    recipeNotFoundParagraph.textContent = `Oops, nous n'avons pas trouvé une recette pour "${valueInputtedByUser}" ¯\\_(ツ)_/¯`;
+  } else {
+    recipeNotFoundParagraph.textContent = "";
+  }
+}
 
 //Function that return an object with the container of the cards and the array of cards
 function getCardsInContainer() {

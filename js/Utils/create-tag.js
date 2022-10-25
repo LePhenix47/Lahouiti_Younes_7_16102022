@@ -310,6 +310,8 @@ function createTemplateTag(event) {
   Whenever we add a tag → Search the type of tag → get all the infos inside every card with
   */
   updateRecipeCardsUIWithTags();
+
+  updateCounterOfVisibleCards();
   /* */
 }
 
@@ -336,8 +338,14 @@ function removeTag(event) {
   }
   //Resets the cards to 0
   resetCards();
+
+  //To update the cards with the value inputted by the user
+  updateRecipeCardsUIWithMainSearch();
   //Re-updates them with the remaining tags
   updateRecipeCardsUIWithTags();
+
+  //To update the amount of visible cards
+  updateCounterOfVisibleCards();
 
   //Re-updates the dropdown menu option lists
   updateDropdownMenus();
@@ -408,6 +416,16 @@ function updateRecipeCardsUIWithTags() {
   const cardsArray = getAllVisibleCards();
   let cardDataInfos = getAllCardInfos(cardsArray);
 
+  console.log({ arrayOfSortedTags });
+  let noTagsWereAdded = !arrayOfSortedTags;
+
+  if (noTagsWereAdded) {
+    console.log(
+      "%cNo tags were added",
+      "background: crimson; font-size: 20px; padding: 5px"
+    );
+    return;
+  }
   const tagArrayOfIngredients = arrayOfSortedTags[0];
   const tagArrayOfDevices = arrayOfSortedTags[1];
   const tagArrayOfUtensils = arrayOfSortedTags[2];
@@ -450,9 +468,6 @@ function updateRecipeCardsUIWithTags() {
             ingredient
           );
 
-          // console.log(`"${tagIngredient}" matches with "${ingredient}"?`);
-          // console.log({ textInTagMatchesIngredientName });
-
           if (textInTagMatchesIngredientName) {
             counterForIntersectionOfTags++;
             break;
@@ -480,12 +495,44 @@ function updateRecipeCardsUIWithTags() {
       }
     }
 
+    //To check if the ingredients of the card contain an intersection of the tags for the ingredients
+    if (cardShouldBeHidden) {
+      card.classList.add("hide");
+      continue;
+    }
+
     if (containsDeviceTags) {
+      for (tagDevice of tagArrayOfDevices) {
+        let textInTagMatchesDeviceName = compareStrings(
+          tagDevice,
+          cardDataInfos[i].cardRecipeDevices
+        );
+        textInTagMatchesDeviceName = tagDevice.includes(
+          cardDataInfos[i].cardRecipeDevices
+        );
+      }
+    }
+
+    //To check if the devices of the card contain an intersection of the tags for the devices
+    if (cardShouldBeHidden) {
+      card.classList.add("hide");
+      continue;
     }
 
     if (containsUtensilsTags) {
+      for (tagUtensil of tagArrayOfUtensils) {
+        let textInTagMatchesUtensilName = compareStrings(
+          tagUtensil,
+          cardDataInfos[i].cardRecipeUtensils
+        );
+
+        textInTagMatchesUtensilName = tagUtensil.includes(
+          cardDataInfos[i].cardRecipeUtensils
+        );
+      }
     }
 
+    //To check if the utensils of the card contain an intersection of the tags for the utensils
     if (cardShouldBeHidden) {
       card.classList.add("hide");
     }
