@@ -53,9 +53,9 @@ function transformText(string, textCase, normalize) {
 
 //Compares 2 strings and returns true if the 2 strings match perfectly
 function compareStrings(string1, string2) {
-  const theStringsDoNotTheSameLength = string1.length !== string2.length;
+  let theStringsDoNotHaveTheSameLength = string1.length !== string2.length;
 
-  if (theStringsDoNotTheSameLength) {
+  if (theStringsDoNotHaveTheSameLength) {
     return false;
   } else {
     for (let i = 0; i < string1.length; i++) {
@@ -251,10 +251,11 @@ function updateAvailableListItems(remainingInfosArray, dropdownMenu) {
     );
 
     for (remainingInfo of remainingInfosArray) {
-      //The issue is here
-      let listItemIsIncluded = remainingInfo.includes(listItemTextToLowerCase);
-      // let listItemIsIncluded = listItemTextToLowerCase.includes(remainingInfo);
-      //
+      let listItemIsIncluded = compareStrings(
+        remainingInfo,
+        listItemTextToLowerCase
+      );
+
       if (listItemIsIncluded) {
         console.log(listItemTextToLowerCase);
         console.log(
@@ -333,6 +334,13 @@ function removeTag(event) {
       updateUrl(queryParameters, keywordsParameters);
     }
   }
+  //Resets the cards to 0
+  resetCards();
+  //Re-updates them with the remaining tags
+  updateRecipeCardsUIWithTags();
+
+  //Re-updates the dropdown menu option lists
+  updateDropdownMenus();
 }
 /* */
 
@@ -442,8 +450,8 @@ function updateRecipeCardsUIWithTags() {
             ingredient
           );
 
-          console.log(`"${tagIngredient}" matches with "${ingredient}"?`);
-          console.log({ textInTagMatchesIngredientName });
+          // console.log(`"${tagIngredient}" matches with "${ingredient}"?`);
+          // console.log({ textInTagMatchesIngredientName });
 
           if (textInTagMatchesIngredientName) {
             counterForIntersectionOfTags++;
@@ -479,10 +487,11 @@ function updateRecipeCardsUIWithTags() {
     }
 
     if (cardShouldBeHidden) {
-      card.classList.add("hidden-by-main-search");
+      card.classList.add("hide");
     }
   }
   console.log("updateRecipeCardsUIWithTags()");
+  updateDropdownMenus();
 }
 
 function checkIfArrayHasLength(array) {
