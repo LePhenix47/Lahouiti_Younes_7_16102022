@@ -251,10 +251,13 @@ function updateAvailableListItems(remainingInfosArray, dropdownMenu) {
     );
 
     for (remainingInfo of remainingInfosArray) {
-      let listItemIsIncluded = compareStrings(
-        remainingInfo,
-        listItemTextToLowerCase
-      );
+      //Because of the fact that we stored the utensils in an single string
+      //We must compare it in an ambiguous way
+      let listItemIsIncluded = unorderedList.classList.value.includes(
+        "utensils"
+      )
+        ? remainingInfo.includes(listItemTextToLowerCase)
+        : compareStrings(remainingInfo, listItemTextToLowerCase);
 
       if (listItemIsIncluded) {
         console.log(listItemTextToLowerCase);
