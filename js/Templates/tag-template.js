@@ -24,6 +24,7 @@ class TagTemplate {
     const divMainIndexTag = document.createElement("div");
     divMainIndexTag.classList.add("main-index__tag");
     divMainIndexTag.classList.add(`main-index__tag--${this.tagType}-bg`);
+    divMainIndexTag.setAttribute("data-tag-type", this.tagType);
 
     const paragraphTagText = document.createElement("p");
     paragraphTagText.classList.add("main-index__tag-text");

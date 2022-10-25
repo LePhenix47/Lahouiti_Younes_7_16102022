@@ -13,7 +13,7 @@ function searchRecipes(event) {
   resetCards();
 
   if (queryIsOverTwoCharsLong) {
-    updateRecipeCardsUI();
+    updateRecipeCardsUIWithMainSearch();
     updateDropdownMenus();
   } else {
     return;
@@ -58,12 +58,13 @@ NEEDS TO BE REFACTORED ↓
 ⚠ ⚠ ⚠
 */
 //Function that updates the cards appearing according to the query of the user
-function updateRecipeCardsUI() {
+function updateRecipeCardsUIWithMainSearch() {
   //↓
   console.groupCollapsed("Cards array attributes");
 
   const parameterValuesObject = getQueryAndKeywordParameters();
-  console.log(parameterValuesObject);
+
+  const { queryInputted, keywordsAddedWithTags } = parameterValuesObject;
 
   const cardsArray = getCardsInContainer();
   let cardInfos = getAllCardInfos(cardsArray);
@@ -97,19 +98,19 @@ function updateRecipeCardsUI() {
 
     let recipeIsSearchedByUser = false;
 
-    if (!parameterValuesObject.keywordsAddedWithTags) {
+    if (!keywordsAddedWithTags) {
       //Main search by its title, description or ingredients
       containsTitle = checkIfRecipeStringContainsQuery(
         titleOfRecipe,
-        parameterValuesObject.queryInputted
+        queryInputted
       );
       containsDescription = checkIfRecipeStringContainsQuery(
         descriptionOfRecipe,
-        parameterValuesObject.queryInputted
+        queryInputted
       );
       containsIngredients = checkIfRecipeArrayContainsQuery(
         ingredientsOfRecipeArray,
-        parameterValuesObject.queryInputted
+        queryInputted
       );
       recipeIsSearchedByUser =
         containsDescription || containsTitle || containsIngredients;
@@ -119,28 +120,30 @@ function updateRecipeCardsUI() {
       ⚠ Must be an INTERSECTION between the two ⚠
       ex: "lim" search + tag "Lait de coco" → Only the "Limonade de coco" recipe card should appear
       */
+
+      console.log(parameterValuesObject);
+
       containsTitle = checkIfRecipeStringContainsQuery(
         titleOfRecipe,
-        parameterValuesObject.queryInputted,
-        parameterValuesObject.keywordsAdded
+        queryInputted,
+        keywordsAddedWithTags
       );
       containsDescription = checkIfRecipeStringContainsQuery(
         descriptionOfRecipe,
-        parameterValuesObject.queryInputted,
-        parameterValuesObject.keywordsAdded
+        queryInputted,
+        keywordsAddedWithTags
       );
       containsIngredients = checkIfRecipeArrayContainsQuery(
         ingredientsOfRecipeArray,
-        parameterValuesObject.queryInputted,
-        parameterValuesObject.keywordsAdded
+        queryInputted,
+        keywordsAddedWithTags
       );
       recipeIsSearchedByUser =
         containsDescription || containsTitle || containsIngredients;
 
-      recipeIsSearchedByUser =
-        ((containsDescription || containsTitle || containsIngredients) &&
-          containsDevices) ||
-        containsUtensils;
+      console.log("%cWith keywords", "font-size: 20px");
+      console.log({ queryInputted }, { keywordsAddedWithTags });
+      console.log(card, { containsIngredients });
     }
 
     if (recipeIsSearchedByUser) {
@@ -260,16 +263,16 @@ function getAllCardInfos(arrayOfCards) {
 function checkIfRecipeStringContainsQuery(
   stringOfRecipe,
   queryByUser,
-  keywordsAdded
+  keywordsAddedWithTags
 ) {
-  switch (keywordsAdded) {
+  switch (keywordsAddedWithTags) {
     case undefined: {
       return stringOfRecipe.includes(queryByUser);
     }
     default: {
       return (
-        stringOfRecipe.includes(queryByUser) &&
-        stringOfRecipe.includes(keywordsAdded)
+        stringOfRecipe.includes(queryByUser) ||
+        stringOfRecipe.includes(keywordsAddedWithTags)
       );
     }
   }
@@ -278,9 +281,9 @@ function checkIfRecipeStringContainsQuery(
 function checkIfRecipeArrayContainsQuery(
   ingredientsArray,
   queryByUser,
-  keywordsAdded
+  keywordsAddedWithTags
 ) {
-  switch (keywordsAdded) {
+  switch (keywordsAddedWithTags) {
     case undefined: {
       for (ingredient of ingredientsArray) {
         if (ingredient.includes(queryByUser)) {
@@ -292,8 +295,8 @@ function checkIfRecipeArrayContainsQuery(
     default: {
       for (ingredient of ingredientsArray) {
         if (
-          ingredient.includes(queryByUser) &&
-          ingredient.includes(keywordsAdded)
+          ingredient.includes(queryByUser) ||
+          ingredient.includes(keywordsAddedWithTags)
         ) {
           return true;
         }
