@@ -578,6 +578,7 @@ function updateRecipeCardsUIWithTags() {
   }
   console.log("updateRecipeCardsUIWithTags()");
   updateDropdownMenus();
+  updateCounterOfVisibleCards();
 }
 
 function checkIfArrayHasLength(array) {

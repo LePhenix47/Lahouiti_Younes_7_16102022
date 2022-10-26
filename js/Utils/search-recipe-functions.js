@@ -22,6 +22,8 @@ function searchRecipes(event) {
 
     //To re-update the dropdown menu lists with the cards available
     updateDropdownMenus();
+
+    updateRecipeCardsUIWithTags();
   } else {
     return;
   }
