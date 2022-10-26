@@ -9,5 +9,8 @@
   },
   "keywords": [],
   "author": "Younes LAHOUITI",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.27.1"
+  }
 }
