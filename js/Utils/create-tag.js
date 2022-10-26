@@ -227,6 +227,7 @@ function updateDropdownMenus() {
   }
 }
 
+//Function that hides list items that are not present in the visible cards
 function updateAvailableListItems(remainingInfosArray, dropdownMenu) {
   const unorderedList = dropdownMenu.querySelector(".dropdown-menu__options");
 
@@ -344,6 +345,7 @@ function removeTag(event) {
 
   //To update the cards with the value inputted by the user
   updateRecipeCardsUIWithMainSearch();
+
   //Re-updates them with the remaining tags
   updateRecipeCardsUIWithTags();
 
@@ -449,15 +451,14 @@ function updateRecipeCardsUIWithTags() {
     containsUtensilsTags,
   });
 
-  let cardShouldBeHidden = false;
-
   //Will be used to verify if the tags that matched with the card infos is an intersection and not an union
-
+  /*Part 1 */
   //We iterate through each VISIBLE card
   for (let i = 0; i < cardsArray.length; i++) {
     const card = cardsArray[i];
 
     let counterForIntersectionOfTags = 0;
+    let cardShouldBeHidden = false;
     //If the user added a tag for the ingredients
     if (containsIngredientTags) {
       //We iterate through each tag for ingredients that was added
@@ -503,17 +504,38 @@ function updateRecipeCardsUIWithTags() {
       card.classList.add("hide");
       continue;
     }
+    counterForIntersectionOfTags = 0;
+    /*End of Part 1 */
 
-    if (containsDeviceTags) {
-      for (tagDevice of tagArrayOfDevices) {
-        let textInTagMatchesDeviceName = compareStrings(
-          tagDevice,
-          cardDataInfos[i].cardRecipeDevices
-        );
-        textInTagMatchesDeviceName = tagDevice.includes(
-          cardDataInfos[i].cardRecipeDevices
-        );
+    /*Part 2 */
+    //A card can contain only ONE device
+    if (containsDeviceTags && tagArrayOfDevices.length === 1) {
+      let textInTagMatchesDeviceName = compareStrings(
+        tagArrayOfDevices[0],
+        cardDataInfos[i].cardRecipeDevices
+      );
+      console.log(
+        `Is the device "${cardDataInfos[i].cardRecipeDevices}" included in the tag "${tagArrayOfDevices[0]}" ?`,
+        textInTagMatchesDeviceName
+      );
+      if (textInTagMatchesDeviceName) {
+        counterForIntersectionOfTags++;
       }
+
+      if (counterForIntersectionOfTags === 1) {
+        cardShouldBeHidden = false;
+        console.log(card, "contains an intersection of device tags");
+      } else {
+        cardShouldBeHidden = true;
+        console.log(card, "DOES NOT contain an intersection of device tags");
+      }
+    } else if (tagArrayOfDevices.length > 1) {
+      console.log(
+        "There are ",
+        tagArrayOfDevices.length,
+        " tags for devices but a card can only contain one device"
+      );
+      cardShouldBeHidden = true;
     }
 
     //To check if the devices of the card contain an intersection of the tags for the devices
@@ -521,17 +543,30 @@ function updateRecipeCardsUIWithTags() {
       card.classList.add("hide");
       continue;
     }
+    counterForIntersectionOfTags = 0;
+    /*End of Part 2 */
 
+    /*Part 3 */
     if (containsUtensilsTags) {
       for (tagUtensil of tagArrayOfUtensils) {
-        let textInTagMatchesUtensilName = compareStrings(
-          tagUtensil,
-          cardDataInfos[i].cardRecipeUtensils
+        let textInTagMatchesUtensilName =
+          cardDataInfos[i].cardRecipeUtensils.includes(tagUtensil);
+        console.log(
+          `Do the utensils: "${cardDataInfos[i].cardRecipeUtensils}" include the tag "${tagUtensil}" ?`,
+          textInTagMatchesUtensilName
         );
+        if (textInTagMatchesUtensilName) {
+          counterForIntersectionOfTags++;
+          continue;
+        }
+      }
 
-        textInTagMatchesUtensilName = tagUtensil.includes(
-          cardDataInfos[i].cardRecipeUtensils
-        );
+      if (counterForIntersectionOfTags >= tagArrayOfUtensils.length) {
+        cardShouldBeHidden = false;
+        console.log(card, "contains an intersection of utensils tags");
+      } else {
+        cardShouldBeHidden = true;
+        console.log(card, "DOES NOT contain an intersection of utensils tags");
       }
     }
 
@@ -539,6 +574,7 @@ function updateRecipeCardsUIWithTags() {
     if (cardShouldBeHidden) {
       card.classList.add("hide");
     }
+    /*End of Part 3 */
   }
   console.log("updateRecipeCardsUIWithTags()");
   updateDropdownMenus();
