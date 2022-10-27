@@ -386,6 +386,20 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
+
+    &__not-found {
+        width: 100%;
+        margin-top: 20px;
+
+        &-message {
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            font-size: 18px;
+        }
+    }
 }
 
 // .clock-svg {

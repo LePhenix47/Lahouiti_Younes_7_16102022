@@ -14,7 +14,7 @@ class RecipeCardTemplate {
         recipeElement;
 
       firstPartOfTemplate = `
-         <div class="recipe-card" data-id="${id}" data-name="${name}" data-servings="${servings}" data-devices="${appliance}" data-utensils="${ustensils}"
+         <div class="recipe-card" data-id="${id}" 
                         >
                         <div class="recipe-card__image-container"></div>
                         <div class="recipe-card__text-container">

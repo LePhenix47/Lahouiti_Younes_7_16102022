@@ -117,9 +117,15 @@ const inputsArray = document.getElementsByClassName(
   "dropdown-menu__sort-input"
 );
 
+const form = document.querySelector(".main-index__form");
+
 function addEventListerners() {
   for (input of inputsArray) {
     input.addEventListener("click", openMenuOptions); //To open the dropdown menu
     input.addEventListener("input", createTag); //To display all the list items
   }
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+  });
 }
