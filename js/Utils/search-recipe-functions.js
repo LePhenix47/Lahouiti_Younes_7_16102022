@@ -76,7 +76,7 @@ function updateRecipeCardsUIWithMainSearch() {
 
   const { queryInputted, keywordsAddedWithTags } = parameterValuesObject;
 
-  const cardsArray = getCardsInContainer();
+  const cardsArray = getAllVisibleCards();
   let cardInfos = getAllCardInfos(cardsArray);
 
   for (let i = 0; i < cardsArray.length; i++) {
