@@ -102,9 +102,20 @@ function updateDropdownMenus() {
   const dropdownMenus = getAllDropdownMenus();
   const visibleCardsArray = getAllVisibleCards();
 
-  dropdownMenus.forEach((dropdownMenu) => {
+  dropdownMenus.forEach((dropdownMenu, index) => {
     const typeOfDropDown = dropdownMenu.dataset.searchType;
     console.log({ typeOfDropDown });
+
+    //Will have the array of infos with the
+    const visibleCardsDataArray = arrayOfRecipes.filter((recipe, index) => {
+      return Number(visibleCardsArray[index]?.dataset.id) === index + 1;
+    });
+
+    console.log("visibleCardsDataArray", visibleCardsDataArray);
+
+    const { ingredients, devices, utensils } = arrayOfRecipes;
+
+    console.log({ ingredients, devices, utensils });
 
     switch (typeOfDropDown) {
       case "ingredients": {
@@ -131,4 +142,6 @@ function hideListItemsNotInVisibleCards(dropdownMenu, arrayToBeComparedWith) {
   const listItemsNodeList = unorderedList.querySelectorAll(
     ".dropdown-menu__option-item"
   ); //⚠ Node list
+
+  const listItemsArray = Array.from(listItemsNodeList);
 }
