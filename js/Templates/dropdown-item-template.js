@@ -8,7 +8,7 @@ class DropdownItemTemplate {
     let template = "";
     for (let i = 0; i < this.dataArray.length; i++) {
       let text = this.dataArray[i];
-      text = text.substring(0, 1).toUpperCase() + text.substring(1);
+      text = transformText(text, "titlecase", false);
       template += `
                             <li class="dropdown-menu__option-item dropdown-menu__option-item--${this.type}">${text}</li>
 `;

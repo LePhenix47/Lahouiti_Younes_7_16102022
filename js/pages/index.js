@@ -48,6 +48,13 @@ const dropdownMenuOptionsListContainer = document.querySelector(
   ".dropdown-menu__options-list"
 );
 
+const amountOfVisibleCardsParagraph = document.querySelector(
+  ".main-index__cards-found-paragraph"
+);
+
+const recipeNotFoundParagraph = document.querySelector(
+  ".recipe-card__not-found-message"
+);
 //Launching the app
 const launchApp = new IndexApp().main();
 
@@ -117,6 +124,8 @@ const inputsArray = document.getElementsByClassName(
   "dropdown-menu__sort-input"
 );
 
+const mainSearchInput = document.querySelector(".main-index__input");
+
 const form = document.querySelector(".main-index__form");
 
 function addEventListerners() {
@@ -124,6 +133,8 @@ function addEventListerners() {
     input.addEventListener("click", openMenuOptions); //To open the dropdown menu
     input.addEventListener("input", createTag); //To display all the list items
   }
+
+  mainSearchInput.addEventListener("input", searchRecipe);
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();

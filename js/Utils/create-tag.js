@@ -54,18 +54,14 @@ function getAllVisibleCards() {
   const cardsArray = Array.from(cardsNodeList);
   const arrayOfVisibleCards = [];
 
-  console.log(cardsArray);
   //Loop
   cardsArray.forEach(function (card) {
-    console.log(card);
     let cardIsHidden = card.classList.value.includes("hide");
     if (cardIsHidden) {
       return;
     }
     arrayOfVisibleCards.push(card);
   });
-
-  console.log({ arrayOfVisibleCards });
 
   return arrayOfVisibleCards;
 }
@@ -137,6 +133,8 @@ function createTemplateTag(event) {
   console.table(selectedOptionsArray);
   console.groupEnd("Array of selected options by user");
 
+  console.log("click");
+
   const tagText = event.currentTarget.innerText;
   let tagTemplateHasAlreadyBeenCreated = false;
 
@@ -187,3 +185,22 @@ function removeTag(event) {
     }
   }
 }
+
+function getAllTagsText() {
+  const tagsNodeLIst = document.querySelectorAll(".main-index__tag"); //⚠ Node list
+  let tagsArray = Array.from(tagsNodeLIst);
+
+  if (!tagsArray.length) {
+    return [];
+  } else {
+    tagsArray = tagsArray.map((tag) => {
+      console.log({ tag });
+      let typeOfTheTag = tag.dataset.tagType;
+      tag = transformText(tag.innerText, "lowercase", true);
+      return `${tag}, ${typeOfTheTag}`;
+    });
+    return tagsArray;
+  }
+}
+
+function updateCardsUIByTags() {}

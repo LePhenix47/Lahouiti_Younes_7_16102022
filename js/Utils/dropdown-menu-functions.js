@@ -27,13 +27,13 @@ function openMenuOptions(event) {
     dropdownMenuList.classList.remove("hide");
     dropdownMenuList.classList.remove("dropdown-options-inactive");
     dropdownMenuList.classList.add("dropdown-options-active");
-    addListitemsForDropdown(inputContainer, dropdownMenuList, event);
+    addListitemsForDropdown(inputContainer, dropdownMenuList);
     dropdownIsOpened = true;
   }
 }
 
 //Adds the items for each individual dropdown menu
-function addListitemsForDropdown(container, dropdownMenuList, event) {
+function addListitemsForDropdown(container, dropdownMenuList) {
   const valueOfSearchTypeOnContainer =
     container.getAttribute("data-search-type");
   switch (valueOfSearchTypeOnContainer) {
@@ -43,7 +43,6 @@ function addListitemsForDropdown(container, dropdownMenuList, event) {
         arrayOfIngredients,
         valueOfSearchTypeOnContainer
       ).createListItems();
-      createTag(event);
       break;
     }
     case "devices": {
@@ -52,7 +51,6 @@ function addListitemsForDropdown(container, dropdownMenuList, event) {
         arrayOfDevices,
         valueOfSearchTypeOnContainer
       ).createListItems();
-      createTag(event);
       break;
     }
     case "utensils": {
@@ -61,13 +59,20 @@ function addListitemsForDropdown(container, dropdownMenuList, event) {
         arrayOfUtensils,
         valueOfSearchTypeOnContainer
       ).createListItems();
-      createTag(event);
       break;
     }
     default: {
       throw "Error, couldn't find either of the three search types";
     }
   }
+
+  console.log({ dropdownMenuList });
+  const listItemsHTMLCollection = dropdownMenuList.children; //⚠ HTML Collection
+  const listItemsArray = Array.from(listItemsHTMLCollection);
+  console.log({ listItemsArray });
+  listItemsArray.forEach((item) => {
+    item.addEventListener("click", createTemplateTag);
+  });
 }
 
 //Functions that closes the dropdown menu
@@ -85,4 +90,45 @@ function closeMenuOptions(event) {
 
   container.classList.remove("input-container-active");
   event.currentTarget.value = event.currentTarget.getAttribute("name");
+}
+
+function getAllDropdownMenus() {
+  const dropdownMenusNodeList = document.querySelectorAll(".dropdown-menu"); //⚠ Node list
+  const dropdownMenusArray = Array.from(dropdownMenusNodeList);
+  return dropdownMenusArray;
+}
+
+function updateDropdownMenus() {
+  const dropdownMenus = getAllDropdownMenus();
+  const visibleCardsArray = getAllVisibleCards();
+
+  dropdownMenus.forEach((dropdownMenu) => {
+    const typeOfDropDown = dropdownMenu.dataset.searchType;
+    console.log({ typeOfDropDown });
+
+    switch (typeOfDropDown) {
+      case "ingredients": {
+        break;
+      }
+
+      case "devices": {
+        break;
+      }
+
+      case "utensils": {
+        break;
+      }
+
+      default: {
+        throw `Error: the type of dropdown '${typeOfDropDown}' does not correspond to any dropdown menu type`;
+      }
+    }
+  });
+}
+
+function hideListItemsNotInVisibleCards(dropdownMenu, arrayToBeComparedWith) {
+  const unorderedList = dropdownMenu.querySelector(".dropdown-menu__options");
+  const listItemsNodeList = unorderedList.querySelectorAll(
+    ".dropdown-menu__option-item"
+  ); //⚠ Node list
 }
