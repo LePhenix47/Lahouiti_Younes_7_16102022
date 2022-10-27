@@ -100,7 +100,18 @@
             }
         }
 
+
         // &__close-button-icon-svg {}
+    }
+
+    &__cards-found {
+        &-container {
+            margin-top: 15px;
+        }
+
+        &-paragraph {
+            font-size: 16px;
+        }
     }
 
     &__sort-inputs-container {
