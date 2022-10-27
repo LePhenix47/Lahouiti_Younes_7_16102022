@@ -49,6 +49,12 @@
 </head>
 
 <body>
+
+    <!-- Scroll anchor -->
+    <a class="scroll-anchor" href="#top" title="Revenir en haut de la page?">
+        <i class="fa-solid fa-arrow-up scroll-anchor__icon"></i>
+    </a>
+
     <header class="header" role="banner" tabindex="0">
         <a href="#" title="Retourner à la page d'acceuil?" class="header__link">
             <svg width="52" height="47" viewBox="0 0 52 47" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +65,7 @@
             </svg>
 
         </a>
-        <h1 class="header__title">Les petits plats</h1>
+        <h1 class="header__title" id="top">Les petits plats</h1>
     </header>
 
     <main class="main-index" role="main" tabindex="0">
@@ -293,6 +299,12 @@
 
                 <!--  -->
 
+
+
+            </section>
+
+            <section class="recipe-card__not-found">
+                <p class="recipe-card__not-found-message"></p>
             </section>
 
         </div>
