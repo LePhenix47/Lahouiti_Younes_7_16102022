@@ -19,6 +19,15 @@
 }
 
 //
+.hidden-by-main-search {
+    display: none !important;
+}
+
+.hidden-by-query {
+    display: none !important;
+}
+
+//
 .label-active {
     rotate: 180deg;
 }
