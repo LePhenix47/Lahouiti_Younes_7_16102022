@@ -203,7 +203,9 @@ function getAllTagsText() {
   }
 }
 
-function updateCardsUIByTags() {}
+function updateCardsUIByTags() {
+  const cards = getAllVisibleCards();
+}
 
 function transformArrayText(array) {
   array.forEach((value, index, arrayItself) => {
