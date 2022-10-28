@@ -88,7 +88,6 @@ function addItemsInHTML(
 
 //Functions that closes the dropdown menu
 function closeMenuOptions(event) {
-  console.log("Changed input on ", event.currentTarget);
   const container = event.currentTarget.closest(".dropdown-menu");
 
   const label = container.querySelector(".dropdown-menu__sort-label");
@@ -141,7 +140,6 @@ function updateDropdownMenus() {
 
   dropdownMenus.forEach((dropdownMenu) => {
     const typeOfDropDown = dropdownMenu.dataset.searchType;
-    console.log({ typeOfDropDown });
 
     switch (typeOfDropDown) {
       case "ingredients": {
@@ -196,9 +194,6 @@ function hideListItemsNotInVisibleCards(dropdownMenu, arrayToBeComparedWith) {
 
   let stringMatch = false;
 
-  console.log({ listItemsNodeList, arrayToBeComparedWith });
-
-  console.groupCollapsed("Verifying item presence");
   listItemsNodeList.forEach((item) => {
     itemShouldBeShown = false;
     stringMatch = false;
@@ -207,10 +202,8 @@ function hideListItemsNotInVisibleCards(dropdownMenu, arrayToBeComparedWith) {
       "lowercase",
       true
     );
-    console.log("item", itemInnerTextToLowerCase);
 
     arrayToBeComparedWith.forEach((cardInfoText) => {
-      console.log("card infos", cardInfoText);
       stringMatch = compareStrings(itemInnerTextToLowerCase, cardInfoText);
       if (stringMatch) {
         itemShouldBeShown = true;
@@ -223,12 +216,19 @@ function hideListItemsNotInVisibleCards(dropdownMenu, arrayToBeComparedWith) {
       item.classList.add("hidden-by-main-search");
     }
   });
-  console.groupEnd("Verifying item presence");
 }
 
 //Function that splits a string on a certain character and transforms it into an array
 function splitStringToArray(string, characterToSplitTheString) {
   return string.split(characterToSplitTheString);
+}
+
+function replaceCharacterByAnother(
+  string,
+  characterToReplace,
+  characterToBeReplacedBy
+) {
+  return string.replace(characterToReplace, characterToBeReplacedBy);
 }
 
 //Function that transforms an array of arrays into a singular array
@@ -273,7 +273,6 @@ function getIngredientsFromVisibleCards() {
       return ingredients.ingredient;
     }
   );
-  console.log({ ingredientsArray });
 
   ingredientsArray = transformArrayText(ingredientsArray);
 
@@ -307,8 +306,6 @@ function getUtensilsFromVisibleCards() {
   utensilsArray = getValuesInArrayOfArrays(utensilsArray);
 
   utensilsArray = transformArrayText(utensilsArray);
-
-  console.log({ utensilsArray });
 
   return [...new Set(utensilsArray)];
 }

@@ -87,8 +87,6 @@ function compareStrings(string1, string2) {
 }
 
 function createTag(event) {
-  const dropdownMenuContainer = event.currentTarget.closest(".dropdown-menu");
-  console.log({ dropdownMenuContainer });
   const listItemsNodeList = document.querySelectorAll(
     ".dropdown-menu__options>*"
   ); //⚠Node list
@@ -116,9 +114,6 @@ function createTag(event) {
     }
   });
 
-  console.groupCollapsed("Array of items searched by the user");
-  console.log(arrayOfItemsSearchedByUser);
-  console.groupEnd("Array of items searched by the user");
   if (!arrayOfItemsSearchedByUser.length) {
     console.log(
       "No tag matched with the query:",
@@ -159,31 +154,34 @@ function createTemplateTag(event) {
   );
 
   selectedOptionsArray.push(tagText);
-  console.log("Text of tag:", tagText, "\nType of search =", searchType);
 
   IndexApp.createTagsForQuery(tagTypeContainer, tagText, searchType);
+
+  resetCards();
+  updateCardsUIByTags();
 }
 
 //Function to remove a tag
 function removeTag(event) {
-  console.log(event.currentTarget);
   const tagElement = event.currentTarget.parentElement;
 
   const containerOfTag = tagElement.parentElement;
 
   const textTag = tagElement.querySelector(".main-index__tag-text");
 
-  console.log(textTag.textContent);
-
   for (let i = 0; i < selectedOptionsArray.length; i++) {
     const selectedOption = selectedOptionsArray[i];
     if (selectedOption === textTag.textContent) {
-      console.log("Found", selectedOption, textTag);
       selectedOptionsArray.splice(i, 1);
       console.table(selectedOptionsArray);
       containerOfTag.removeChild(tagElement);
     }
   }
+
+  resetCards();
+  updateCardsUIByTags();
+  updateCounterOfVisibleCards();
+  filterDropdownMenusListItems("hidden-by-main-search");
 }
 
 function getAllTagsText() {
@@ -194,10 +192,9 @@ function getAllTagsText() {
     return [];
   } else {
     tagsArray = tagsArray.map((tag) => {
-      console.log({ tag });
       let typeOfTheTag = tag.dataset.tagType;
       tag = transformText(tag.innerText, "lowercase", true);
-      return `${tag}, ${typeOfTheTag}`;
+      return `${tag},${typeOfTheTag}`;
     });
     return tagsArray;
   }
@@ -205,10 +202,142 @@ function getAllTagsText() {
 
 //Function that updates the cards inside the container depending on whether or not they match the intersection of the tags added
 function updateCardsUIByTags() {
-  const cards = getAllInfosFromVisibleCards();
+  const cards = getAllVisibleCards();
+  const tagsAdded = filterTagsByType();
+
+  const { arrayOfIngredientsTag, arrayOfDevicesTag, arrayOfUtensilsTag } =
+    tagsAdded;
+
+  let noTagsArePresent =
+    !arrayOfIngredientsTag && !arrayOfDevicesTag && !arrayOfUtensilsTag;
+
+  if (noTagsArePresent) {
+    console.log("No tags were added in");
+    return;
+  }
+
+  arrayOfIngredientsVisible = getIngredientsFromVisibleCards();
+  //
+  arrayOfDevicesVisible = getDevicesFromVisibleCards();
+  //
+  arrayOfUtensilsVisible = getUtensilsFromVisibleCards();
+
+  console.log({
+    arrayOfIngredientsVisible,
+    arrayOfDevicesVisible,
+    arrayOfUtensilsVisible,
+  });
+
+  let cardShouldBeHidden = false;
+  let counterForIntersectingTags = 0;
+  //We loop through each visible card
+  cards.forEach((card, indexOfCard, cards) => {
+    if (arrayOfIngredientsTag.length) {
+      console.log("Need to check intersection of ingredients");
+      //If the user added some tags for the ingredients
+      //We loop through each ingredient tag added
+      arrayOfIngredientsTag.forEach((tagIngredient) => {
+        //We loop through each ingredient from the visible cards
+        arrayOfIngredientsVisible.forEach((ingredientFromVisibleCard) => {
+          if (tagIngredient === ingredientFromVisibleCard) {
+            counterForIntersectingTags++;
+            return;
+          }
+        });
+      });
+
+      if (counterForIntersectingTags === arrayOfIngredientsTag.length) {
+        console.log(card, " should be shown");
+        cardShouldBeHidden = false;
+      } else {
+        console.log(card, " must be HIDDEN");
+        cardShouldBeHidden = true;
+      }
+    }
+
+    if (cardShouldBeHidden) {
+      cards[indexOfCard].classList.add("hide");
+      return;
+    }
+
+    if (arrayOfDevicesTag.length) {
+      console.log("Need to check intersection of devices");
+
+      if (counterForIntersectingTags === arrayOfDevicesTag.length) {
+        console.log();
+        cardShouldBeHidden = false;
+      } else {
+        console.log();
+        cardShouldBeHidden = true;
+      }
+    }
+    //Check if the card has an intersection of the tags
+    if (cardShouldBeHidden) {
+      cards[indexOfCard].classList.add("hide");
+      return;
+    }
+    if (arrayOfUtensilsTag.length) {
+      console.log("Need to check intersection of utensils");
+
+      if (counterForIntersectingTags === arrayOfUtensilsTag.length) {
+        console.log();
+        cardShouldBeHidden = false;
+      } else {
+        console.log();
+        cardShouldBeHidden = true;
+      }
+    }
+    //Check if the card has an intersection of the tags
+    if (cardShouldBeHidden) {
+      cards[indexOfCard].classList.add("hide");
+    }
+    //
+  });
 
   updateDropdownMenus();
   updateCounterOfVisibleCards();
+}
+
+function filterTagsByType() {
+  const tagsAdded = getAllTagsText();
+
+  if (!tagsAdded.length) {
+    return [];
+  }
+
+  let arrayOfIngredientsTag = [];
+  let arrayOfDevicesTag = [];
+  let arrayOfUtensilsTag = [];
+
+  tagsAdded.forEach((tag) => {
+    let tagText = splitStringToArray(tag, ",")[0];
+    let typeOfTag = splitStringToArray(tag, ",")[1];
+
+    switch (typeOfTag) {
+      case "ingredients": {
+        arrayOfIngredientsTag.push(tagText);
+        break;
+      }
+      case "devices": {
+        arrayOfDevicesTag.push(tagText);
+        break;
+      }
+      case "utensils": {
+        arrayOfUtensilsTag.push(tagText);
+        break;
+      }
+    }
+
+    console.log({ tagText, typeOfTag });
+
+    console.log({
+      arrayOfIngredientsTag,
+      arrayOfDevicesTag,
+      arrayOfUtensilsTag,
+    });
+  });
+
+  return { arrayOfIngredientsTag, arrayOfDevicesTag, arrayOfUtensilsTag };
 }
 
 //Function that normalizes all the text inside an array

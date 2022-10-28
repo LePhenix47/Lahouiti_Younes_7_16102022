@@ -1,4 +1,4 @@
-//Callback function that will be called every single time a user inputs something in the search bar
+//Callback function that will be called every single time a visibleuser inputs something in the search bar
 function searchRecipe(event) {
   event.preventDefault();
   const valueOfInput = transformText(
@@ -7,18 +7,17 @@ function searchRecipe(event) {
     true
   );
 
-  console.log(event);
-
   const queryIsOverTwoCharsLong = verifyCharacterLength(
     valueOfInput,
     "over",
     3
   );
 
-  console.log({ queryIsOverTwoCharsLong });
-
   //Shows the cards back again
   resetCards();
+
+  //Resets the dropdown menus with the cards visible
+  updateDropdownMenus();
 
   //Shows all the list items on all dropdown menus
   // resetDropdownmenusListItems();
@@ -28,7 +27,6 @@ function searchRecipe(event) {
   updateCounterOfVisibleCards();
 
   if (queryIsOverTwoCharsLong) {
-    console.log({ arrayOfRecipes });
     updateCardsUIByMainSearch(valueOfInput);
     updateDropdownMenus();
     updateCounterOfVisibleCards();
@@ -69,8 +67,6 @@ function updateCardsUIByMainSearch(valueInputted) {
   visibleCardsArray.forEach(function (card, indexOfCard) {
     const { name, description, ingredients } = arrayOfRecipes[indexOfCard];
 
-    console.log({ name, description, ingredients });
-
     //For the title
     const cardTitle = transformText(name, "lowercase", true);
     let valueContainsTitle = cardTitle.includes(valueInputted);
@@ -91,15 +87,11 @@ function updateCardsUIByMainSearch(valueInputted) {
       return ingredientOfArray.includes(valueInputted);
     });
 
-    console.log({ valueContainsIngredients });
-
     const inputIncludesCardInfo =
       valueContainsTitle ||
       valueContainsDescription ||
       valueContainsIngredients;
 
-    console.log(indexOfCard, arrayOfRecipes[indexOfCard]);
-    console.log({ card });
     if (inputIncludesCardInfo) {
       console.log(
         "%cis relevant to the search",
