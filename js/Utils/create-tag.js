@@ -204,3 +204,23 @@ function getAllTagsText() {
 }
 
 function updateCardsUIByTags() {}
+
+function transformArrayText(array) {
+  array.forEach((value, index, arrayItself) => {
+    arrayItself[index] = transformText(value, "lowercase", true);
+
+    return value;
+  });
+
+  return array;
+}
+
+function transformArrayTextForListItems(array) {
+  array.forEach((value, index, arrayItself) => {
+    arrayItself[index] = transformText(value.innerText, "lowercase", true);
+
+    return arrayItself[index];
+  });
+
+  return array;
+}

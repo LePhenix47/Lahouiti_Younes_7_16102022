@@ -140,7 +140,11 @@ function getAmountOfVisibleCards() {
 
 function updateCounterOfVisibleCards() {
   const amountOfVisibleCards = getAmountOfVisibleCards();
-  amountOfVisibleCardsParagraph.textContent = `Recettes trouvées: ${amountOfVisibleCards}`;
+  if (amountOfVisibleCards > 1) {
+    amountOfVisibleCardsParagraph.textContent = `Recettes trouvées: ${amountOfVisibleCards}`;
+  } else {
+    amountOfVisibleCardsParagraph.textContent = `Recette trouvée: ${amountOfVisibleCards}`;
+  }
 }
 
 function sendRecipeNotFoundMessage(valueInputted) {

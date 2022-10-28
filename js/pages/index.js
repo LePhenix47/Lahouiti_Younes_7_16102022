@@ -68,6 +68,12 @@ let arrayOfDevices = []; //Array containing all the list of
 
 let arrayOfUtensils = []; //Array containing all the list of
 
+let arrayOfIngredientsVisible = [];
+
+let arrayOfDevicesVisible = [];
+
+let arrayOfUtensilsVisible = [];
+
 launchApp.then((recipes) => {
   arrayOfRecipes = recipes;
 
@@ -138,5 +144,15 @@ function addEventListerners() {
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
+  });
+
+  const dropdownMenus = getAllDropdownMenus();
+
+  dropdownMenus.forEach((dropdownMenu) => {
+    const dropdownMenuList = dropdownMenu.querySelector(
+      ".dropdown-menu__options"
+    );
+    console.log({ dropdownMenuList });
+    addListItemsForDropdown(dropdownMenu, dropdownMenuList);
   });
 }

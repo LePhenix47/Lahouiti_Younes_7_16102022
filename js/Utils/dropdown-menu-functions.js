@@ -27,38 +27,39 @@ function openMenuOptions(event) {
     dropdownMenuList.classList.remove("hide");
     dropdownMenuList.classList.remove("dropdown-options-inactive");
     dropdownMenuList.classList.add("dropdown-options-active");
-    addListitemsForDropdown(inputContainer, dropdownMenuList);
+
     dropdownIsOpened = true;
   }
 }
 
-//Adds the items for each individual dropdown menu
-function addListitemsForDropdown(container, dropdownMenuList) {
-  const valueOfSearchTypeOnContainer =
-    container.getAttribute("data-search-type");
+//Function that adds the items for each individual dropdown menu
+function addListItemsForDropdown(container, dropdownMenuList) {
+  const valueOfSearchTypeOnContainer = container.dataset.searchType;
+
+  console.log({ container, dropdownMenuList });
+
   switch (valueOfSearchTypeOnContainer) {
     case "ingredients": {
       console.log("%cSearch type = ingredients", "background: #3282F7");
-      dropdownMenuList.innerHTML = new DropdownItemTemplate(
-        arrayOfIngredients,
-        valueOfSearchTypeOnContainer
-      ).createListItems();
+      addItemsInHTML(dropdownMenuList, arrayOfIngredients, "ingredients");
       break;
     }
     case "devices": {
       console.log("%cSearch type = devices", "background: #68D9A4");
-      dropdownMenuList.innerHTML = new DropdownItemTemplate(
+      addItemsInHTML(
+        dropdownMenuList,
         arrayOfDevices,
         valueOfSearchTypeOnContainer
-      ).createListItems();
+      );
       break;
     }
     case "utensils": {
       console.log("%cSearch type = utensils", "background: #ED6454");
-      dropdownMenuList.innerHTML = new DropdownItemTemplate(
+      addItemsInHTML(
+        dropdownMenuList,
         arrayOfUtensils,
         valueOfSearchTypeOnContainer
-      ).createListItems();
+      );
       break;
     }
     default: {
@@ -73,6 +74,18 @@ function addListitemsForDropdown(container, dropdownMenuList) {
   listItemsArray.forEach((item) => {
     item.addEventListener("click", createTemplateTag);
   });
+}
+
+//Function that adds the list items in HTML
+function addItemsInHTML(
+  dropdownMenuList,
+  arrayOfListItems,
+  searchTypeOfContainer
+) {
+  dropdownMenuList.innerHTML = new DropdownItemTemplate(
+    arrayOfListItems,
+    searchTypeOfContainer
+  ).createListItems();
 }
 
 //Functions that closes the dropdown menu
@@ -92,6 +105,7 @@ function closeMenuOptions(event) {
   event.currentTarget.value = event.currentTarget.getAttribute("name");
 }
 
+//Function that returns an array containing all the dropdown menus
 function getAllDropdownMenus() {
   const dropdownMenusNodeList = document.querySelectorAll(".dropdown-menu"); //⚠ Node list
   const dropdownMenusArray = Array.from(dropdownMenusNodeList);
@@ -102,31 +116,85 @@ function updateDropdownMenus() {
   const dropdownMenus = getAllDropdownMenus();
   const visibleCardsArray = getAllVisibleCards();
 
-  dropdownMenus.forEach((dropdownMenu, index) => {
+  //Will have the array of infos with the
+  let visibleCardsRecipeDataArray = [];
+
+  visibleCardsRecipeDataArray = arrayOfRecipes.filter(
+    (recipe, indexOfRecipe) => {
+      return (
+        Number(visibleCardsArray[indexOfRecipe]?.dataset.id) ===
+        indexOfRecipe + 1
+      );
+    }
+  );
+
+  console.log("visibleCardsDataArray");
+  console.log(visibleCardsRecipeDataArray);
+
+  //We retrieve the data of the visible cards
+  let visibleCardsDataArray = [];
+
+  visibleCardsArray.forEach((card) => {
+    arrayOfRecipes.forEach((recipe) => {
+      if (Number(card.dataset.id) === recipe.id) {
+        visibleCardsDataArray.push(recipe);
+      }
+    });
+  });
+
+  console.log({ visibleCardsDataArray });
+  //
+  arrayOfIngredientsVisible = visibleCardsDataArray.map((recipe) => {
+    return recipe.ingredients;
+  });
+
+  arrayOfIngredientsVisible = getValuesInArrayOfArrays(
+    arrayOfIngredientsVisible
+  ).map((ingredients) => {
+    return ingredients.ingredient;
+  });
+  console.log({ arrayOfIngredientsVisible });
+
+  arrayOfIngredientsVisible = transformArrayText(arrayOfIngredientsVisible);
+  //
+  //
+  arrayOfDevicesVisible = visibleCardsDataArray.map((recipe) => {
+    return recipe.appliance;
+  });
+  arrayOfDevicesVisible = transformArrayText(arrayOfDevicesVisible);
+  //
+  //
+  arrayOfUtensilsVisible = visibleCardsDataArray.map((recipe) => {
+    return recipe.ustensils;
+  });
+  arrayOfUtensilsVisible = getValuesInArrayOfArrays(arrayOfUtensilsVisible);
+  arrayOfUtensilsVisible = transformArrayText(arrayOfUtensilsVisible);
+
+  //
+
+  console.log({
+    arrayOfIngredientsVisible,
+    arrayOfDevicesVisible,
+    arrayOfUtensilsVisible,
+  });
+
+  dropdownMenus.forEach((dropdownMenu) => {
     const typeOfDropDown = dropdownMenu.dataset.searchType;
     console.log({ typeOfDropDown });
 
-    //Will have the array of infos with the
-    const visibleCardsDataArray = arrayOfRecipes.filter((recipe, index) => {
-      return Number(visibleCardsArray[index]?.dataset.id) === index + 1;
-    });
-
-    console.log("visibleCardsDataArray", visibleCardsDataArray);
-
-    const { ingredients, devices, utensils } = arrayOfRecipes;
-
-    console.log({ ingredients, devices, utensils });
-
     switch (typeOfDropDown) {
       case "ingredients": {
+        hideListItemsNotInVisibleCards(dropdownMenu, arrayOfIngredientsVisible);
         break;
       }
 
       case "devices": {
+        hideListItemsNotInVisibleCards(dropdownMenu, arrayOfDevicesVisible);
         break;
       }
 
       case "utensils": {
+        hideListItemsNotInVisibleCards(dropdownMenu, arrayOfUtensilsVisible);
         break;
       }
 
@@ -143,5 +211,35 @@ function hideListItemsNotInVisibleCards(dropdownMenu, arrayToBeComparedWith) {
     ".dropdown-menu__option-item"
   ); //⚠ Node list
 
-  const listItemsArray = Array.from(listItemsNodeList);
+  let listItemsArray = Array.from(listItemsNodeList);
+
+  console.log(listItemsNodeList, listItemsArray);
+
+  let listItemsTextArray = transformArrayTextForListItems(listItemsArray);
+
+  let itemShouldBeShown = false;
+
+  console.groupCollapsed("Verifying item presence");
+  listItemsNodeList.forEach((item, indexOfItem) => {
+    arrayToBeComparedWith.forEach((cardInfo) => {});
+  });
+  console.groupEnd("Verifying item presence");
+}
+
+//Function that splits a string on a certain character and transforms it into an array
+function splitStringToArray(string, characterToSplitTheString) {
+  return string.split(characterToSplitTheString);
+}
+
+//Function that transforms an array of arrays into a singular array
+function getValuesInArrayOfArrays(arrayOfArrays) {
+  let newArray = [];
+
+  arrayOfArrays.forEach((array) => {
+    array.forEach((value) => {
+      newArray.push(value);
+    });
+  });
+
+  return newArray;
 }
