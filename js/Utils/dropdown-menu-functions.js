@@ -28,6 +28,8 @@ function openMenuOptions(event) {
     dropdownMenuList.classList.remove("dropdown-options-inactive");
     dropdownMenuList.classList.add("dropdown-options-active");
 
+    filterDropdownMenusListItems("hidden-by-query");
+
     dropdownIsOpened = true;
   }
 }
@@ -35,8 +37,6 @@ function openMenuOptions(event) {
 //Function that adds the items for each individual dropdown menu
 function addListItemsForDropdown(container, dropdownMenuList) {
   const valueOfSearchTypeOnContainer = container.dataset.searchType;
-
-  console.log({ container, dropdownMenuList });
 
   switch (valueOfSearchTypeOnContainer) {
     case "ingredients": {
@@ -67,10 +67,8 @@ function addListItemsForDropdown(container, dropdownMenuList) {
     }
   }
 
-  console.log({ dropdownMenuList });
   const listItemsHTMLCollection = dropdownMenuList.children; //⚠ HTML Collection
   const listItemsArray = Array.from(listItemsHTMLCollection);
-  console.log({ listItemsArray });
   listItemsArray.forEach((item) => {
     item.addEventListener("click", createTemplateTag);
   });
@@ -128,14 +126,6 @@ function updateDropdownMenus() {
     }
   );
 
-  console.log("visibleCardsDataArray");
-  console.log(visibleCardsRecipeDataArray);
-
-  //We retrieve the data of the visible cards
-  let visibleCardsDataArray = getAllInfosFromVisibleCards();
-
-  console.log({ visibleCardsDataArray });
-
   arrayOfIngredientsVisible = getIngredientsFromVisibleCards();
   //
   arrayOfDevicesVisible = getDevicesFromVisibleCards();
@@ -176,8 +166,10 @@ function updateDropdownMenus() {
   });
 }
 
-//Function that resets the dropdown menu list items
-function resetDropdownmenusListItems() {
+//Function that resets the dropdown menu list items by their className
+//Can filter list items hidden by the main search (with "hidden-by-main-search")
+// or by the query that the user inputted inside the advaned options input (with "hidden-by-query")
+function filterDropdownMenusListItems(className) {
   const dropdownMenus = getAllDropdownMenus();
   dropdownMenus.forEach((dropdownMenu) => {
     const unorderedList = dropdownMenu.querySelector(".dropdown-menu__options");
@@ -188,7 +180,7 @@ function resetDropdownmenusListItems() {
     const listItemsArray = Array.from(listItemsNodeList);
 
     listItemsArray.forEach((listItem, indexOfListItem, listItemsArray) => {
-      listItemsArray[indexOfListItem].classList.remove("hidden-by-main-search");
+      listItemsArray[indexOfListItem].classList.remove(className);
     });
   });
 }
@@ -200,11 +192,6 @@ function hideListItemsNotInVisibleCards(dropdownMenu, arrayToBeComparedWith) {
     ".dropdown-menu__option-item"
   ); //⚠ Node list
 
-  let listItemsArray = Array.from(listItemsNodeList);
-  console.log(listItemsNodeList);
-
-  let listItemsTextArray = transformArrayTextForListItems(listItemsArray);
-
   let itemShouldBeShown = false;
 
   let stringMatch = false;
@@ -212,7 +199,7 @@ function hideListItemsNotInVisibleCards(dropdownMenu, arrayToBeComparedWith) {
   console.log({ listItemsNodeList, arrayToBeComparedWith });
 
   console.groupCollapsed("Verifying item presence");
-  listItemsNodeList.forEach((item, indexOfItem) => {
+  listItemsNodeList.forEach((item) => {
     itemShouldBeShown = false;
     stringMatch = false;
     let itemInnerTextToLowerCase = transformText(

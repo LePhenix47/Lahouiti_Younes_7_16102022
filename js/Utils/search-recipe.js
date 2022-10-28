@@ -21,7 +21,8 @@ function searchRecipe(event) {
   resetCards();
 
   //Shows all the list items on all dropdown menus
-  resetDropdownmenusListItems();
+  // resetDropdownmenusListItems();
+  filterDropdownMenusListItems("hidden-by-main-search");
 
   //Resets the counter of visible cards to 50
   updateCounterOfVisibleCards();

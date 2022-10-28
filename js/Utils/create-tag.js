@@ -203,10 +203,15 @@ function getAllTagsText() {
   }
 }
 
+//Function that updates the cards inside the container depending on whether or not they match the intersection of the tags added
 function updateCardsUIByTags() {
-  const cards = getAllVisibleCards();
+  const cards = getAllInfosFromVisibleCards();
+
+  updateDropdownMenus();
+  updateCounterOfVisibleCards();
 }
 
+//Function that normalizes all the text inside an array
 function transformArrayText(array) {
   array.forEach((value, index, arrayItself) => {
     arrayItself[index] = transformText(value, "lowercase", true);
