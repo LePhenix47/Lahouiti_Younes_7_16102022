@@ -17,7 +17,13 @@ function searchRecipe(event) {
 
   console.log({ queryIsOverTwoCharsLong });
 
+  //Shows the cards back again
   resetCards();
+
+  //Shows all the list items on all dropdown menus
+  resetDropdownmenusListItems();
+
+  //Resets the counter of visible cards to 50
   updateCounterOfVisibleCards();
 
   if (queryIsOverTwoCharsLong) {

@@ -205,6 +205,22 @@ function updateDropdownMenus() {
   });
 }
 
+function resetDropdownmenusListItems() {
+  const dropdownMenus = getAllDropdownMenus();
+  dropdownMenus.forEach((dropdownMenu) => {
+    const unorderedList = dropdownMenu.querySelector(".dropdown-menu__options");
+    const listItemsNodeList = unorderedList.querySelectorAll(
+      ".dropdown-menu__options>*"
+    ); //⚠ Node list
+
+    const listItemsArray = Array.from(listItemsNodeList);
+
+    listItemsArray.forEach((listItem, indexOfListItem, listItemsArray) => {
+      listItemsArray[indexOfListItem].classList.remove("hidden-by-main-search");
+    });
+  });
+}
+
 function hideListItemsNotInVisibleCards(dropdownMenu, arrayToBeComparedWith) {
   const unorderedList = dropdownMenu.querySelector(".dropdown-menu__options");
   const listItemsNodeList = unorderedList.querySelectorAll(
@@ -212,16 +228,40 @@ function hideListItemsNotInVisibleCards(dropdownMenu, arrayToBeComparedWith) {
   ); //⚠ Node list
 
   let listItemsArray = Array.from(listItemsNodeList);
-
-  console.log(listItemsNodeList, listItemsArray);
+  console.log(listItemsNodeList);
 
   let listItemsTextArray = transformArrayTextForListItems(listItemsArray);
 
   let itemShouldBeShown = false;
 
+  let stringMatch = false;
+
+  console.log({ listItemsNodeList, arrayToBeComparedWith });
+
   console.groupCollapsed("Verifying item presence");
   listItemsNodeList.forEach((item, indexOfItem) => {
-    arrayToBeComparedWith.forEach((cardInfo) => {});
+    itemShouldBeShown = false;
+    stringMatch = false;
+    let itemInnerTextToLowerCase = transformText(
+      item.innerText,
+      "lowercase",
+      true
+    );
+    console.log("item", itemInnerTextToLowerCase);
+
+    arrayToBeComparedWith.forEach((cardInfoText) => {
+      console.log("card infos", cardInfoText);
+      stringMatch = compareStrings(itemInnerTextToLowerCase, cardInfoText);
+      if (stringMatch) {
+        itemShouldBeShown = true;
+        //break
+        return;
+      }
+    });
+
+    if (!itemShouldBeShown) {
+      item.classList.add("hidden-by-main-search");
+    }
   });
   console.groupEnd("Verifying item presence");
 }
