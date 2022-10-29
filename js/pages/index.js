@@ -100,6 +100,10 @@ launchApp.then((recipes) => {
   IndexApp.addRecipeCards(recipeCardsContainer, arrayOfRecipes);
 
   addEventListeners();
+  console.log(
+    "%cAlgorithme de recherche V1",
+    "background: yellow; color: black;font-size: 16px; padding: 10px;"
+  );
 
   initiateDropdownMenus();
 });
