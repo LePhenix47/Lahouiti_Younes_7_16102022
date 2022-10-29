@@ -15,6 +15,7 @@ function searchRecipe(event) {
 
   if (queryIsOverTwoCharsLong) {
     updateCardsUIByMainSearch(valueOfInput);
+    updateCardsUIByTags();
     updateDropdownMenus();
     updateCounterOfVisibleCards();
   } else {
