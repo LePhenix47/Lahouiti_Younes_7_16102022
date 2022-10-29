@@ -259,9 +259,12 @@ function getDeviceOfCard(card) {
 function getUtensilsOfCard(card) {
   const cardInfos = getInfosOfCard(card);
 
-  let utensilsOfCard = cardInfos.map((infos) => {
-    return infos.utensils;
-  });
+  console.log({ cardInfos });
+  let utensilsOfCard = cardInfos[0].ustensils;
+
+  utensilsOfCard = transformArrayText(utensilsOfCard);
+
+  console.log({ utensilsOfCard });
 
   return utensilsOfCard;
 }
@@ -299,6 +302,9 @@ function updateCardsUIByTags() {
     deviceOfCard = transformText(deviceOfCard, "lowercase", true);
 
     let utensilsArrayOfCard = getUtensilsOfCard(card);
+    // utensilsArrayOfCard = transformArrayText(utensilsArrayOfCard);
+
+    console.log({ ingredientsArrayOfCard, deviceOfCard, utensilsArrayOfCard });
 
     if (arrayOfIngredientsTag.length) {
       //If the user added some tags for the ingredients
@@ -307,7 +313,12 @@ function updateCardsUIByTags() {
       arrayOfIngredientsTag.forEach((tagIngredient) => {
         //We loop through each ingredient from the visible cards
         ingredientsArrayOfCard.forEach((ingredientFromVisibleCard) => {
-          if (tagIngredient === ingredientFromVisibleCard) {
+          let ingredientsMatch = compareStrings(
+            tagIngredient,
+            ingredientFromVisibleCard
+          );
+
+          if (ingredientsMatch) {
             //If the ingredient of the tag matches the ingredients from the card
             //we increment the counter and we break out of this loop
             counterForIntersectingTags++;
@@ -328,11 +339,12 @@ function updateCardsUIByTags() {
       return;
     }
 
+    //
+    //A recipe card can have ONLY 1 device
     if (arrayOfDevicesTag?.length === 1) {
       //arrayOfDevicesTag && arrayOfDevicesTag.length === 1
       console.log("Need to check intersection of devices");
 
-      //A recipe card can have ONLY 1 device
       const deviceTag = arrayOfDevicesTag[0];
       console.log("Does", { deviceTag }, "matches with", { deviceOfCard });
       let deviceTagMatchesCard = compareStrings(deviceTag, deviceOfCard);
@@ -353,8 +365,20 @@ function updateCardsUIByTags() {
       cards[indexOfCard].classList.add("hide");
       return;
     }
+    counterForIntersectingTags = 0;
+
+    //
     if (arrayOfUtensilsTag.length) {
       console.log("Need to check intersection of utensils");
+      arrayOfUtensilsTag.forEach((utensilTag) => {
+        utensilsArrayOfCard.forEach((utensilOfCard) => {
+          let utensilsMatch = compareStrings(utensilTag, utensilOfCard);
+          if (utensilsMatch) {
+            counterForIntersectingTags++;
+            return;
+          }
+        });
+      });
 
       if (counterForIntersectingTags === arrayOfUtensilsTag.length) {
         console.log();
