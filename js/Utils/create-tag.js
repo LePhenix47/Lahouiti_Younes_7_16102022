@@ -163,9 +163,10 @@ function createTemplateTag(event) {
 
   IndexApp.createTagsForQuery(tagTypeContainer, tagText, searchType);
 
-  resetCards();
+  // resetCards();
+  let valueOfInput = getValueOfInput();
+  updateCardsUIByMainSearch(valueOfInput);
   updateCardsUIByTags();
-  // filterDropdownMenusListItems("hidden-by-main-search");
   updateDropdownMenus();
   updateCounterOfVisibleCards();
 }
@@ -188,6 +189,8 @@ function removeTag(event) {
   }
 
   resetCards();
+  let valueOfInput = getValueOfInput();
+  updateCardsUIByMainSearch(valueOfInput);
   updateCardsUIByTags();
   updateCounterOfVisibleCards();
   filterDropdownMenusListItems("hidden-by-main-search");

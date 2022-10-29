@@ -3,11 +3,7 @@
 //Callback function that will be called every single time a visibleuser inputs something in the search bar
 function searchRecipe(event) {
   event.preventDefault();
-  const valueOfInput = transformText(
-    event.currentTarget.value,
-    "lowercase",
-    true
-  );
+  const valueOfInput = getValueOfInput();
 
   const queryIsOverTwoCharsLong = verifyCharacterLength(
     valueOfInput,
@@ -114,6 +110,15 @@ function updateCardsUIByMainSearch(valueInputted) {
   console.groupEnd("visibleCardsArray.forEach");
 
   sendMessageIfRecipeNotFound();
+}
+
+function getValueOfInput() {
+  let valueInputted = document.querySelector(".main-index__input").value;
+
+  //We normalize the value
+  valueInputted = transformText(valueInputted, "lowercase", true);
+
+  return valueInputted;
 }
 
 //Function that will either show the or not the "not found" message depending on the amount of cards visible
