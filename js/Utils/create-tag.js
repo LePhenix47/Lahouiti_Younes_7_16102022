@@ -1,10 +1,10 @@
 /*
-        Given the fact that we want to have a research without it being accent sensitive
-        we'll normalize the text inside each item list
-        Here's the article explaining the code below:
-        https://ricardometring.com/javascript-replace-special-characters
-        Also here's the MDN doc:
-        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize
+				Given the fact that we want to have a research without it being accent sensitive
+				we'll normalize the text inside each item list
+				Here's the article explaining the code below:
+				https://ricardometring.com/javascript-replace-special-characters
+				Also here's the MDN doc:
+				https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize
  */
 //Function that replaces any latin characters with accents into a latin character without accents
 //For more details look at the article in the comment a few lines above
@@ -200,6 +200,72 @@ function getAllTagsText() {
   }
 }
 
+//
+function getInfosOfCard(card) {
+  const cardIdNumber = Number(card.dataset.id);
+
+  if (!cardIdNumber) {
+    throw "Error, function has been called but argument added inside the function is in the wrong format";
+  }
+  console.log({ card, cardIdNumber, arrayOfRecipes });
+
+  let cardInfos = arrayOfRecipes.filter((recipe) => {
+    return recipe.id === cardIdNumber;
+  });
+
+  console.log({ cardInfos });
+
+  return cardInfos;
+}
+
+//Function that has as a parameter the recipe card itself and returns its array of ingredients
+function getIngredientsOfCard(card) {
+  const cardInfos = getInfosOfCard(card);
+
+  let ingredientsArraysOfObjectsOfCard = cardInfos.map((infos) => {
+    return infos.ingredients;
+  });
+
+  console.log(
+    ingredientsArraysOfObjectsOfCard,
+    ingredientsArraysOfObjectsOfCard[0]
+  );
+
+  ingredientsArraysOfObjectsOfCard = ingredientsArraysOfObjectsOfCard[0].map(
+    (ingredientsObject) => {
+      return ingredientsObject.ingredient;
+    }
+  );
+
+  ingredientsArraysOfObjectsOfCard = transformArrayText(
+    ingredientsArraysOfObjectsOfCard
+  );
+
+  return ingredientsArraysOfObjectsOfCard;
+}
+//Function that has as a parameter the recipe card itself and returns its device
+function getDeviceOfCard(card) {
+  const cardInfos = getInfosOfCard(card);
+
+  let deviceOfCard = cardInfos.map((infos) => {
+    return infos.appliance;
+  });
+
+  return deviceOfCard;
+}
+//Function that has as a parameter the recipe card itself and returns its array of utensils
+function getUtensilsOfCard(card) {
+  const cardInfos = getInfosOfCard(card);
+
+  let utensilsOfCard = cardInfos.map((infos) => {
+    return infos.utensils;
+  });
+
+  console.log({ utensilsOfCard });
+
+  return utensilsOfCard;
+}
+
 //Function that updates the cards inside the container depending on whether or not they match the intersection of the tags added
 function updateCardsUIByTags() {
   const cards = getAllVisibleCards();
@@ -229,24 +295,44 @@ function updateCardsUIByTags() {
   });
 
   let cardShouldBeHidden = false;
-  let counterForIntersectingTags = 0;
   //We loop through each visible card
   cards.forEach((card, indexOfCard, cards) => {
+    let counterForIntersectingTags = 0;
+
+    let ingredientsArrayOfCard = getIngredientsOfCard(card);
+
+    let deviceOfCard = getDeviceOfCard(card);
+    let utensilsArrayOfCard = getUtensilsOfCard(card);
+
     if (arrayOfIngredientsTag.length) {
       console.log("Need to check intersection of ingredients");
       //If the user added some tags for the ingredients
       //We loop through each ingredient tag added
+
+      console.log({ ingredientsArrayOfCard });
+
       arrayOfIngredientsTag.forEach((tagIngredient) => {
         //We loop through each ingredient from the visible cards
-        arrayOfIngredientsVisible.forEach((ingredientFromVisibleCard) => {
+        ingredientsArrayOfCard.forEach((ingredientFromVisibleCard) => {
+          console.log(
+            { tagIngredient },
+            "matches with",
+            {
+              ingredientFromVisibleCard,
+            },
+            "?",
+            tagIngredient === ingredientFromVisibleCard
+          );
           if (tagIngredient === ingredientFromVisibleCard) {
+            //If the ingredient of the tag matches the ingredients from the card
+            //we increment the counter and we break out of this loop
             counterForIntersectingTags++;
             return;
           }
         });
       });
 
-      if (counterForIntersectingTags === arrayOfIngredientsTag.length) {
+      if (counterForIntersectingTags >= arrayOfIngredientsTag.length) {
         console.log(card, " should be shown");
         cardShouldBeHidden = false;
       } else {
@@ -271,7 +357,7 @@ function updateCardsUIByTags() {
         cardShouldBeHidden = true;
       }
     }
-    //Check if the card has an intersection of the tags
+    //Check if the card has an intersection of the devices tags
     if (cardShouldBeHidden) {
       cards[indexOfCard].classList.add("hide");
       return;
@@ -287,7 +373,7 @@ function updateCardsUIByTags() {
         cardShouldBeHidden = true;
       }
     }
-    //Check if the card has an intersection of the tags
+    //Check if the card has an intersection of the utensils tags
     if (cardShouldBeHidden) {
       cards[indexOfCard].classList.add("hide");
     }
