@@ -113,11 +113,12 @@ function updateCardsUIByMainSearch(valueInputted) {
   });
   console.groupEnd("visibleCardsArray.forEach");
 
-  sendMessageIfRecipeNotFound(valueInputted);
+  sendMessageIfRecipeNotFound();
 }
 
 //Function that will either show the or not the "not found" message depending on the amount of cards visible
-function sendMessageIfRecipeNotFound(valueInputted) {
+function sendMessageIfRecipeNotFound() {
+  const valueInputted = document.querySelector(".main-index__input").value;
   const lengthOfRemainingAmountOfCards = getAmountOfVisibleCards();
   if (lengthOfRemainingAmountOfCards) {
     resetRecipeNotFoundMessage();

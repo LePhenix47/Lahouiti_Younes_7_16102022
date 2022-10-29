@@ -253,7 +253,7 @@ function getDeviceOfCard(card) {
     return infos.appliance;
   });
 
-  return deviceOfCard;
+  return deviceOfCard[0];
 }
 //Function that has as a parameter the recipe card itself and returns its array of utensils
 function getUtensilsOfCard(card) {
@@ -282,20 +282,22 @@ function updateCardsUIByTags() {
     return;
   }
 
-  arrayOfIngredientsVisible = getIngredientsFromVisibleCards();
-  //
-  arrayOfDevicesVisible = getDevicesFromVisibleCards();
-  //
-  arrayOfUtensilsVisible = getUtensilsFromVisibleCards();
+  // arrayOfIngredientsVisible = getIngredientsFromVisibleCards();
+  // //
+  // arrayOfDevicesVisible = getDevicesFromVisibleCards();
+  // //
+  // arrayOfUtensilsVisible = getUtensilsFromVisibleCards();
 
-  let cardShouldBeHidden = false;
   //We loop through each visible card
   cards.forEach((card, indexOfCard, cards) => {
+    let cardShouldBeHidden = false;
     let counterForIntersectingTags = 0;
 
     let ingredientsArrayOfCard = getIngredientsOfCard(card);
 
     let deviceOfCard = getDeviceOfCard(card);
+    deviceOfCard = transformText(deviceOfCard, "lowercase", true);
+
     let utensilsArrayOfCard = getUtensilsOfCard(card);
 
     if (arrayOfIngredientsTag.length) {
@@ -326,16 +328,25 @@ function updateCardsUIByTags() {
       return;
     }
 
-    if (arrayOfDevicesTag.length) {
+    if (arrayOfDevicesTag?.length === 1) {
+      //arrayOfDevicesTag && arrayOfDevicesTag.length === 1
       console.log("Need to check intersection of devices");
 
-      if (counterForIntersectingTags === arrayOfDevicesTag.length) {
-        console.log();
+      //A recipe card can have ONLY 1 device
+      const deviceTag = arrayOfDevicesTag[0];
+      console.log("Does", { deviceTag }, "matches with", { deviceOfCard });
+      let deviceTagMatchesCard = compareStrings(deviceTag, deviceOfCard);
+      if (deviceTagMatchesCard) {
+        console.log({ deviceTag }, "matches with", { deviceOfCard });
         cardShouldBeHidden = false;
       } else {
-        console.log();
+        console.log({ deviceTag }, "DOES NOT matches with", { deviceOfCard });
         cardShouldBeHidden = true;
       }
+    } else if (arrayOfDevicesTag?.length > 1) {
+      cardShouldBeHidden = true;
+    } else {
+      cardShouldBeHidden = false;
     }
     //Check if the card has an intersection of the devices tags
     if (cardShouldBeHidden) {
