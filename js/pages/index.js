@@ -124,6 +124,11 @@ launchApp.then((recipes) => {
   IndexApp.addRecipeCards(recipeCardsContainer, arrayOfRecipes);
 
   addEventListerners();
+
+  console.log(
+    "%cAlgorithme de recherche V2",
+    "background: purple; font-size: 16px; padding: 10px"
+  );
 });
 
 const inputsArray = document.getElementsByClassName(
