@@ -1,3 +1,5 @@
+//Global value for the query inputted by the user
+
 //Callback function that will be called every single time a visibleuser inputs something in the search bar
 function searchRecipe(event) {
   event.preventDefault();
@@ -13,6 +15,18 @@ function searchRecipe(event) {
     3
   );
 
+  resetEverythingFromScratch();
+
+  if (queryIsOverTwoCharsLong) {
+    updateCardsUIByMainSearch(valueOfInput);
+    updateDropdownMenus();
+    updateCounterOfVisibleCards();
+  } else {
+    return;
+  }
+}
+
+function resetEverythingFromScratch() {
   //Shows the cards back again
   resetCards();
 
@@ -25,19 +39,9 @@ function searchRecipe(event) {
 
   //Resets the counter of visible cards to 50
   updateCounterOfVisibleCards();
-
-  if (queryIsOverTwoCharsLong) {
-    updateCardsUIByMainSearch(valueOfInput);
-    updateDropdownMenus();
-    updateCounterOfVisibleCards();
-  } else {
-    return;
-  }
 }
-
 //Function that verifies the length of a string of character
 //⚠ Includes whitespaces too ⚠
-
 function verifyCharacterLength(string, operator, number) {
   switch (operator) {
     case "over" || ">": {
@@ -57,6 +61,7 @@ function verifyCharacterLength(string, operator, number) {
   }
 }
 
+//Function that shows the only cards corresponding to the query inputted by the user
 function updateCardsUIByMainSearch(valueInputted) {
   const visibleCardsNodeList = document.querySelectorAll(
     ".main-index__recipes-container>*"
@@ -108,14 +113,20 @@ function updateCardsUIByMainSearch(valueInputted) {
   });
   console.groupEnd("visibleCardsArray.forEach");
 
-  const remainingAmountOfCards = getAmountOfVisibleCards();
-  if (remainingAmountOfCards) {
+  sendMessageIfRecipeNotFound(valueInputted);
+}
+
+//Function that will either show the or not the "not found" message depending on the amount of cards visible
+function sendMessageIfRecipeNotFound(valueInputted) {
+  const lengthOfRemainingAmountOfCards = getAmountOfVisibleCards();
+  if (lengthOfRemainingAmountOfCards) {
     resetRecipeNotFoundMessage();
   } else {
     sendRecipeNotFoundMessage(valueInputted);
   }
 }
 
+//Funtion that shows all the cards
 function resetCards() {
   const cardsArray = getAllCards();
 
@@ -124,6 +135,7 @@ function resetCards() {
   });
 }
 
+//Function tha returns an array of all the cards available inside the container
 function getAllCards() {
   const cardsNodeList = document.querySelectorAll(
     ".main-index__recipes-container>*"
@@ -133,10 +145,12 @@ function getAllCards() {
   return cardsArray;
 }
 
+//Function that returns the amount of cards remaining
 function getAmountOfVisibleCards() {
   return getAllVisibleCards().length;
 }
 
+//Function that updates the counter of all the visible cards
 function updateCounterOfVisibleCards() {
   const amountOfVisibleCards = getAmountOfVisibleCards();
   if (amountOfVisibleCards > 1) {
@@ -146,10 +160,12 @@ function updateCounterOfVisibleCards() {
   }
 }
 
+//Function that will send a message if no recipe match the query inputted by the user
 function sendRecipeNotFoundMessage(valueInputted) {
   recipeNotFoundParagraph.textContent = `Aïe, nous n'avons pas trouvé de recette pour "${valueInputted}" (╯°□°）╯︵ ┻━┻`;
 }
 
+//Function that removes the "recipe not found" message
 function resetRecipeNotFoundMessage() {
   recipeNotFoundParagraph.textContent = "";
 }

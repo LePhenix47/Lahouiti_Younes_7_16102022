@@ -118,10 +118,10 @@ function updateDropdownMenus() {
 
   visibleCardsRecipeDataArray = arrayOfRecipes.filter(
     (recipe, indexOfRecipe) => {
-      return (
-        Number(visibleCardsArray[indexOfRecipe]?.dataset.id) ===
-        indexOfRecipe + 1
+      const idNumberOfCard = Number(
+        visibleCardsArray[indexOfRecipe]?.dataset.id
       );
+      return idNumberOfCard === indexOfRecipe + 1;
     }
   );
 
@@ -205,6 +205,7 @@ function hideListItemsNotInVisibleCards(dropdownMenu, arrayToBeComparedWith) {
 
     arrayToBeComparedWith.forEach((cardInfoText) => {
       stringMatch = compareStrings(itemInnerTextToLowerCase, cardInfoText);
+
       if (stringMatch) {
         itemShouldBeShown = true;
         //break
@@ -244,7 +245,7 @@ function getValuesInArrayOfArrays(arrayOfArrays) {
   return newArray;
 }
 
-//
+//Function that filters the array recovered from the JSON file to get only the objects from the visible cards
 function getAllInfosFromVisibleCards() {
   const visibleCardsArray = getAllVisibleCards();
   let visibleCardsDataArray = [];
@@ -260,7 +261,7 @@ function getAllInfosFromVisibleCards() {
   return visibleCardsDataArray;
 }
 
-//Function that gets all the
+//Function that gets all the ingredients from the visible cards
 function getIngredientsFromVisibleCards() {
   const visibleCardsDataArray = getAllInfosFromVisibleCards();
 
@@ -279,7 +280,7 @@ function getIngredientsFromVisibleCards() {
   return [...new Set(ingredientsArray)];
 }
 
-//Function that gets all the
+//Function that gets all the devices from all the visible cards
 function getDevicesFromVisibleCards() {
   const visibleCardsDataArray = getAllInfosFromVisibleCards();
 
@@ -293,7 +294,7 @@ function getDevicesFromVisibleCards() {
   return [...new Set(devicesArray)];
 }
 
-//Function that gets all the
+//Function that gets all the utensils from all the visible cards
 function getUtensilsFromVisibleCards() {
   const visibleCardsDataArray = getAllInfosFromVisibleCards();
 

@@ -68,22 +68,27 @@ function getAllVisibleCards() {
 
 //Compares 2 strings and returns true if the 2 strings match perfectly
 function compareStrings(string1, string2) {
-  let theStringsDoNotHaveTheSameLength = string1.length !== string2.length;
+  let string1Array = string1.split("");
+  let string2Array = string2.split("");
+  let theStringsDoNotHaveTheSameLength =
+    string1Array.length !== string2Array.length;
+
+  let wordsMatch = true;
 
   if (theStringsDoNotHaveTheSameLength) {
     return false;
   } else {
-    for (let i = 0; i < string1.length; i++) {
-      const letterOfString1 = string1[i];
-      const letterOfString2 = string2[i];
-      const lettersAreNotTheSame = letterOfString1 !== letterOfString2;
-      if (lettersAreNotTheSame) {
-        return false;
-      }
-    }
-  }
+    string1Array.some((letterOfString1, indexOfLetter) => {
+      let lettersAreNotTheSame =
+        string1Array[indexOfLetter] !== string2Array[indexOfLetter];
 
-  return true;
+      if (lettersAreNotTheSame) {
+        wordsMatch = false;
+      }
+    });
+
+    return wordsMatch;
+  }
 }
 
 function createTag(event) {
@@ -123,6 +128,7 @@ function createTag(event) {
   }
 }
 
+//Function that creates the tag an updates the cards corresponding to the tags
 function createTemplateTag(event) {
   console.groupCollapsed("Array of selected options by user");
   console.table(selectedOptionsArray);
@@ -159,6 +165,9 @@ function createTemplateTag(event) {
 
   resetCards();
   updateCardsUIByTags();
+  // filterDropdownMenusListItems("hidden-by-main-search");
+  updateDropdownMenus();
+  updateCounterOfVisibleCards();
 }
 
 //Function to remove a tag
@@ -182,6 +191,7 @@ function removeTag(event) {
   updateCardsUIByTags();
   updateCounterOfVisibleCards();
   filterDropdownMenusListItems("hidden-by-main-search");
+  updateDropdownMenus();
 }
 
 function getAllTagsText() {
@@ -207,13 +217,10 @@ function getInfosOfCard(card) {
   if (!cardIdNumber) {
     throw "Error, function has been called but argument added inside the function is in the wrong format";
   }
-  console.log({ card, cardIdNumber, arrayOfRecipes });
 
   let cardInfos = arrayOfRecipes.filter((recipe) => {
     return recipe.id === cardIdNumber;
   });
-
-  console.log({ cardInfos });
 
   return cardInfos;
 }
@@ -225,11 +232,6 @@ function getIngredientsOfCard(card) {
   let ingredientsArraysOfObjectsOfCard = cardInfos.map((infos) => {
     return infos.ingredients;
   });
-
-  console.log(
-    ingredientsArraysOfObjectsOfCard,
-    ingredientsArraysOfObjectsOfCard[0]
-  );
 
   ingredientsArraysOfObjectsOfCard = ingredientsArraysOfObjectsOfCard[0].map(
     (ingredientsObject) => {
@@ -261,8 +263,6 @@ function getUtensilsOfCard(card) {
     return infos.utensils;
   });
 
-  console.log({ utensilsOfCard });
-
   return utensilsOfCard;
 }
 
@@ -288,12 +288,6 @@ function updateCardsUIByTags() {
   //
   arrayOfUtensilsVisible = getUtensilsFromVisibleCards();
 
-  console.log({
-    arrayOfIngredientsVisible,
-    arrayOfDevicesVisible,
-    arrayOfUtensilsVisible,
-  });
-
   let cardShouldBeHidden = false;
   //We loop through each visible card
   cards.forEach((card, indexOfCard, cards) => {
@@ -305,24 +299,12 @@ function updateCardsUIByTags() {
     let utensilsArrayOfCard = getUtensilsOfCard(card);
 
     if (arrayOfIngredientsTag.length) {
-      console.log("Need to check intersection of ingredients");
       //If the user added some tags for the ingredients
       //We loop through each ingredient tag added
-
-      console.log({ ingredientsArrayOfCard });
 
       arrayOfIngredientsTag.forEach((tagIngredient) => {
         //We loop through each ingredient from the visible cards
         ingredientsArrayOfCard.forEach((ingredientFromVisibleCard) => {
-          console.log(
-            { tagIngredient },
-            "matches with",
-            {
-              ingredientFromVisibleCard,
-            },
-            "?",
-            tagIngredient === ingredientFromVisibleCard
-          );
           if (tagIngredient === ingredientFromVisibleCard) {
             //If the ingredient of the tag matches the ingredients from the card
             //we increment the counter and we break out of this loop
@@ -333,10 +315,8 @@ function updateCardsUIByTags() {
       });
 
       if (counterForIntersectingTags >= arrayOfIngredientsTag.length) {
-        console.log(card, " should be shown");
         cardShouldBeHidden = false;
       } else {
-        console.log(card, " must be HIDDEN");
         cardShouldBeHidden = true;
       }
     }
@@ -379,9 +359,6 @@ function updateCardsUIByTags() {
     }
     //
   });
-
-  updateDropdownMenus();
-  updateCounterOfVisibleCards();
 }
 
 function filterTagsByType() {
@@ -413,14 +390,6 @@ function filterTagsByType() {
         break;
       }
     }
-
-    console.log({ tagText, typeOfTag });
-
-    console.log({
-      arrayOfIngredientsTag,
-      arrayOfDevicesTag,
-      arrayOfUtensilsTag,
-    });
   });
 
   return { arrayOfIngredientsTag, arrayOfDevicesTag, arrayOfUtensilsTag };
