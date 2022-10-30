@@ -34,6 +34,9 @@ function resetEverythingFromScratch() {
   // resetDropdownmenusListItems();
   filterDropdownMenusListItems("hidden-by-main-search");
 
+  //Shows the cards that have a tag inside either its ingredient, device or utensil
+  updateCardsUIByTags();
+
   //Resets the counter of visible cards to 50
   updateCounterOfVisibleCards();
 }
