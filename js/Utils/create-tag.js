@@ -124,16 +124,11 @@ function createTag(event) {
       "No tag matched with the query:",
       event.currentTarget.value.toLowerCase()
     );
-    console.table(arrayOfItemsSearchedByUser);
   }
 }
 
 //Function that creates the tag an updates the cards corresponding to the tags
 function createTemplateTag(event) {
-  console.groupCollapsed("Array of selected options by user");
-  console.table(selectedOptionsArray);
-  console.groupEnd("Array of selected options by user");
-
   console.log("click");
 
   const tagText = event.currentTarget.innerText;
@@ -183,7 +178,6 @@ function removeTag(event) {
     const selectedOption = selectedOptionsArray[i];
     if (selectedOption === textTag.textContent) {
       selectedOptionsArray.splice(i, 1);
-      console.table(selectedOptionsArray);
       containerOfTag.removeChild(tagElement);
     }
   }
@@ -262,12 +256,9 @@ function getDeviceOfCard(card) {
 function getUtensilsOfCard(card) {
   const cardInfos = getInfosOfCard(card);
 
-  console.log({ cardInfos });
   let utensilsOfCard = cardInfos[0].ustensils;
 
   utensilsOfCard = transformArrayText(utensilsOfCard);
-
-  console.log({ utensilsOfCard });
 
   return utensilsOfCard;
 }
@@ -284,7 +275,6 @@ function updateCardsUIByTags() {
     !arrayOfIngredientsTag && !arrayOfDevicesTag && !arrayOfUtensilsTag;
 
   if (noTagsArePresent) {
-    console.log("No tags were added in");
     return;
   }
 
@@ -306,8 +296,6 @@ function updateCardsUIByTags() {
 
     let utensilsArrayOfCard = getUtensilsOfCard(card);
     // utensilsArrayOfCard = transformArrayText(utensilsArrayOfCard);
-
-    console.log({ ingredientsArrayOfCard, deviceOfCard, utensilsArrayOfCard });
 
     if (arrayOfIngredientsTag.length) {
       //If the user added some tags for the ingredients
@@ -346,16 +334,12 @@ function updateCardsUIByTags() {
     //A recipe card can have ONLY 1 device
     if (arrayOfDevicesTag?.length === 1) {
       //arrayOfDevicesTag && arrayOfDevicesTag.length === 1
-      console.log("Need to check intersection of devices");
 
       const deviceTag = arrayOfDevicesTag[0];
-      console.log("Does", { deviceTag }, "matches with", { deviceOfCard });
       let deviceTagMatchesCard = compareStrings(deviceTag, deviceOfCard);
       if (deviceTagMatchesCard) {
-        console.log({ deviceTag }, "matches with", { deviceOfCard });
         cardShouldBeHidden = false;
       } else {
-        console.log({ deviceTag }, "DOES NOT matches with", { deviceOfCard });
         cardShouldBeHidden = true;
       }
     } else if (arrayOfDevicesTag?.length > 1) {
@@ -372,7 +356,6 @@ function updateCardsUIByTags() {
 
     //
     if (arrayOfUtensilsTag.length) {
-      console.log("Need to check intersection of utensils");
       arrayOfUtensilsTag.forEach((utensilTag) => {
         utensilsArrayOfCard.forEach((utensilOfCard) => {
           let utensilsMatch = compareStrings(utensilTag, utensilOfCard);
@@ -384,10 +367,8 @@ function updateCardsUIByTags() {
       });
 
       if (counterForIntersectingTags === arrayOfUtensilsTag.length) {
-        console.log();
         cardShouldBeHidden = false;
       } else {
-        console.log();
         cardShouldBeHidden = true;
       }
     }

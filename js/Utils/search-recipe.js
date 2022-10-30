@@ -68,7 +68,6 @@ function updateCardsUIByMainSearch(valueInputted) {
   ); //⚠ Node list
   const visibleCardsArray = Array.from(visibleCardsNodeList);
 
-  console.groupCollapsed("visibleCardsArray.forEach");
   visibleCardsArray.forEach(function (card, indexOfCard) {
     const { name, description, ingredients } = arrayOfRecipes[indexOfCard];
 
@@ -83,7 +82,6 @@ function updateCardsUIByMainSearch(valueInputted) {
     //For the ingredients
     const cardIngredients = ingredients;
     let valueContainsIngredients = cardIngredients.some((ingredients) => {
-      console.log({ ingredients });
       //We get the ingredient inside the array of ingredients and normalize it
       let ingredientOfArray = ingredients.ingredient;
       ingredientOfArray = transformText(ingredientOfArray, "lowercase", true);
@@ -98,20 +96,11 @@ function updateCardsUIByMainSearch(valueInputted) {
       valueContainsIngredients;
 
     if (inputIncludesCardInfo) {
-      console.log(
-        "%cis relevant to the search",
-        "background: green; font-size: 20px"
-      );
       return;
     } else {
       card.classList.add("hide");
-      console.log(
-        "%cis IRRELEVANT to the search",
-        "background: crimson; font-size: 20px"
-      );
     }
   });
-  console.groupEnd("visibleCardsArray.forEach");
 
   sendMessageIfRecipeNotFound();
 }

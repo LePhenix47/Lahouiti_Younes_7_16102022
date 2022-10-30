@@ -40,12 +40,10 @@ function addListItemsForDropdown(container, dropdownMenuList) {
 
   switch (valueOfSearchTypeOnContainer) {
     case "ingredients": {
-      console.log("%cSearch type = ingredients", "background: #3282F7");
       addItemsInHTML(dropdownMenuList, arrayOfIngredients, "ingredients");
       break;
     }
     case "devices": {
-      console.log("%cSearch type = devices", "background: #68D9A4");
       addItemsInHTML(
         dropdownMenuList,
         arrayOfDevices,
@@ -54,7 +52,6 @@ function addListItemsForDropdown(container, dropdownMenuList) {
       break;
     }
     case "utensils": {
-      console.log("%cSearch type = utensils", "background: #ED6454");
       addItemsInHTML(
         dropdownMenuList,
         arrayOfUtensils,
@@ -131,12 +128,6 @@ function updateDropdownMenus() {
   //
   arrayOfUtensilsVisible = getUtensilsFromVisibleCards();
   //
-
-  console.log({
-    arrayOfIngredientsVisible,
-    arrayOfDevicesVisible,
-    arrayOfUtensilsVisible,
-  });
 
   dropdownMenus.forEach((dropdownMenu) => {
     const typeOfDropDown = dropdownMenu.dataset.searchType;

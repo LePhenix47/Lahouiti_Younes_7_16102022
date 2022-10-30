@@ -5,13 +5,6 @@ class TagTemplate {
   }
 
   createTag() {
-    console.log(
-      "TAG TEMPLATE \nText of tag:",
-      this.tagText,
-      "\nType of search =",
-      this.tagType
-    );
-
     let buttonTemplate = `
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                           xmlns="http://www.w3.org/2000/svg" class="main-index__tag-close-button-icon-svg">
@@ -38,8 +31,6 @@ class TagTemplate {
 
     divMainIndexTag.appendChild(paragraphTagText);
     divMainIndexTag.appendChild(buttonTagCloseButton);
-
-    console.log(divMainIndexTag);
 
     return divMainIndexTag;
   }

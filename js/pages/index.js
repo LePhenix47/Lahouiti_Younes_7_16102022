@@ -25,14 +25,7 @@ class IndexApp {
   }
 
   static createTagsForQuery(container, tagText, tagSearchType) {
-    console.log(
-      "STATIC METHOD Text of tag:",
-      tagText,
-      "\nType of search =",
-      tagSearchType
-    );
     const tagTemplate = new TagTemplate(tagText, tagSearchType).createTag();
-    console.log({ tagTemplate });
     container.appendChild(tagTemplate);
   }
 }
@@ -97,9 +90,6 @@ launchApp.then((recipes) => {
       )
     ),
   ];
-  console.groupCollapsed("Array of ingredients");
-  console.table(arrayOfIngredients);
-  console.groupEnd("Array of ingredients");
   arrayOfDevices = [
     ...new Set(
       [].concat(
@@ -107,9 +97,6 @@ launchApp.then((recipes) => {
       )
     ),
   ];
-  console.groupCollapsed("Array of devices");
-  console.table(arrayOfDevices);
-  console.groupEnd("Array of devices");
   arrayOfUtensils = [
     ...new Set([].concat(...arrayOfRecipes.map((recipe) => recipe.ustensils))),
   ];
@@ -118,9 +105,6 @@ launchApp.then((recipes) => {
       [].concat(...arrayOfUtensils.map((ustensil) => ustensil.toLowerCase()))
     ),
   ];
-  console.groupCollapsed("Array of utensils");
-  console.table(arrayOfUtensils);
-  console.groupEnd("Array of utensils");
   IndexApp.addRecipeCards(recipeCardsContainer, arrayOfRecipes);
 
   addEventListerners();
@@ -157,7 +141,6 @@ function addEventListerners() {
     const dropdownMenuList = dropdownMenu.querySelector(
       ".dropdown-menu__options"
     );
-    console.log({ dropdownMenuList });
     addListItemsForDropdown(dropdownMenu, dropdownMenuList);
   });
 }
