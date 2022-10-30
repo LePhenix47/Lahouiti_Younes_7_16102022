@@ -92,8 +92,6 @@ function createTag(event) {
   const valueOfInput = event.currentTarget.value;
   const container = event.currentTarget.parentElement;
 
-  console.log({ container });
-
   const listItemsNodeList = container.querySelectorAll(
     ".dropdown-menu__options>*"
   );
@@ -101,7 +99,6 @@ function createTag(event) {
   const listItemsArray = Array.from(listItemsNodeList);
 
   let visibleListItemArray = filterHiddenListItems(listItemsArray);
-  console.log({ visibleListItemArray });
 
   // resetQueryItemLists(visibleListItemArray);
 
@@ -112,7 +109,6 @@ function createTag(event) {
   let valueInputtedToLowerCase = transformText(valueOfInput, "lowercase", true);
   /**/
   if (!cardsArray.length) {
-    console.log("No cards are visible");
     return;
   }
 
@@ -168,8 +164,6 @@ function updateDropdownMenus() {
   const remainingCards = getAllVisibleCards();
   const remainingCardsInfos = getAllCardInfos(remainingCards);
 
-  console.log({ remainingCards, remainingCardsInfos });
-
   const dropdownMenusNodeList = document.querySelectorAll(".dropdown-menu"); //⚠ Node list
 
   const dropdownMenusArray = Array.from(dropdownMenusNodeList);
@@ -179,11 +173,6 @@ function updateDropdownMenus() {
 
     switch (typeOfDropdownMenu) {
       case "ingredients": {
-        console.log(
-          "%cIngredients",
-          "background: #3282F7; color: black; font-size:20px"
-        );
-
         let arrayOfIngredients = getAllArrayOfIngredientsInVisibleCards();
         updateAvailableListItems(
           arrayOfIngredients,
@@ -194,11 +183,6 @@ function updateDropdownMenus() {
       }
 
       case "devices": {
-        console.log(
-          "%cDevices",
-          "background: #68D9A4; color: black; font-size:20px"
-        );
-
         let arrayOfDevices = getAllDevicesInVisibleCards();
 
         updateAvailableListItems(arrayOfDevices, dropdownMenu, remainingCards);
@@ -206,21 +190,12 @@ function updateDropdownMenus() {
       }
 
       case "utensils": {
-        console.log(
-          "%cUtensils",
-          "background: #ED6454; color: black; font-size:20px"
-        );
-
         let arrayOfUtensils = getAllUtensilsInVisibleCards();
         updateAvailableListItems(arrayOfUtensils, dropdownMenu, remainingCards);
         break;
       }
 
       default: {
-        console.log(
-          "%cError in the switch case at line: 149 of create-tag.js",
-          "background: crimson; font-size:20px"
-        );
         break;
       }
     }
@@ -238,9 +213,6 @@ function updateAvailableListItems(remainingInfosArray, dropdownMenu) {
   const listItemsArray = Array.from(listItemsNodeList);
 
   resetMainSearchItemLists(listItemsArray);
-
-  console.log({ listItemsArray });
-  console.groupCollapsed("List items array");
 
   let showListItem = false;
 
@@ -261,11 +233,6 @@ function updateAvailableListItems(remainingInfosArray, dropdownMenu) {
         : compareStrings(remainingInfo, listItemTextToLowerCase);
 
       if (listItemIsIncluded) {
-        console.log(listItemTextToLowerCase);
-        console.log(
-          "%cshould be inside the list",
-          "background: limegreen; color:black; font-size:16px"
-        );
         showListItem = true;
         break;
       }
@@ -273,19 +240,12 @@ function updateAvailableListItems(remainingInfosArray, dropdownMenu) {
     }
 
     if (showListItem) {
-      console.log(listItemTextToLowerCase, " → removing hide class");
       listItem.classList.remove("hidden-by-main-search");
       listItem.addEventListener("click", createTemplateTag);
     } else {
-      console.log(
-        listItemTextToLowerCase,
-        " → adding hidden-by-main-search class"
-      );
       listItem.classList.add("hidden-by-main-search");
     }
   }
-  console.groupEnd("List items array");
-  console.log({ remainingInfosArray, dropdownMenu });
 }
 
 //Callback function that creates a tag
@@ -321,7 +281,6 @@ function createTemplateTag(event) {
 
 //Function to remove a tag from the DOM
 function removeTag(event) {
-  // console.log(event.currentTarget);
   const tagElement = event.currentTarget.parentElement;
 
   const containerOfTag = tagElement.parentElement;
@@ -365,9 +324,7 @@ function getAllTagsAdded() {
       tagsArray.length,
       `${tagsArray.length > 1 ? "tags" : "tag"} found!`
     );
-    console.log(tagsArray);
   } else {
-    console.log(tagsArray, tagsArray.length);
     console.log("Tags not found");
   }
   return tagsArray;
@@ -406,12 +363,6 @@ function getSortedTagsByType() {
     }
   }
 
-  console.log("Result:", [
-    tagsArrayOfIngredients,
-    tagsArrayOfDevices,
-    tagsArrayOfUtensils,
-  ]);
-
   return [tagsArrayOfIngredients, tagsArrayOfDevices, tagsArrayOfUtensils];
 }
 
@@ -421,7 +372,6 @@ function updateRecipeCardsUIWithTags() {
   const cardsArray = getAllVisibleCards();
   let cardDataInfos = getAllCardInfos(cardsArray);
 
-  console.log({ arrayOfSortedTags });
   let noTagsWereAdded = !arrayOfSortedTags;
 
   if (noTagsWereAdded) {
@@ -435,21 +385,11 @@ function updateRecipeCardsUIWithTags() {
   const tagArrayOfDevices = arrayOfSortedTags[1];
   const tagArrayOfUtensils = arrayOfSortedTags[2];
 
-  console.log({ arrayOfSortedTags });
-
   let containsIngredientTags = checkIfArrayHasLength(tagArrayOfIngredients);
 
   let containsDeviceTags = checkIfArrayHasLength(tagArrayOfDevices);
 
   let containsUtensilsTags = checkIfArrayHasLength(tagArrayOfUtensils);
-
-  console.log(cardDataInfos);
-
-  console.log({
-    containsIngredientTags,
-    containsDeviceTags,
-    containsUtensilsTags,
-  });
 
   //Will be used to verify if the tags that matched with the card infos is an intersection and not an union
   /*Part 1 */
@@ -480,22 +420,11 @@ function updateRecipeCardsUIWithTags() {
       }
       //If the amount of matching tags is smaller than the length of the array of tags
       // Then there's no intersection and we hide the card
-      console.log(
-        "counterForIntersectionOfTags:",
-        counterForIntersectionOfTags,
-        "vs tagArrayOfIngredients.length:",
-        tagArrayOfIngredients.length
-      );
 
       if (counterForIntersectionOfTags >= tagArrayOfIngredients.length) {
         cardShouldBeHidden = false;
-        console.log(card, "contains an intersection of ingredient tags");
       } else {
         cardShouldBeHidden = true;
-        console.log(
-          card,
-          "DOES NOT contain an intersection of ingredient tags"
-        );
       }
     }
 
@@ -514,27 +443,16 @@ function updateRecipeCardsUIWithTags() {
         tagArrayOfDevices[0],
         cardDataInfos[i].cardRecipeDevices
       );
-      console.log(
-        `Is the device "${cardDataInfos[i].cardRecipeDevices}" included in the tag "${tagArrayOfDevices[0]}" ?`,
-        textInTagMatchesDeviceName
-      );
       if (textInTagMatchesDeviceName) {
         counterForIntersectionOfTags++;
       }
 
       if (counterForIntersectionOfTags === 1) {
         cardShouldBeHidden = false;
-        console.log(card, "contains an intersection of device tags");
       } else {
         cardShouldBeHidden = true;
-        console.log(card, "DOES NOT contain an intersection of device tags");
       }
     } else if (tagArrayOfDevices.length > 1) {
-      console.log(
-        "There are ",
-        tagArrayOfDevices.length,
-        " tags for devices but a card can only contain one device"
-      );
       cardShouldBeHidden = true;
     }
 
@@ -551,10 +469,6 @@ function updateRecipeCardsUIWithTags() {
       for (tagUtensil of tagArrayOfUtensils) {
         let textInTagMatchesUtensilName =
           cardDataInfos[i].cardRecipeUtensils.includes(tagUtensil);
-        console.log(
-          `Do the utensils: "${cardDataInfos[i].cardRecipeUtensils}" include the tag "${tagUtensil}" ?`,
-          textInTagMatchesUtensilName
-        );
         if (textInTagMatchesUtensilName) {
           counterForIntersectionOfTags++;
           continue;
@@ -563,10 +477,8 @@ function updateRecipeCardsUIWithTags() {
 
       if (counterForIntersectionOfTags >= tagArrayOfUtensils.length) {
         cardShouldBeHidden = false;
-        console.log(card, "contains an intersection of utensils tags");
       } else {
         cardShouldBeHidden = true;
-        console.log(card, "DOES NOT contain an intersection of utensils tags");
       }
     }
 
@@ -576,7 +488,6 @@ function updateRecipeCardsUIWithTags() {
     }
     /*End of Part 3 */
   }
-  console.log("updateRecipeCardsUIWithTags()");
   updateDropdownMenus();
   updateCounterOfVisibleCards();
 }
@@ -608,8 +519,6 @@ function getAllArrayOfIngredientsInVisibleCards() {
 
   arrayOfArraysOfIngredients = [...new Set(arrayOfArraysOfIngredients)];
 
-  console.table(arrayOfArraysOfIngredients);
-
   return arrayOfArraysOfIngredients;
 }
 
@@ -639,6 +548,5 @@ function getAllUtensilsInVisibleCards() {
   }
   arrayOfUtensils = [...new Set(arrayOfUtensils)];
 
-  console.log({ arrayOfUtensils });
   return arrayOfUtensils;
 }

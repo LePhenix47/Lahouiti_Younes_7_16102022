@@ -22,8 +22,6 @@ function searchRecipes(event) {
 
     //To re-update the dropdown menu lists with the cards available
     updateDropdownMenus();
-
-    updateRecipeCardsUIWithTags();
   } else {
     return;
   }
@@ -70,7 +68,6 @@ NEEDS TO BE REFACTORED ↓
 //Function that updates the cards appearing according to the query of the user
 function updateRecipeCardsUIWithMainSearch() {
   //↓
-  console.groupCollapsed("Cards array attributes");
 
   const parameterValuesObject = getQueryAndKeywordParameters();
 
@@ -131,8 +128,6 @@ function updateRecipeCardsUIWithMainSearch() {
       ex: "lim" search + tag "Lait de coco" → Only the "Limonade de coco" recipe card should appear
       */
 
-      console.log(parameterValuesObject);
-
       containsTitle = checkIfRecipeStringContainsQuery(
         titleOfRecipe,
         queryInputted,
@@ -150,10 +145,6 @@ function updateRecipeCardsUIWithMainSearch() {
       );
       recipeIsSearchedByUser =
         containsDescription || containsTitle || containsIngredients;
-
-      console.log("%cWith keywords", "font-size: 20px");
-      console.log({ queryInputted }, { keywordsAddedWithTags });
-      console.log(card, { containsIngredients });
     }
 
     if (recipeIsSearchedByUser) {
@@ -162,8 +153,6 @@ function updateRecipeCardsUIWithMainSearch() {
       card.classList.add("hide");
     }
   }
-
-  console.groupEnd("Cards array attributes");
 
   updateCounterOfVisibleCards();
 

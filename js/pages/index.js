@@ -25,14 +25,7 @@ class IndexApp {
   }
 
   static createTagsForQuery(container, tagText, tagSearchType) {
-    console.log(
-      "STATIC METHOD Text of tag:",
-      tagText,
-      "\nType of search =",
-      tagSearchType
-    );
     const tagTemplate = new TagTemplate(tagText, tagSearchType).createTag();
-    console.log({ tagTemplate });
     container.appendChild(tagTemplate);
   }
 }
@@ -50,8 +43,6 @@ const dropdownMenuOptionsListContainer = document.querySelector(
 
 //Launching the app
 const launchApp = new IndexApp().main();
-
-console.log(launchApp);
 
 const selectedOptionsArray = []; //This array will contain all the name of the tags that the user chose
 
@@ -82,21 +73,10 @@ launchApp.then((recipes) => {
     false
   );
 
-  console.groupCollapsed("Array of ingredients");
-  console.table(arrayOfIngredients);
-  console.groupEnd("Array of ingredients");
-
   arrayOfDevices = createUniqueArrays(arrayOfRecipes, "appliance", false);
-
-  console.groupCollapsed("Array of devices");
-  console.table(arrayOfDevices);
-  console.groupEnd("Array of devices");
 
   arrayOfUtensils = createUniqueArrays(arrayOfRecipes, "ustensils", false);
 
-  console.groupCollapsed("Array of utensils");
-  console.table(arrayOfUtensils);
-  console.groupEnd("Array of utensils");
   IndexApp.addRecipeCards(recipeCardsContainer, arrayOfRecipes);
 
   addEventListeners();

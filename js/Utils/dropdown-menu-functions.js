@@ -50,7 +50,6 @@ function resetItemsInsideList(container) {
   const listItemsArray = Array.from(listItemsNodeList);
 
   let visibleListItemArray = filterHiddenListItems(listItemsArray);
-  console.log({ visibleListItemArray });
 
   resetQueryItemLists(visibleListItemArray);
 }
@@ -75,8 +74,6 @@ function addListitemsForDropdown(container, dropdownMenuList) {
     container.getAttribute("data-search-type");
   switch (valueOfSearchTypeOnContainer) {
     case "ingredients": {
-      console.log("%cSearch type = ingredients", "background: #3282F7");
-
       addListItemsInHTML(
         dropdownMenuList,
         arrayOfIngredients,
@@ -86,8 +83,6 @@ function addListitemsForDropdown(container, dropdownMenuList) {
       break;
     }
     case "devices": {
-      console.log("%cSearch type = devices", "background: #68D9A4");
-
       addListItemsInHTML(
         dropdownMenuList,
         arrayOfDevices,
@@ -97,8 +92,6 @@ function addListitemsForDropdown(container, dropdownMenuList) {
       break;
     }
     case "utensils": {
-      console.log("%cSearch type = utensils", "background: #ED6454");
-
       addListItemsInHTML(
         dropdownMenuList,
         arrayOfUtensils,
@@ -118,7 +111,6 @@ function addListItemsInHTML(
   arrayOfListItems,
   searchTypeOfContainer
 ) {
-  console.log({ container, arrayOfListItems, searchTypeOfContainer });
   container.innerHTML = new DropdownItemTemplate(
     arrayOfListItems,
     searchTypeOfContainer
@@ -130,7 +122,6 @@ function addListItemsInHTML(
 
   const dropdownMenuListItemsArray = Array.from(dropdownMenuListItemsNodeList);
 
-  console.log({ dropdownMenuListItemsArray });
   for (listItem of dropdownMenuListItemsArray) {
     listItem.addEventListener("click", createTemplateTag);
   }

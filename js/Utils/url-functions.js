@@ -53,7 +53,6 @@ function addKeywordParametersToUrl() {
 
   for (tagAdded of tagsAddedInSearchArray) {
     const tagText = tagAdded.querySelector(".main-index__tag-text");
-    console.log(tagText);
     tagsTextArray.push(tagText.innerText);
   }
 
@@ -63,8 +62,6 @@ function addKeywordParametersToUrl() {
     tagsTextArray,
     keywordsParameters
   );
-
-  console.log({ keywordsParameters });
 }
 
 //For the keywords=
