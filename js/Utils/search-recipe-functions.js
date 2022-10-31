@@ -15,6 +15,8 @@ function searchRecipes(event) {
 
   resetCards();
 
+  updateRecipeCardsUIWithTags();
+
   updateCounterOfVisibleCards();
 
   if (queryIsOverTwoCharsLong) {
@@ -130,18 +132,15 @@ function updateRecipeCardsUIWithMainSearch() {
 
       containsTitle = checkIfRecipeStringContainsQuery(
         titleOfRecipe,
-        queryInputted,
-        keywordsAddedWithTags
+        queryInputted
       );
       containsDescription = checkIfRecipeStringContainsQuery(
         descriptionOfRecipe,
-        queryInputted,
-        keywordsAddedWithTags
+        queryInputted
       );
       containsIngredients = checkIfRecipeArrayContainsQuery(
         ingredientsOfRecipeArray,
-        queryInputted,
-        keywordsAddedWithTags
+        queryInputted
       );
       recipeIsSearchedByUser =
         containsDescription || containsTitle || containsIngredients;
