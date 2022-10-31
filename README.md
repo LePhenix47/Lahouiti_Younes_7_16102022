@@ -10,4 +10,4 @@ Elle utilise les variables dans l'URL comme sur YouTube
 
 GitHub Pages: https://lephenix47.github.io/Lahouiti_Younes_7_16102022/
 
-Lien test de JS Bench: https://jsben.ch/zsYLE
+Lien test de JS Bench: https://jsben.ch/5ojB1
